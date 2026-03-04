@@ -1,65 +1,193 @@
-import Image from "next/image";
+"use client"
+
+import { useState, useEffect } from "react"
+import { motion } from "framer-motion"
+import { Heart, ChevronLeft, ChevronRight } from "lucide-react"
+import Services from "../components/Services"
+import Team from "../components/Team"
+import Testimonials from "../components/Testimonials"
+import TrustSection from "../components/TrustSection"
 
 export default function Home() {
+  const [currentSlide, setCurrentSlide] = useState(0)
+
+  const slides = [
+    {
+      image: "/veterinar sa psom.jpg",
+      alt: "Veterinar sa psom"
+    },
+    {
+      image: "https://images.pexels.com/photos/6235124/pexels-photo-6235124.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080",
+      alt: "Veterinar sa mačkom"
+    },
+    {
+      image: "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=1920&h=1080&fit=crop",
+      alt: "Veterinarska klinika - moderna ordinacija"
+    },
+    {
+      image: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=1920&h=1080&fit=crop",
+      alt: "Veterinarska ambulanta - oprema i instrumenti"
+    }
+  ]
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length)
+    }, 5000) // Menja svakih 5 sekundi
+
+    return () => clearInterval(timer)
+  }, [slides.length])
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length)
+  }
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
+  }
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+    <>
+      {/* Full-screen Hero Slider */}
+      <section className="relative min-h-[70vh] overflow-hidden">
+        {/* Slider slike */}
+        {slides.map((slide, index) => (
+          <motion.img
+            key={index}
+            src={slide.image}
+            alt={slide.alt}
+            className={`absolute inset-0 w-full h-full object-cover ${
+              index === currentSlide ? 'opacity-100' : 'opacity-0'
+            }`}
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ 
+              opacity: index === currentSlide ? 1 : 0,
+              scale: index === currentSlide ? 1 : 1.1
+            }}
+            transition={{ duration: 1, ease: "easeInOut" }}
+          />
+        ))}
+
+        {/* Tamni overlay za bolju vidljivost teksta */}
+        <div className="absolute inset-0 bg-black/40" />
+
+        {/* Kontrole levo/desno */}
+        <motion.button
+          onClick={prevSlide}
+          className="absolute left-8 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm p-3 rounded-full shadow-lg transition-colors duration-200 z-20"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          <ChevronLeft className="w-6 h-6 text-white" />
+        </motion.button>
+        
+        <motion.button
+          onClick={nextSlide}
+          className="absolute right-8 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm p-3 rounded-full shadow-lg transition-colors duration-200 z-20"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          <ChevronRight className="w-6 h-6 text-white" />
+        </motion.button>
+
+        {/* Indikatori */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-3 z-20">
+          {slides.map((_, index) => (
+            <motion.button
+              key={index}
+              onClick={() => setCurrentSlide(index)}
+              className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                index === currentSlide ? 'bg-brand-primary w-8' : 'bg-white/60'
+              }`}
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.8 }}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          ))}
         </div>
-      </main>
-    </div>
-  );
+
+        {/* Tekst preko slike */}
+        <div className="absolute inset-0 flex items-center justify-center z-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20">
+            <motion.div 
+              className="space-y-6 text-white"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
+              <motion.h1 
+                className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              >
+                Vrhunska nega za vaše najbolje prijatelje.
+              </motion.h1>
+              
+              <motion.p 
+                className="text-lg md:text-xl lg:text-2xl max-w-3xl mx-auto leading-relaxed"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                Vaši ljubimci zaslužuju najbolju brigu. Naš tim iskusnih veterinarskih stručnjaka je tu da pruži ljubav, pažnju i profesionalnu negu koju vaši četvoronojni prijatelji zaslužuju.
+              </motion.p>
+              
+              <motion.div 
+                className="flex flex-col sm:flex-row gap-4 justify-center"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+              >
+                <motion.a
+                  href="#zakazivanje"
+                  className="bg-brand-primary hover:bg-brand-primary/90 text-white px-8 py-4 rounded-brand font-bold text-lg transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Zakažite pregled
+                </motion.a>
+                
+                <motion.a
+                  href="/usluge"
+                  className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white border-2 border-white/50 px-8 py-4 rounded-brand font-bold text-lg transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Saznajte više
+                </motion.a>
+              </motion.div>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Floating ikonica srca */}
+        <motion.div
+          className="absolute top-20 right-8 bg-white p-4 rounded-full shadow-lg z-10"
+          animate={{
+            y: [0, -15, 0],
+            rotate: [0, 10, -10, 0],
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          <Heart className="w-8 h-8 text-brand-primary" />
+        </motion.div>
+      </section>
+      
+      {/* Services sekcija */}
+      <Services />
+      
+      {/* Team sekcija */}
+      <Team />
+      
+      {/* Testimonials sekcija */}
+      <Testimonials />
+      
+      {/* TrustSection sekcija */}
+      <TrustSection />
+    </>
+  )
 }
+
