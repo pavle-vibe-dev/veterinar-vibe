@@ -191,7 +191,7 @@ export default function Footer() {
                         transition={{ duration: 0.5 }}
                         className="flex items-start space-x-2"
                       >
-                        <Quote className="w-4 h-4 text-brand-primary flex-shrink-0 mt-1" />
+                        <Quote className="w-4 h-4 text-brand-primary shrink-0 mt-1" />
                         <div className="italic text-slate-300 text-sm">
                           "{testimonials[currentTestimonial].text}" - {testimonials[currentTestimonial].author}
                         </div>
@@ -232,7 +232,7 @@ export default function Footer() {
               transition={{ duration: 0.8, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              <form id="footer-booking" id="zakazivanje" onSubmit={handleSubmit} className="space-y-6">
+              <form id="zakazivanje" onSubmit={handleSubmit} className="space-y-6">
                 <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
                   {/* Red 1 - Ime vlasnika i ime ljubimca */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -377,7 +377,7 @@ export default function Footer() {
                     <AnimatePresence>
                       {!isSubmitting && !isSubmitted && (
                         <motion.div
-                          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                          className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent"
                           initial={{ x: "-100%" }}
                           animate={{ x: "100%" }}
                           transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
