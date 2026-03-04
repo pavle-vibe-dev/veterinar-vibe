@@ -17,7 +17,7 @@ export default function Navbar() {
   }
   return (
     <motion.nav 
-      className="fixed top-0 w-full z-10 backdrop-blur-lg bg-white border-b border-gray-200/10"
+      className="fixed top-0 w-full z-50 backdrop-blur-lg bg-white border-b border-gray-200/10"
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
@@ -166,7 +166,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 w-full h-screen bg-white z-9999 md:hidden flex flex-col items-center justify-center"
+            className="fixed inset-0 w-full h-screen bg-white z-99999 md:hidden flex flex-col items-center justify-center"
             onClick={closeMobileMenu}
           >
             {/* X Dugme - Fixed Position */}
