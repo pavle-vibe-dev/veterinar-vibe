@@ -48,7 +48,7 @@ export default function TimPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-brand-bg">
+    <div className="min-h-screen bg-brand-bg overflow-x-hidden">
       {/* HERO SEKCIJA */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -58,7 +58,7 @@ export default function TimPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="h1 mb-6">Upoznajte naš tim stručnjaka</h1>
+            <h1 className="h1 mt-6 mb-2 md:mt-8 md:mb-4">Upoznajte naš tim stručnjaka</h1>
             <p className="text-xl text-brand-muted max-w-3xl mx-auto">
               Ljubav prema životinjama je ono što nas povezuje.
             </p>

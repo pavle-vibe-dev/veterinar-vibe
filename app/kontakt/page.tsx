@@ -6,7 +6,7 @@ import Link from "next/link"
 
 export default function KontaktPage() {
   return (
-    <div className="min-h-screen bg-brand-bg">
+    <div className="min-h-screen bg-brand-bg overflow-x-hidden">
       {/* HERO SEKCIJA */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -16,7 +16,7 @@ export default function KontaktPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="h1 mb-6">Tu smo za vas i vaše ljubimce</h1>
+            <h1 className="h1 mt-4 mb-2 md:mt-8 md:mb-4">Tu smo za vas i vaše ljubimce</h1>
             <p className="text-xl text-brand-muted max-w-3xl mx-auto">
               Kontaktirajte nas ili nas posetite
             </p>
@@ -25,7 +25,7 @@ export default function KontaktPage() {
       </section>
 
       {/* INFO GRID */}
-      <section className="py-20 bg-white">
+      <section className="py-8 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Kartica 1: Adresa */}

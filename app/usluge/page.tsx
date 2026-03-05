@@ -16,7 +16,7 @@ export default function UslugePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="h1 mb-6">Naše Usluge</h1>
+            <h1 className="h1 mt-6 mb-2 md:mt-8 md:mb-4">Naše Usluge</h1>
             <p className="text-xl text-brand-muted max-w-3xl mx-auto">
               Pružamo kompletnu veterinarsku negu za vaše ljubimce, od preventivnih pregleda do složenih hirurških zahvata
             </p>
