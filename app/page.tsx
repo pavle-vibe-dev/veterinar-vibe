@@ -8,7 +8,7 @@ import Team from "../components/Team"
 import Testimonials from "../components/Testimonials"
 import TrustSection from "../components/TrustSection"
 
-export default function Home() {
+function Home() {
   const [currentSlide, setCurrentSlide] = useState(0)
 
   const slides = [
@@ -45,155 +45,157 @@ export default function Home() {
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
   }
+
+  // Add global styles
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = `
+      html, body {
+        overflow-x: hidden !important;
+        max-width: 100vw;
+        width: 100%;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+    `;
+    document.head.appendChild(style);
+    
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
+
   return (
-    <>
-      <div className="md:max-h-none overflow-visible">
-        {/* Full-screen Hero Slider */}
-        <section className="relative h-[70vh] md:h-187.5 lg:h-[85vh]">
-        <div className="absolute inset-0 w-full h-full overflow-x-hidden">
-        {/* Slider slike */}
-        {slides.map((slide, index) => (
-          <motion.img
-            key={index}
-            src={slide.image}
-            alt={slide.alt}
-            className={`absolute inset-0 w-full h-full object-cover object-center ${
-              index === currentSlide ? 'opacity-100' : 'opacity-0'
-            }`}
-            initial={{ opacity: 0, scale: 1.1 }}
-            animate={{ 
-              opacity: index === currentSlide ? 1 : 0,
-              scale: index === currentSlide ? 1 : 1.1
-            }}
-            transition={{ duration: 1, ease: "easeInOut" }}
-          />
-        ))}
-
-        {/* Tamni overlay za bolju vidljivost teksta */}
-        <div className="absolute inset-0 bg-black/40" />
-
-        {/* Kontrole levo/desno */}
-        <motion.button
-          onClick={prevSlide}
-          className="absolute left-8 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm p-3 rounded-full shadow-lg transition-colors duration-200 z-20"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <ChevronLeft className="w-6 h-6 text-white" />
-        </motion.button>
-        
-        <motion.button
-          onClick={nextSlide}
-          className="absolute right-8 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm p-3 rounded-full shadow-lg transition-colors duration-200 z-20"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <ChevronRight className="w-6 h-6 text-white" />
-        </motion.button>
-
-        {/* Indikatori */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-3 z-20">
-          {slides.map((_, index) => (
-            <motion.button
+    <div className="w-full max-w-full overflow-x-hidden">
+      <section className="relative h-150 md:h-175 lg:h-[85vh] overflow-hidden">
+        <div className="relative w-full h-full overflow-hidden" style={{ touchAction: 'none' }}>
+          {slides.map((slide, index) => (
+            <motion.img
               key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                index === currentSlide ? 'bg-brand-primary w-8' : 'bg-white/60'
+              src={slide.image}
+              alt={slide.alt}
+              loading="eager"
+              className={`absolute inset-0 w-full h-full object-cover object-center pointer-events-none ${
+                index === currentSlide ? 'opacity-100' : 'opacity-0'
               }`}
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 0.8 }}
+              initial={{ opacity: 0, scale: 1.1 }}
+              animate={{ 
+                opacity: index === currentSlide ? 1 : 0,
+                scale: index === currentSlide ? 1 : 1.1
+              }}
+              transition={{ duration: 1, ease: "easeInOut" }}
+              style={{ height: '100%', width: '100%' }}
             />
           ))}
-        </div>
-
-        </div>
-
-        {/* Tekst preko slike */}
-        <div className="absolute inset-0 flex items-center justify-center z-10 overflow-x-hidden">
-          <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-20 text-center py-12">
-            <motion.div 
-              className="space-y-6 text-white"
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-            >
-              <motion.h1 
-                className="text-3xl md:text-5xl lg:text-7xl font-bold leading-tight mb-6"
+          <div className="absolute inset-0 bg-black/40" />
+          <motion.button
+            onClick={prevSlide}
+            className="absolute left-8 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm p-3 rounded-full shadow-lg transition-colors duration-200 z-20"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <ChevronLeft className="w-6 h-6 text-white" />
+          </motion.button>
+          <motion.button
+            onClick={nextSlide}
+            className="absolute right-8 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm p-3 rounded-full shadow-lg transition-colors duration-200 z-20"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <ChevronRight className="w-6 h-6 text-white" />
+          </motion.button>
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-3 z-20">
+            {slides.map((_, index) => (
+              <motion.button
+                key={index}
+                onClick={() => setCurrentSlide(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                  index === currentSlide ? 'bg-brand-primary w-8' : 'bg-white/60'
+                }`}
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 0.8 }}
+              />
+            ))}
+          </div>
+          <div className="absolute inset-0 flex items-center justify-center z-10 overflow-x-hidden">
+            <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-20 text-center py-4">
+              <motion.div 
+                className="space-y-6 text-white"
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
               >
-                Vrhunska nega za vaše najbolje prijatelje.
-              </motion.h1>
-              
-              <motion.p 
-                className="text-lg md:text-xl lg:text-2xl max-w-3xl mx-auto leading-relaxed"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-              >
-                Vaši ljubimci zaslužuju najbolju brigu. Naš tim iskusnih veterinarskih stručnjaka je tu da pruži ljubav, pažnju i profesionalnu negu koju vaši četvoronojni prijatelji zaslužuju.
-              </motion.p>
-              
-              <motion.div 
-                className="flex flex-col sm:flex-row gap-4 justify-center"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-              >
-                <motion.a
-                  href="#zakazivanje"
-                  className="w-full sm:w-auto bg-brand-primary hover:bg-brand-primary/90 text-white px-6 sm:px-8 py-4 rounded-brand font-bold text-lg transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                <motion.h1 
+                  className="text-3xl md:text-5xl lg:text-7xl font-bold leading-tight mb-6"
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
                 >
-                  Zakažite pregled
-                </motion.a>
-                
-                <motion.a
-                  href="/usluge"
-                  className="w-full sm:w-auto bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white border-2 border-white/50 px-6 sm:px-8 py-4 rounded-brand font-bold text-lg transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  Vrhunska nega za vaše najbolje prijatelje.
+                </motion.h1>
+                <motion.p 
+                  className="text-lg md:text-xl lg:text-2xl max-w-3xl mx-auto leading-relaxed"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.4 }}
                 >
-                  Saznajte više
-                </motion.a>
+                  Vaši ljubimci zaslužuju najbolju brigu. Naš tim iskusnih veterinarskih stručnjaka je tu da pruži ljubav, pažnju i profesionalnu negu koju vaši četvoronojni prijatelji zaslužuju.
+                </motion.p>
+                <motion.div 
+                  className="flex flex-col sm:flex-row gap-4 justify-center"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.6 }}
+                >
+                  <motion.a
+                    href="#zakazivanje"
+                    className="w-full sm:w-auto bg-brand-primary hover:bg-brand-primary/90 text-white px-6 sm:px-8 py-4 rounded-brand font-bold text-lg transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    Zakažite pregled
+                  </motion.a>
+                  <motion.a
+                    href="/usluge"
+                    className="w-full sm:w-auto bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white border-2 border-white/50 px-6 sm:px-8 py-4 rounded-brand font-bold text-lg transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    Saznajte više
+                  </motion.a>
+                </motion.div>
               </motion.div>
-            </motion.div>
+            </div>
           </div>
+          <motion.div
+            className="absolute top-20 right-8 bg-white p-4 rounded-full shadow-lg z-10"
+            animate={{
+              y: [0, -15, 0],
+              rotate: [0, 10, -10, 0],
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          >
+            <Heart className="w-8 h-8 text-brand-primary" />
+          </motion.div>
         </div>
-
-        {/* Floating ikonica srca */}
-        <motion.div
-          className="absolute top-20 right-8 bg-white p-4 rounded-full shadow-lg z-10"
-          animate={{
-            y: [0, -15, 0],
-            rotate: [0, 10, -10, 0],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        >
-          <Heart className="w-8 h-8 text-brand-primary" />
-        </motion.div>
       </section>
-      
       <div className="space-y-4 md:space-y-8">
-        {/* Services sekcija */}
         <Services />
-        
-        {/* Team sekcija */}
         <Team />
-        
-        {/* Testimonials sekcija */}
         <Testimonials />
-        
-        {/* TrustSection sekcija */}
         <TrustSection />
       </div>
-      </div>
-    </>
+    </div>
   )
 }
+
+export default Home
