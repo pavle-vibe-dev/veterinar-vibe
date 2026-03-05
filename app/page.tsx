@@ -47,8 +47,10 @@ export default function Home() {
   }
   return (
     <>
-      {/* Full-screen Hero Slider */}
-      <section className="relative h-[650px] md:h-[750px] lg:h-[85vh] overflow-hidden">
+      <div className="md:max-h-none overflow-visible">
+        {/* Full-screen Hero Slider */}
+        <section className="relative h-[70vh] md:h-187.5 lg:h-[85vh]">
+        <div className="absolute inset-0 w-full h-full overflow-x-hidden">
         {/* Slider slike */}
         {slides.map((slide, index) => (
           <motion.img
@@ -104,9 +106,11 @@ export default function Home() {
           ))}
         </div>
 
+        </div>
+
         {/* Tekst preko slike */}
-        <div className="absolute inset-0 flex items-center justify-center z-10">
-          <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-20 text-center py-20">
+        <div className="absolute inset-0 flex items-center justify-center z-10 overflow-x-hidden">
+          <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-20 text-center py-12">
             <motion.div 
               className="space-y-6 text-white"
               initial={{ opacity: 0, y: 50 }}
@@ -176,18 +180,20 @@ export default function Home() {
         </motion.div>
       </section>
       
-      {/* Services sekcija */}
-      <Services />
-      
-      {/* Team sekcija */}
-      <Team />
-      
-      {/* Testimonials sekcija */}
-      <Testimonials />
-      
-      {/* TrustSection sekcija */}
-      <TrustSection />
+      <div className="space-y-4 md:space-y-8">
+        {/* Services sekcija */}
+        <Services />
+        
+        {/* Team sekcija */}
+        <Team />
+        
+        {/* Testimonials sekcija */}
+        <Testimonials />
+        
+        {/* TrustSection sekcija */}
+        <TrustSection />
+      </div>
+      </div>
     </>
   )
 }
-

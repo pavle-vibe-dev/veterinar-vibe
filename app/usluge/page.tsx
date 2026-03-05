@@ -106,7 +106,7 @@ export default function UslugePage() {
       </section>
 
       {/* Separator 1 */}
-      <section className="relative h-64 overflow-hidden bg-gradient-to-br from-brand-primary to-brand-secondary">
+      <section className="relative h-64 overflow-hidden bg-linear-to-br from-brand-primary/40 to-brand-secondary/40">
         <div className="absolute inset-0 bg-black/30 flex items-center justify-center p-8">
           <motion.div
             className="text-center text-white max-w-6xl mx-auto"
@@ -196,7 +196,7 @@ export default function UslugePage() {
       </section>
 
       {/* Separator 2 */}
-      <section className="relative h-64 overflow-hidden bg-gradient-to-br from-brand-secondary to-brand-primary">
+      <section className="relative h-64 overflow-hidden bg-linear-to-br from-brand-secondary/40 to-brand-primary/40">
         <div className="absolute inset-0 bg-black/30 flex items-center justify-center p-8">
           <motion.div
             className="text-center text-white max-w-6xl mx-auto"
