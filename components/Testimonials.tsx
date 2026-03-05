@@ -105,7 +105,7 @@ export default function Testimonials() {
           transition={{ duration: 0.8, delay: 0.6 }}
           viewport={{ once: true }}
         >
-          <div className="inline-flex items-center space-x-6 bg-white rounded-2xl px-8 py-6 shadow-lg">
+          <div className="inline-flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6 bg-white rounded-2xl px-8 py-6 shadow-lg">
             {/* Google Review logo */}
             <div className="flex items-center space-x-2">
               <svg
@@ -135,7 +135,7 @@ export default function Testimonials() {
             </div>
 
             {/* Ocena i broj recenzija */}
-            <div className="flex items-center space-x-2">
+            <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2">
               <div className="flex space-x-1">
                 {[...Array(5)].map((_, i) => (
                   <Star
@@ -148,7 +148,7 @@ export default function Testimonials() {
               <span className="text-brand-muted">/5</span>
             </div>
 
-            <div className="text-brand-muted">
+            <div className="text-brand-muted text-center">
               na osnovu <span className="font-semibold text-brand-dark">250+</span> recenzija
             </div>
           </div>

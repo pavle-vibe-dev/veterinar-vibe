@@ -276,8 +276,8 @@ export default function UslugePage() {
             >
               <div className="relative">
                 <Image
-                  src="/stomatologija psa.jfif"
-                  alt="Čišćenje zuba psa"
+                  src="https://images.pexels.com/photos/7469274/pexels-photo-7469274.jpeg?auto=compress&cs=tinysrgb&w=600&h=400"
+                  alt="Pas i veterinar - zajednički pregled"
                   width={600}
                   height={400}
                   className="rounded-2xl shadow-2xl object-cover h-100"
