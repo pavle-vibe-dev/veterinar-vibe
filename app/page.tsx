@@ -48,7 +48,7 @@ export default function Home() {
   return (
     <>
       {/* Full-screen Hero Slider */}
-      <section className="relative min-h-[70vh] md:min-h-[70vh] overflow-hidden">
+      <section className="relative h-[650px] md:h-[750px] lg:h-[85vh] overflow-hidden">
         {/* Slider slike */}
         {slides.map((slide, index) => (
           <motion.img
@@ -106,7 +106,7 @@ export default function Home() {
 
         {/* Tekst preko slike */}
         <div className="absolute inset-0 flex items-center justify-center z-10">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20">
+          <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-20 text-center py-20">
             <motion.div 
               className="space-y-6 text-white"
               initial={{ opacity: 0, y: 50 }}
@@ -114,7 +114,7 @@ export default function Home() {
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
               <motion.h1 
-                className="text-3xl md:text-4xl lg:text-6xl font-bold leading-tight"
+                className="text-3xl md:text-5xl lg:text-7xl font-bold leading-tight mb-6"
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
