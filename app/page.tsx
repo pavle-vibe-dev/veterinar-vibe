@@ -48,14 +48,14 @@ export default function Home() {
   return (
     <>
       {/* Full-screen Hero Slider */}
-      <section className="relative min-h-[70vh] overflow-hidden">
+      <section className="relative min-h-[70vh] md:min-h-[70vh] overflow-hidden">
         {/* Slider slike */}
         {slides.map((slide, index) => (
           <motion.img
             key={index}
             src={slide.image}
             alt={slide.alt}
-            className={`absolute inset-0 w-full h-full object-cover ${
+            className={`absolute inset-0 w-full h-full object-cover object-center ${
               index === currentSlide ? 'opacity-100' : 'opacity-0'
             }`}
             initial={{ opacity: 0, scale: 1.1 }}
@@ -114,7 +114,7 @@ export default function Home() {
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
               <motion.h1 
-                className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight"
+                className="text-3xl md:text-4xl lg:text-6xl font-bold leading-tight"
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
@@ -139,7 +139,7 @@ export default function Home() {
               >
                 <motion.a
                   href="#zakazivanje"
-                  className="bg-brand-primary hover:bg-brand-primary/90 text-white px-8 py-4 rounded-brand font-bold text-lg transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl"
+                  className="w-full sm:w-auto bg-brand-primary hover:bg-brand-primary/90 text-white px-6 sm:px-8 py-4 rounded-brand font-bold text-lg transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -148,7 +148,7 @@ export default function Home() {
                 
                 <motion.a
                   href="/usluge"
-                  className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white border-2 border-white/50 px-8 py-4 rounded-brand font-bold text-lg transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl"
+                  className="w-full sm:w-auto bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white border-2 border-white/50 px-6 sm:px-8 py-4 rounded-brand font-bold text-lg transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
