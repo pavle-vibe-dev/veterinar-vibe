@@ -93,7 +93,7 @@ export default function UslugePage() {
                   height={400}
                   className="rounded-2xl shadow-2xl object-cover h-100"
                 />
-                <div className="absolute -bottom-6 -right-6 bg-brand-primary text-white p-4 rounded-xl shadow-lg">
+                <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-brand-primary text-white p-4 rounded-xl shadow-lg">
                   <div className="flex items-center space-x-2">
                     <Star className="w-5 h-5 fill-current" />
                     <span className="font-semibold">10+ godina iskustva</span>
@@ -106,14 +106,8 @@ export default function UslugePage() {
       </section>
 
       {/* Separator 1 */}
-      <section className="relative h-64 overflow-hidden">
-        <Image
-          src="/ljubav prema zivotinjama.jpg"
-          alt="Ljubav prema životinjama"
-          fill
-          className="object-cover blur-sm"
-        />
-        <div className="absolute inset-0 bg-black/50 flex items-center justify-center p-8">
+      <section className="relative h-64 overflow-hidden bg-gradient-to-br from-brand-primary to-brand-secondary">
+        <div className="absolute inset-0 bg-black/30 flex items-center justify-center p-8">
           <motion.div
             className="text-center text-white max-w-6xl mx-auto"
             initial={{ opacity: 0, y: 30 }}
@@ -202,14 +196,8 @@ export default function UslugePage() {
       </section>
 
       {/* Separator 2 */}
-      <section className="relative h-64 overflow-hidden">
-        <Image
-          src="/ljubav prema zivotinjama2.jfif"
-          alt="Ljubav prema životinjama"
-          fill
-          className="object-cover blur-sm"
-        />
-        <div className="absolute inset-0 bg-black/50 flex items-center justify-center p-8">
+      <section className="relative h-64 overflow-hidden bg-gradient-to-br from-brand-secondary to-brand-primary">
+        <div className="absolute inset-0 bg-black/30 flex items-center justify-center p-8">
           <motion.div
             className="text-center text-white max-w-6xl mx-auto"
             initial={{ opacity: 0, y: 30 }}
@@ -282,7 +270,7 @@ export default function UslugePage() {
                   height={400}
                   className="rounded-2xl shadow-2xl object-cover h-100"
                 />
-                <div className="absolute -bottom-6 -right-6 bg-brand-primary text-white p-4 rounded-xl shadow-lg">
+                <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-brand-primary text-white p-4 rounded-xl shadow-lg">
                   <div className="flex items-center space-x-2">
                     <Heart className="w-5 h-5 fill-current" />
                     <span className="font-semibold">Zdrav osmeh</span>
