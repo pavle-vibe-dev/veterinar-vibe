@@ -6,7 +6,7 @@ import Image from "next/image"
 
 export default function UslugePage() {
   return (
-    <div className="min-h-screen bg-brand-bg">
+    <div className="min-h-screen bg-brand-bg overflow-x-hidden">
       {/* Hero Section */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -27,7 +27,7 @@ export default function UslugePage() {
       {/* 1. SEKCIJA: OPŠTA MEDICINA */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
             {/* Levo - Tekst */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -127,7 +127,7 @@ export default function UslugePage() {
       {/* 2. SEKCIJA: HIRURGIJA (Zamena strana) */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
             {/* Levo - Slika */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
@@ -217,7 +217,7 @@ export default function UslugePage() {
       {/* 3. SEKCIJA: STOMATOLOGIJA */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
             {/* Levo - Tekst */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
