@@ -8,7 +8,7 @@ export default function UslugePage() {
   return (
     <div className="min-h-screen bg-brand-bg overflow-x-hidden">
       {/* Hero Section */}
-      <section className="py-20 bg-white">
+      <section className="pt-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             className="text-center"
@@ -91,7 +91,7 @@ export default function UslugePage() {
                   alt="Veterinar pregleda psa"
                   width={600}
                   height={400}
-                  className="rounded-2xl shadow-2xl object-cover h-100"
+                  className="rounded-2xl shadow-2xl object-cover h-100 max-w-full box-border"
                 />
                 <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-brand-primary text-white p-4 rounded-xl shadow-lg">
                   <div className="flex items-center space-x-2">
@@ -141,7 +141,7 @@ export default function UslugePage() {
                   alt="Moderna operaciona sala"
                   width={600}
                   height={400}
-                  className="rounded-2xl shadow-2xl object-cover h-100"
+                  className="rounded-2xl shadow-2xl object-cover h-100 max-w-full box-border"
                 />
                 <div className="absolute -top-6 -left-6 bg-white text-brand-dark p-4 rounded-xl shadow-lg">
                   <div className="flex items-center space-x-2">
@@ -268,7 +268,7 @@ export default function UslugePage() {
                   alt="Pas i veterinar - zajednički pregled"
                   width={600}
                   height={400}
-                  className="rounded-2xl shadow-2xl object-cover h-100"
+                  className="rounded-2xl shadow-2xl object-cover h-100 max-w-full box-border"
                 />
                 <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-brand-primary text-white p-4 rounded-xl shadow-lg">
                   <div className="flex items-center space-x-2">
@@ -349,7 +349,7 @@ export default function UslugePage() {
                     alt="Milan Petrović"
                     width={50}
                     height={50}
-                    className="w-12 h-12 rounded-full object-cover"
+                    className="w-12 h-12 rounded-full object-cover max-w-full box-border"
                   />
                   <div>
                     <p className="font-semibold text-brand-dark">Milan Petrović</p>
@@ -381,7 +381,7 @@ export default function UslugePage() {
                     alt="Jelena Marković"
                     width={50}
                     height={50}
-                    className="w-12 h-12 rounded-full object-cover"
+                    className="w-12 h-12 rounded-full object-cover max-w-full box-border"
                   />
                   <div>
                     <p className="font-semibold text-brand-dark">Jelena Marković</p>
@@ -413,7 +413,7 @@ export default function UslugePage() {
                     alt="Marko Janković"
                     width={50}
                     height={50}
-                    className="w-12 h-12 rounded-full object-cover"
+                    className="w-12 h-12 rounded-full object-cover max-w-full box-border"
                   />
                   <div>
                     <p className="font-semibold text-brand-dark">Marko Janković</p>

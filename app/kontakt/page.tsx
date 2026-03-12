@@ -8,7 +8,7 @@ export default function KontaktPage() {
   return (
     <div className="min-h-screen bg-brand-bg overflow-x-hidden">
       {/* HERO SEKCIJA */}
-      <section className="py-20 bg-white">
+      <section className="pt-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             className="text-center"

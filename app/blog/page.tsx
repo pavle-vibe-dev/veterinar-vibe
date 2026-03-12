@@ -93,7 +93,7 @@ export default function BlogPage() {
   return (
     <div className="min-h-screen bg-brand-bg overflow-x-hidden">
       {/* HERO SEKCIJA */}
-      <section className="py-20 bg-white">
+      <section className="pt-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             className="text-center"
@@ -153,7 +153,7 @@ export default function BlogPage() {
                         alt={post.alt}
                         width={400}
                         height={250}
-                        className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
+                        className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105 max-w-full box-border"
                       />
                       
                       {/* Tag */}
