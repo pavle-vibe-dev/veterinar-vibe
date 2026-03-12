@@ -10,6 +10,8 @@ import TrustSection from "../components/TrustSection"
 
 function Home() {
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [touchStart, setTouchStart] = useState(0)
+  const [touchEnd, setTouchEnd] = useState(0)
 
   const slides = [
     {
@@ -46,6 +48,31 @@ function Home() {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
   }
 
+  // Touch handlers for swipe
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(0)
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+    
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > 50
+    const isRightSwipe = distance < -50
+    
+    if (isLeftSwipe) {
+      nextSlide()
+    }
+    if (isRightSwipe) {
+      prevSlide()
+    }
+  }
+
   // Add global styles
   useEffect(() => {
     const style = document.createElement('style');
@@ -73,7 +100,12 @@ function Home() {
   return (
     <div className="w-full max-w-full overflow-x-hidden">
       <section className="relative h-150 md:h-175 lg:h-[85vh] overflow-hidden">
-        <div className="relative w-full h-full overflow-hidden" style={{ touchAction: 'none' }}>
+        <div 
+          className="relative w-full h-full overflow-hidden"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           {slides.map((slide, index) => (
             <motion.img
               key={index}
@@ -95,7 +127,7 @@ function Home() {
           <div className="absolute inset-0 bg-black/40" />
           <motion.button
             onClick={prevSlide}
-            className="absolute left-8 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm p-3 rounded-full shadow-lg transition-colors duration-200 z-20"
+            className="absolute left-8 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm p-3 rounded-full shadow-lg transition-colors duration-200 z-20 hidden md:flex"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
@@ -103,7 +135,7 @@ function Home() {
           </motion.button>
           <motion.button
             onClick={nextSlide}
-            className="absolute right-8 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm p-3 rounded-full shadow-lg transition-colors duration-200 z-20"
+            className="absolute right-8 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm p-3 rounded-full shadow-lg transition-colors duration-200 z-20 hidden md:flex"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
@@ -173,7 +205,7 @@ function Home() {
             </div>
           </div>
           <motion.div
-            className="absolute top-20 right-8 bg-white p-4 rounded-full shadow-lg z-10"
+            className="absolute top-6 right-6 bg-white p-4 rounded-full shadow-lg z-30"
             animate={{
               y: [0, -15, 0],
               rotate: [0, 10, -10, 0],
