@@ -44,7 +44,7 @@ export default function BlogPage() {
       tag: "Mačke",
       date: "Jan 25, 2024",
       readTime: "6 min čitanja",
-      image: "https://images.unsplash.com/photo-1513245593221-3b243fcdb056?w=800&h=600&fit=crop",
+      image: "https://cdn.pixabay.com/photo/2017/02/20/18/03/cat-2083492_1280.jpg",
       alt: "Mačka u mirnom položaju",
       slug: "kako-prepoznati-stres-kod-macke"
     },

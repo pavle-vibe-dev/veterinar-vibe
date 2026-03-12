@@ -57,23 +57,41 @@ export default function Footer() {
     e.preventDefault()
     setIsSubmitting(true)
     
-    // Simulacija slanja forme
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    setIsSubmitting(false)
-    setIsSubmitted(true)
-    
-    // Reset forme posle 3 sekunde
-    setTimeout(() => {
-      setIsSubmitted(false)
-      setFormData({
-        ownerName: "",
-        petName: "",
-        petType: "",
-        service: "",
-        note: ""
+    try {
+      const { bookAppointment } = await import('../app/actions/bookAppointment')
+      
+      const result = await bookAppointment({
+        ownerName: formData.ownerName,
+        petName: formData.petName,
+        petType: formData.petType,
+        service: formData.service,
+        notes: formData.note
       })
-    }, 3000)
+      
+      if (result.success) {
+        setIsSubmitted(true)
+        
+        // Reset forme posle 3 sekunde
+        setTimeout(() => {
+          setIsSubmitted(false)
+          setFormData({
+            ownerName: "",
+            petName: "",
+            petType: "",
+            service: "",
+            note: ""
+          })
+        }, 3000)
+      } else {
+        // Handle error
+        alert('Greška pri slanju: ' + (result.error || 'Molimo pokušajte ponovo'))
+        setIsSubmitting(false)
+      }
+    } catch (error) {
+      console.error('Form submission error:', error)
+      alert('Greška pri slanju. Molimo pokušajte ponovo.')
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -401,12 +419,13 @@ export default function Footer() {
                       {isSubmitting && (
                         <motion.div
                           key="loading"
-                          className="flex items-center justify-center"
+                          className="flex items-center justify-center space-x-2"
                           initial={{ opacity: 0, scale: 0.8 }}
                           animate={{ opacity: 1, scale: 1 }}
                           exit={{ opacity: 0, scale: 0.8 }}
                         >
                           <Loader2 className="w-6 h-6 animate-spin" />
+                          <span>Slanje...</span>
                         </motion.div>
                       )}
                       
