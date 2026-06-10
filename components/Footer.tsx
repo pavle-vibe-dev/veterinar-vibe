@@ -9,6 +9,7 @@ export default function Footer() {
     ownerName: "",
     petName: "",
     petType: "",
+    phone: "",
     service: "",
     note: ""
   })
@@ -64,6 +65,7 @@ export default function Footer() {
         ownerName: formData.ownerName,
         petName: formData.petName,
         petType: formData.petType,
+        phone: formData.phone,
         service: formData.service,
         notes: formData.note
       })
@@ -78,6 +80,7 @@ export default function Footer() {
             ownerName: "",
             petName: "",
             petType: "",
+            phone: "",
             service: "",
             note: ""
           })
@@ -95,7 +98,7 @@ export default function Footer() {
   }
 
   return (
-    <footer className="bg-brand-dark text-white">
+    <footer className="bg-brand-dark text-white overflow-x-hidden">
       {/* GORNJI DEO - Booking Widget */}
       <section className="border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -345,7 +348,21 @@ export default function Footer() {
                     </div>
                   </div>
 
-                  {/* Red 3 - Custom Select sa ikonicama */}
+                  {/* Red 3 - Kontakt telefon */}
+                  <div className="mb-6">
+                    <label className="block text-sm font-medium text-white/80 mb-2">Kontakt telefon</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      placeholder="Vaš broj telefona"
+                      required
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:bg-white/10 transition-all duration-300"
+                    />
+                  </div>
+
+                  {/* Red 4 - Custom Select sa ikonicama */}
                   <div className="mb-6">
                     <label className="block text-sm font-medium text-white/80 mb-3">Izaberite uslugu</label>
                     <div className="relative">

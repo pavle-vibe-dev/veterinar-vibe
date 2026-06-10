@@ -63,3 +63,10 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
     @apply text-lg text-brand-muted leading-relaxed max-w-[60ch];
   }
 }
+
+/* Global overflow fix za mobilne uređaje */
+html, body {
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+  position: relative;
+}

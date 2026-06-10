@@ -16,14 +16,13 @@ export default function Navbar() {
     setIsMobileMenuOpen(false)
   }
   return (
-    <motion.nav 
+    <motion.nav
       className="fixed top-0 w-full z-50 backdrop-blur-lg bg-white border-b border-gray-200/10"
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           {/* Logo - Levo */}
           <Link href="/" className="flex items-center space-x-2 group">
             <PawPrint className="w-8 h-8 text-brand-primary group-hover:scale-110 transition-transform duration-300" />
@@ -156,7 +155,6 @@ export default function Navbar() {
             </motion.div>
           </Link>
         </div>
-      </div>
 
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
@@ -166,26 +164,9 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 w-full h-screen bg-white z-99999 md:hidden flex flex-col items-center justify-center"
+            className="absolute top-16 left-0 w-full h-screen bg-white z-[60] overflow-y-auto px-4 py-8 shadow-xl transition-transform duration-300 md:hidden pt-2"
             onClick={closeMobileMenu}
           >
-            {/* X Dugme - Fixed Position */}
-            <button
-              onClick={closeMobileMenu}
-              className="fixed top-6 right-6 p-2 rounded-lg hover:bg-gray-100 transition-colors duration-300 z-10000"
-              aria-label="Close mobile menu"
-            >
-              <X className="w-6 h-6 text-slate-900" />
-            </button>
-
-            {/* Logo - Absolute Position */}
-            <div className="absolute top-6 left-6">
-              <Link href="/" className="flex items-center space-x-2" onClick={closeMobileMenu}>
-                <PawPrint className="w-8 h-8 text-brand-primary" />
-                <span className="text-xl font-bold text-brand-dark">VetiCare</span>
-              </Link>
-            </div>
-
             {/* Mobile Menu Links - Full Height Centered */}
             <div className="flex flex-col items-center justify-center h-full space-y-8">
               <Link

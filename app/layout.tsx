@@ -25,13 +25,19 @@ export const metadata: Metadata = {
     title: 'VetiCare - Profesionalna veterinarska nega',
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?q=80&w=1200&auto=format&fit=crop',
+        url: 'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=1200&h=630&q=80',
         width: 1200,
         height: 630,
         alt: 'VetiCare - Vrhunska veterinarska nega'
       }
     ],
     type: 'website'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'VetiCare - Profesionalna veterinarska nega',
+    description: 'Vodeća veterinarska klinika specijalizovana za hirurgiju, dijagnostiku i hitnu pomoć. Vaši ljubimci su kod nas u sigurnim rukama.',
+    images: ['https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=1200&h=630&q=80']
   },
   icons: {
     icon: '/favicon.svg',
@@ -50,7 +56,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
       >
         <Navbar />
-        <main className="pt-16 min-h-screen w-full overflow-x-hidden">
+        <main className="w-full max-w-full overflow-x-hidden min-h-screen relative block pt-16">
           {children}
         </main>
         <Footer />

@@ -85,20 +85,15 @@ export default function Team() {
                   whileHover={{ opacity: 0 }}
                   transition={{ duration: 0.3 }}
                 />
-                <motion.div
-                  className="relative w-full h-full"
-                  initial={{ filter: "grayscale(100%)" }}
-                  whileHover={{ filter: "grayscale(0%)" }}
-                  transition={{ duration: 0.5 }}
-                >
+                <div className="relative w-full h-full">
                   <Image
                     src={member.image}
                     alt={member.name}
                     fill
-                    className="object-cover"
+                    className="object-cover grayscale transition-all duration-300 ease-in-out group-hover:grayscale-0"
                     sizes="(max-width: 768px) 192px, 192px"
                   />
-                </motion.div>
+                </div>
               </motion.div>
 
               {/* Ime i titula */}
