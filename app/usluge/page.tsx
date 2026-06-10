@@ -27,7 +27,7 @@ export default function UslugePage() {
       {/* 1. SEKCIJA: OPŠTA MEDICINA */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
             {/* Levo - Tekst */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -127,7 +127,7 @@ export default function UslugePage() {
       {/* 2. SEKCIJA: HIRURGIJA (Zamena strana) */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
             {/* Levo - Slika */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
@@ -217,7 +217,7 @@ export default function UslugePage() {
       {/* 3. SEKCIJA: STOMATOLOGIJA */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
             {/* Levo - Tekst */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -235,7 +235,7 @@ export default function UslugePage() {
                 Naša stomatološka služba pruža kompletnu negu od čišćenja kamenca do složenih oralnih procedura.
               </p>
 
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="bg-brand-bg rounded-xl p-6">
                   <h3 className="font-semibold text-brand-dark mb-3">Uklanjanje kamenca</h3>
                   <p className="text-brand-muted text-sm">Profesionalno čišćenje zuba i prevencija bolesti desni</p>
