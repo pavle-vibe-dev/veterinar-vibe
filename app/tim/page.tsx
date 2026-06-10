@@ -92,7 +92,7 @@ export default function TimPage() {
                       alt={member.name}
                       width={400}
                       height={400}
-                      className="w-full h-80 object-cover rounded-t-2xl filter grayscale group-hover:grayscale-0 transition-all duration-500"
+                      className="w-full h-80 object-cover rounded-t-2xl filter grayscale-0 md:grayscale md:group-hover:grayscale-0 md:transition-all md:duration-300 md:ease-in-out"
                     />
                   </div>
 

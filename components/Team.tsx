@@ -90,7 +90,7 @@ export default function Team() {
                     src={member.image}
                     alt={member.name}
                     fill
-                    className="object-cover grayscale transition-all duration-300 ease-in-out group-hover:grayscale-0"
+                    className="object-cover grayscale-0 md:grayscale md:transition-all md:duration-300 md:ease-in-out md:group-hover:grayscale-0"
                     sizes="(max-width: 768px) 192px, 192px"
                   />
                 </div>
