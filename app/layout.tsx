@@ -15,6 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://veterinar-vibe.vercel.app'),
   title: {
     default: 'VetiCare | Vrhunska nega za vaše ljubimce',
     template: '%s | VetiCare'
