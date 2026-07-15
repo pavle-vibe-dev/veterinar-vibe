@@ -5,16 +5,16 @@ import { motion } from "framer-motion"
 export default function TrustSection() {
   const stats = [
     {
+      number: "500+",
+      label: "Proizvoda na stanju"
+    },
+    {
+      number: "1000+",
+      label: "Zadovoljnih kupaca"
+    },
+    {
       number: "10+",
       label: "Godina iskustva"
-    },
-    {
-      number: "5000+",
-      label: "Srećnih njuškica"
-    },
-    {
-      number: "24/7",
-      label: "Hitna pomoć"
     }
   ]
 

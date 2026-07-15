@@ -17,28 +17,28 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL('https://veterinar-vibe.vercel.app'),
   title: {
-    default: 'VetiCare | Vrhunska nega za vaše ljubimce',
-    template: '%s | VetiCare'
+    default: 'BG PET | Veterinarska apoteka i Pet Shop',
+    template: '%s | BG PET'
   },
-  description: 'Vodeća veterinarska klinika specijalizovana za hirurgiju, dijagnostiku i hitnu pomoć. Vaši ljubimci su kod nas u sigurnim rukama.',
-  keywords: ['veterinar', 'veterinarska ambulanta', 'hitna pomoć za pse', 'lečenje mačaka', 'hirurgija ljubimaca'],
+  description: 'Veterinarska apoteka i Pet Shop na Voždovcu. Medicinska hrana, zaštita od parazita, suplementi, vitamini, oprema i kozmetika za pse i mačke.',
+  keywords: ['veterinarska apoteka', 'pet shop Beograd', 'hrana za pse', 'zaštita od krpelja', 'vitamini za ljubimce', 'BG PET', 'Voždovac'],
   openGraph: {
-    title: 'VetiCare - Profesionalna veterinarska nega',
+    title: 'BG PET - Veterinarska apoteka i Pet Shop',
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=1200&h=630&q=80',
+        url: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=1920&h=1080&fit=crop',
         width: 1200,
         height: 630,
-        alt: 'VetiCare - Vrhunska veterinarska nega'
+        alt: 'BG PET - Veterinarska apoteka i Pet Shop'
       }
     ],
     type: 'website'
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'VetiCare - Profesionalna veterinarska nega',
-    description: 'Vodeća veterinarska klinika specijalizovana za hirurgiju, dijagnostiku i hitnu pomoć. Vaši ljubimci su kod nas u sigurnim rukama.',
-    images: ['https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=1200&h=630&q=80']
+    title: 'BG PET - Veterinarska apoteka i Pet Shop',
+    description: 'Veterinarska apoteka i Pet Shop na Voždovcu. Medicinska hrana, zaštita od parazita, suplementi, vitamini, oprema i kozmetika za pse i mačke.',
+    images: ['https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=1920&h=1080&fit=crop']
   },
   icons: {
     icon: '/favicon.svg',

@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Clock, Calendar, Tag } from "lucide-react"
+import { Clock, Calendar } from "lucide-react"
 import Image from "next/image"
 import { useState } from "react"
 import Link from "next/link"
@@ -9,80 +9,80 @@ import Link from "next/link"
 export default function BlogPage() {
   const [activeFilter, setActiveFilter] = useState("Sve")
 
-  const filters = ["Sve", "Psi", "Mačke", "Ishrana", "Zdravlje", "Saveti"]
+  const filters = ["Sve", "Psi", "Mačke", "Ishrana", "Zdravlje", "Nega"]
 
   const blogPosts = [
     {
       id: 1,
-      title: "Redovni pregledi: Zašto su bitni?",
-      excerpt: "Redovni veterinarski pregledi su ključni za prevenciju bolesti i očuvanje zdravlja vašeg ljubimca. Saznajte koliko često treba da ih obavljate.",
+      title: "Kako odabrati najbolju zaštitu od krpelja i buva ove sezone?",
+      excerpt: "Razlike između tableta, ampula i ogrlica koje imamo u apoteci. Saznajte koja zaštita je najbolja za vašeg ljubimca.",
       category: "Zdravlje",
       tag: "Psi",
-      date: "Jan 29, 2024",
-      readTime: "5 min čitanja",
-      image: "https://images.unsplash.com/photo-1576201836106-db1758fd1c97?w=800&h=600&fit=crop",
-      alt: "Veterinar pregleda psa",
-      slug: "redovni-pregledi-zasto-su-bitni"
+      date: "Mar 15, 2024",
+      readTime: "6 min čitanja",
+      image: "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=800&h=600&fit=crop",
+      alt: "Zaštita od krpelja i buva za pse",
+      slug: "kako-odabrati-najbolju-zastitu-od-krpelja"
     },
     {
       id: 2,
-      title: "Najbolja hrana za starije pse",
-      excerpt: "Stariji psi imaju specifične nutritivne potrebe. Otkrijte koja hrana je najbolja za zdravlje i kvalitet života vašeg starijeg ljubimca.",
+      title: "Kada je ljubimcu potrebna medicinska hrana i kako prepoznati simptome?",
+      excerpt: "Dijete za bubrege, stomak i alergije - naučite da prepoznate znakove i odaberete pravu hranu za vašeg ljubimca.",
       category: "Ishrana",
       tag: "Psi",
-      date: "Jan 27, 2024",
-      readTime: "7 min čitanja",
+      date: "Mar 10, 2024",
+      readTime: "8 min čitanja",
       image: "https://cdn.pixabay.com/photo/2017/02/20/18/03/dog-2083492_1280.jpg",
-      alt: "Hrana za starije pse",
-      slug: "najbolja-hrana-za-starije-pse"
+      alt: "Medicinska hrana za pse",
+      slug: "kada-je-ljubimcu-potrebna-medicinska-hrana"
     },
     {
       id: 3,
-      title: "Kako prepoznati stres kod mačke?",
-      excerpt: "Mačke često kriju znake stresa. Naučite prepoznati simptome i kako pomoći vašoj mački da se oseća bezbedno i opušteno.",
+      title: "Značaj suplemenata u ishrani pasa: Da li vaš ljubimac dobija dovoljno vitamina?",
+      excerpt: "Jačanje imuniteta i zglobova uz pomoć pravih suplemenata. Saznajte koji dodaci su neophodni za zdravlje vašeg ljubimca.",
       category: "Zdravlje",
-      tag: "Mačke",
-      date: "Jan 25, 2024",
-      readTime: "6 min čitanja",
-      image: "https://cdn.pixabay.com/photo/2017/02/20/18/03/cat-2083492_1280.jpg",
-      alt: "Mačka u mirnom položaju",
-      slug: "kako-prepoznati-stres-kod-macke"
+      tag: "Psi",
+      date: "Feb 28, 2024",
+      readTime: "7 min čitanja",
+      image: "https://images.unsplash.com/photo-1589923188900-85dae523342b?q=80&w=800&auto=format&fit=crop",
+      alt: "Vitamini i suplementi za pse",
+      slug: "znacaj-suplemenata-u-ishrani-pasa"
     },
     {
       id: 4,
-      title: "Priprema ljubimca za putovanje",
-      excerpt: "Planirate putovanje sa ljubimcem? Praktični saveti za bezbedno i bezbrižno putovanje, od dokumentacije do pripreme za put.",
-      category: "Saveti",
-      tag: "Psi",
-      date: "Jan 23, 2024",
-      readTime: "8 min čitanja",
-      image: "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?q=80&w=800&auto=format&fit=crop",
-      alt: "Ljubimac u putovanju",
-      slug: "priprema-ljubimca-za-putovanje"
+      title: "Nega dlake i kože tokom leta: Pravilan odabir šampona za osetljive ljubimce",
+      excerpt: "Saveti za negu kože i dlake tokom toplih meseci. Kako odabrati prave preparate za osetljive pse i mačke.",
+      category: "Nega",
+      tag: "Mačke",
+      date: "Feb 20, 2024",
+      readTime: "5 min čitanja",
+      image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=800&auto=format&fit=crop",
+      alt: "Nega dlake i kože kod kućnih ljubimaca",
+      slug: "nega-dlake-i-koze-tokom-leta"
     },
     {
       id: 5,
-      title: "Trening socijalizacije štenaca",
-      excerpt: "Rana socijalizacija je ključna za razvoj zdrave i srećne psine ličnosti. Saznajte kako pravilno socijalizovati štene.",
+      title: "Kako pravilno čuvati veterinarske preparate kod kuće?",
+      excerpt: "Pravilno skladištenje lekova i preparata je ključno za njihovu efikasnost. donosimo savete za čuvanje veterinarskih proizvoda.",
       category: "Saveti",
       tag: "Psi",
-      date: "Jan 21, 2024",
-      readTime: "10 min čitanja",
+      date: "Feb 15, 2024",
+      readTime: "4 min čitanja",
       image: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?q=80&w=800&auto=format&fit=crop",
-      alt: "Štene u treningu",
-      slug: "trening-socijalizacije-stenaca"
+      alt: "Čuvanje veterinarskih preparata",
+      slug: "kako-pravilno-cuvati-veterinarske-preparate"
     },
     {
       id: 6,
-      title: "Nega zuba kod kućnih ljubimaca",
-      excerpt: "Oralno zdravlje je važno za opšte zdravlje ljubimca. Naučite kako pravilno čistiti zube i preventirati dentalne probleme.",
+      title: "Probiotici za pse: Kada su potrebni i kako ih odabrati?",
+      excerpt: "Probiotici mogu značajno poboljšati digestiju i imunitet vašeg ljubimca. Saznajte sve o probioticima za pse i mačke.",
       category: "Zdravlje",
       tag: "Mačke",
-      date: "Jan 19, 2024",
-      readTime: "5 min čitanja",
-      image: "https://images.unsplash.com/photo-1551190822-a9333d879b1f?w=800&h=600&fit=crop",
-      alt: "Nega zuba kod ljubimaca",
-      slug: "nega-zuba-kod-kucnih-ljubimaca"
+      date: "Feb 10, 2024",
+      readTime: "6 min čitanja",
+      image: "https://images.unsplash.com/photo-1576201836106-db1758fd1c97?q=80&w=800&auto=format&fit=crop",
+      alt: "Probiotici za pse i mačke",
+      slug: "probiotici-za-pse-kada-su-potrebni"
     }
   ]
 
@@ -101,9 +101,9 @@ export default function BlogPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="h1 mt-6 mb-2 md:mt-8 md:mb-4">VetiCare Blog</h1>
+            <h1 className="h1 mt-6 mb-2 md:mt-8 md:mb-4">BG PET Blog</h1>
             <p className="text-xl text-brand-muted max-w-3xl mx-auto">
-              Saveti naših stručnjaka za zdrav i srećan život vaših ljubimaca
+              Saveti za zdravlje, ishranu i negu vaših ljubimaca
             </p>
           </motion.div>
         </div>
@@ -209,7 +209,7 @@ export default function BlogPage() {
               animate={{ opacity: 1 }}
             >
               <p className="text-lg text-brand-muted">
-                Nema članaka u kategoriji "{activeFilter}"
+                Nema članaka u kategoriji &ldquo;{activeFilter}&rdquo;
               </p>
             </motion.div>
           )}

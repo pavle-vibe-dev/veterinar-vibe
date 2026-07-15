@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { PawPrint, PhoneCall, Menu, X } from "lucide-react"
+import { ShoppingBag, Phone, Menu, X } from "lucide-react"
 import Link from "next/link"
 
 export default function Navbar() {
@@ -25,8 +25,8 @@ export default function Navbar() {
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           {/* Logo - Levo */}
           <Link href="/" className="flex items-center space-x-2 group">
-            <PawPrint className="w-8 h-8 text-brand-primary group-hover:scale-110 transition-transform duration-300" />
-            <span className="text-xl font-bold text-brand-dark">VetiCare</span>
+            <ShoppingBag className="w-8 h-8 text-brand-primary group-hover:scale-110 transition-transform duration-300" />
+            <span className="text-xl font-bold text-brand-dark">BG PET</span>
           </Link>
 
           {/* Linkovi - Sredina */}
@@ -42,7 +42,7 @@ export default function Navbar() {
               href="/usluge" 
               className="text-brand-dark hover:text-brand-primary transition-colors duration-300 font-medium relative group"
             >
-              Usluge
+              Asortiman
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-primary group-hover:w-full transition-all duration-300"></span>
             </Link>
             <Link 
@@ -53,17 +53,10 @@ export default function Navbar() {
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-primary group-hover:w-full transition-all duration-300"></span>
             </Link>
             <Link 
-              href="/tim" 
-              className="text-brand-dark hover:text-brand-primary transition-colors duration-300 font-medium relative group"
-            >
-              Tim
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-primary group-hover:w-full transition-all duration-300"></span>
-            </Link>
-            <Link 
               href="/kontakt" 
               className="text-brand-dark hover:text-brand-primary transition-colors duration-300 font-medium relative group"
             >
-              Kontakt
+              Rezervacija
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-primary group-hover:w-full transition-all duration-300"></span>
             </Link>
           </div>
@@ -103,55 +96,12 @@ export default function Navbar() {
           <Link href="tel:+381112345678" className="hidden md:block">
             <motion.div 
               className="btn-primary px-6 py-3 text-sm font-bold relative overflow-hidden cursor-pointer inline-flex items-center space-x-2"
-              animate={{
-                scale: [1, 1.05, 1],
-                backgroundColor: [
-                  "rgb(239, 68, 68)",
-                  "rgb(220, 38, 38)",
-                  "rgb(239, 68, 68)"
-                ],
-                borderColor: [
-                  "rgb(239, 68, 68)",
-                  "rgb(220, 38, 38)",
-                  "rgb(239, 68, 68)"
-                ]
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-              whileHover={{ 
-                scale: 1.1,
-                backgroundColor: "rgb(220, 38, 38)"
-              }}
+              whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
             >
-              <PhoneCall className="w-4 h-4" />
-              <motion.span
-                animate={{
-                  opacity: [1, 0.7, 1]
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              >
-                Hitan poziv
-              </motion.span>
+              <Phone className="w-4 h-4" />
+              <span>Pozovite nas</span>
               <span className="text-xs opacity-80">011/234-5678</span>
-              <motion.div
-                className="absolute inset-0 bg-white opacity-0"
-                animate={{
-                  opacity: [0, 0.2, 0]
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
             </motion.div>
           </Link>
         </div>
@@ -181,7 +131,7 @@ export default function Navbar() {
                 onClick={closeMobileMenu}
                 className="text-2xl font-bold text-slate-900 hover:text-brand-primary transition-colors duration-300 py-2 px-4 rounded-lg"
               >
-                Usluge
+                Asortiman
               </Link>
               <Link
                 href="/blog"
@@ -191,73 +141,23 @@ export default function Navbar() {
                 Blog
               </Link>
               <Link
-                href="/tim"
-                onClick={closeMobileMenu}
-                className="text-2xl font-bold text-slate-900 hover:text-brand-primary transition-colors duration-300 py-2 px-4 rounded-lg"
-              >
-                Tim
-              </Link>
-              <Link
                 href="/kontakt"
                 onClick={closeMobileMenu}
                 className="text-2xl font-bold text-slate-900 hover:text-brand-primary transition-colors duration-300 py-2 px-4 rounded-lg"
               >
-                Kontakt
+                Rezervacija
               </Link>
 
-              {/* Hitni Poziv Button - Below Kontakt */}
+              {/* Poziv Button - Below Rezervacija */}
               <Link href="tel:+381112345678" onClick={closeMobileMenu}>
                 <motion.div
                   className="btn-primary px-6 py-3 text-sm font-bold relative overflow-hidden cursor-pointer inline-flex items-center justify-center space-x-2 w-full"
-                  animate={{
-                    scale: [1, 1.05, 1],
-                    backgroundColor: [
-                      "rgb(239, 68, 68)",
-                      "rgb(220, 38, 38)",
-                      "rgb(239, 68, 68)"
-                    ],
-                    borderColor: [
-                      "rgb(239, 68, 68)",
-                      "rgb(220, 38, 38)",
-                      "rgb(239, 68, 68)"
-                    ]
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                  whileHover={{ 
-                    scale: 1.1,
-                    backgroundColor: "rgb(220, 38, 38)"
-                  }}
+                  whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <PhoneCall className="w-4 h-4" />
-                  <motion.span
-                    animate={{
-                      opacity: [1, 0.7, 1]
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                  >
-                    Hitan poziv
-                  </motion.span>
+                  <Phone className="w-4 h-4" />
+                  <span>Pozovite nas</span>
                   <span className="text-xs opacity-80">011/234-5678</span>
-                  <motion.div
-                    className="absolute inset-0 bg-white opacity-0"
-                    animate={{
-                      opacity: [0, 0.2, 0]
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                  />
                 </motion.div>
               </Link>
             </div>

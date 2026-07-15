@@ -1,25 +1,30 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Stethoscope, ShieldPlus, Ambulance, ArrowRight } from "lucide-react"
+import { Apple, Shield, Pill, Dog, ArrowRight } from "lucide-react"
 import Link from "next/link"
 
 export default function Services() {
-  const services = [
+  const categories = [
     {
-      icon: Stethoscope,
-      title: "Opšta Medicina",
-      description: "Sistematski pregledi, vakcinacija i preventive za zdravlje vašeg ljubimca. Redovne kontrole su ključ za dug i srećan život."
+      icon: Apple,
+      title: "Medicinska hrana i dijete",
+      description: "Specijalizovana hrana za pse i mačke sa specifičnim zdravstvenim potrebama"
     },
     {
-      icon: ShieldPlus,
-      title: "Hirurgija",
-      description: "Bezbedni operativni zahvati sa modernom opremom i iskusnim hirurzima. Vaš ljubimac je u najboljim rukama."
+      icon: Shield,
+      title: "Zaštita od parazita",
+      description: "Najefikasnije tablete, ogrlice i ampule protiv buva i krpelja"
     },
     {
-      icon: Ambulance,
-      title: "Hitna Pomoć",
-      description: "Dostupni 24/7 za hitne slučajeve. Brza i efikasna intervencija kada je vreme najvažnije."
+      icon: Pill,
+      title: "Suplementi i vitamini",
+      description: "Dodaci ishrani za jačanje imuniteta, zglobova i sjajnu dlaku"
+    },
+    {
+      icon: Dog,
+      title: "Oprema i kozmetika",
+      description: "Sve što Vam je potrebno za svakodnevnu negu, šampone, četke i igračke"
     }
   ]
 
@@ -34,13 +39,13 @@ export default function Services() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          Sveobuhvatna briga za vaše ljubimce
+          Naš asortiman
         </motion.h2>
 
         {/* Grid kartica */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => {
-            const Icon = service.icon
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {categories.map((category, index) => {
+            const Icon = category.icon
             
             return (
               <motion.div
@@ -67,19 +72,19 @@ export default function Services() {
 
                 {/* Naslov */}
                 <h3 className="text-xl font-bold text-brand-dark mb-4">
-                  {service.title}
+                  {category.title}
                 </h3>
 
                 {/* Opis */}
                 <p className="text-brand-muted leading-relaxed">
-                  {service.description}
+                  {category.description}
                 </p>
               </motion.div>
             )
           })}
         </div>
 
-        {/* Dugme - Pogledajte sve usluge */}
+        {/* Dugme - Pogledajte ceo asortiman */}
         <div className="flex justify-center mt-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -96,7 +101,7 @@ export default function Services() {
                 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Pogledajte sve usluge
+                Pogledajte ceo asortiman
                 <motion.div
                   animate={{ x: [0, 3, 0] }}
                   transition={{ 

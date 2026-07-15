@@ -8,23 +8,23 @@ export default function Testimonials() {
   const testimonials = [
     {
       id: 1,
-      name: "Marko",
-      pet: "labrador Maks",
-      review: "Najbolji veterinar u gradu, spasili su mog ljubimca! Profesionalan pristup i izvanredna briga.",
+      name: "Marko N.",
+      pet: "vlasnik zlatnog retrivera",
+      review: "Najbolje snabdevena apoteka na Voždovcu! Uvek imaju medicinsku hranu koja je mom psu potrebna, a osoblje je izuzetno stručno.",
       avatar: "https://i.pravatar.cc/150?u=marko"
     },
     {
       id: 2,
-      name: "Jelena",
-      pet: "mačka Luna",
-      review: "Izvanredna briga i ljubaznost. Dr. Ana je čarobna sa životinjama. Preporučujem svima!",
+      name: "Jelena K.",
+      pet: "vlasnica mačke Lune",
+      review: "Sve preporuke za BG PET. Sve preparate protiv krpelja kupujem isključivo ovde jer su uvek sveži i originalni.",
       avatar: "https://i.pravatar.cc/150?u=jelena"
     },
     {
       id: 3,
-      name: "Petar",
-      pet: "nemački ovčar Rex",
-      review: "Brza reakcija u hitnim situacijama. Sve preporuke za ovu kliniku i njihov tim!",
+      name: "Petar J.",
+      pet: "vlasnik nemačkog ovčara",
+      review: "Odličan izbor suplemenata i vitamina. Moj pas već godinama koristi njihove proizvode i rezultati su odlični!",
       avatar: "https://i.pravatar.cc/150?u=petar"
     }
   ]
@@ -40,9 +40,9 @@ export default function Testimonials() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h2 className="h2 mb-4">Šta kažu vlasnici naših pacijenata</h2>
+          <h2 className="h2 mb-4">Šta kažu naši kupci</h2>
           <p className="text-lg text-brand-muted max-w-3xl mx-auto">
-            Istinite priče od zadovoljnih klijenata koji nam veruju zdravlje svojih ljubimaca
+            Istinite priče zadovoljnih vlasnika koji veruju BG PET apoteci
           </p>
         </motion.div>
 
@@ -147,7 +147,7 @@ export default function Testimonials() {
               <span className="text-4xl font-bold text-brand-dark">4.9</span>
               <span className="text-brand-muted">/5</span>
               <div className="text-brand-muted text-center">
-                na osnovu <span className="font-semibold text-brand-dark">250+</span> recenzija
+                na osnovu <span className="font-semibold text-brand-dark">150+</span> recenzija
               </div>
             </div>
           </div>
