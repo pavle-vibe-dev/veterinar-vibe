@@ -8,7 +8,7 @@ import TrustSection from "../components/TrustSection"
 function Home() {
   return (
     <div className="w-full max-w-full overflow-x-hidden">
-      <section className="relative h-[400px] md:h-[85vh] overflow-hidden">
+      <section className="relative min-h-[550px] md:h-[85vh] overflow-hidden">
         <div
           className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat blur-[1px]"
           style={{
@@ -17,7 +17,7 @@ function Home() {
         />
         <div className="absolute inset-0 bg-black/60 md:bg-black/50" />
         <div className="absolute inset-0 flex items-center justify-center z-10 overflow-x-hidden">
-          <div className="max-w-7xl mx-auto px-6 md:px-6 lg:px-20 text-center py-4">
+          <div className="max-w-7xl mx-auto px-6 md:px-6 lg:px-20 text-center py-10">
             <motion.div
               className="space-y-6 text-white"
               initial={{ opacity: 0, y: 50 }}
@@ -25,7 +25,7 @@ function Home() {
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
               <motion.h1
-                className="text-4xl md:text-5xl lg:text-7xl font-bold leading-tight mb-6"
+                className="text-3xl md:text-5xl lg:text-7xl font-bold leading-tight mb-6"
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
