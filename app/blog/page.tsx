@@ -20,7 +20,7 @@ export default function BlogPage() {
       tag: "Psi",
       date: "Mar 15, 2024",
       readTime: "6 min čitanja",
-      image: "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=800&h=600&fit=crop",
+      image: "/products/nexgard-spectra-s-3tbl.jpg",
       alt: "Zaštita od krpelja i buva za pse",
       slug: "kako-odabrati-najbolju-zastitu-od-krpelja"
     },
@@ -32,7 +32,7 @@ export default function BlogPage() {
       tag: "Psi",
       date: "Mar 10, 2024",
       readTime: "8 min čitanja",
-      image: "https://cdn.pixabay.com/photo/2017/02/20/18/03/dog-2083492_1280.jpg",
+      image: "/products/hills-kd-macke-15kg.jpg",
       alt: "Medicinska hrana za pse",
       slug: "kada-je-ljubimcu-potrebna-medicinska-hrana"
     },
@@ -44,7 +44,7 @@ export default function BlogPage() {
       tag: "Psi",
       date: "Feb 28, 2024",
       readTime: "7 min čitanja",
-      image: "https://images.unsplash.com/photo-1589923188900-85dae523342b?q=80&w=800&auto=format&fit=crop",
+      image: "/products/anima-strath-250ml.jpg",
       alt: "Vitamini i suplementi za pse",
       slug: "znacaj-suplemenata-u-ishrani-pasa"
     },
@@ -56,7 +56,7 @@ export default function BlogPage() {
       tag: "Mačke",
       date: "Feb 20, 2024",
       readTime: "5 min čitanja",
-      image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=800&auto=format&fit=crop",
+      image: "/products/fruity-sampon-banana-250ml.jpg",
       alt: "Nega dlake i kože kod kućnih ljubimaca",
       slug: "nega-dlake-i-koze-tokom-leta"
     },
@@ -68,7 +68,7 @@ export default function BlogPage() {
       tag: "Psi",
       date: "Feb 15, 2024",
       readTime: "4 min čitanja",
-      image: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?q=80&w=800&auto=format&fit=crop",
+      image: "/products/bravecto-tablete-psi.jpg",
       alt: "Čuvanje veterinarskih preparata",
       slug: "kako-pravilno-cuvati-veterinarske-preparate"
     },
@@ -80,7 +80,7 @@ export default function BlogPage() {
       tag: "Mačke",
       date: "Feb 10, 2024",
       readTime: "6 min čitanja",
-      image: "https://images.unsplash.com/photo-1576201836106-db1758fd1c97?q=80&w=800&auto=format&fit=crop",
+      image: "/products/probiovet-forte-40tbl.jpg",
       alt: "Probiotici za pse i mačke",
       slug: "probiotici-za-pse-kada-su-potrebni"
     }
@@ -93,7 +93,7 @@ export default function BlogPage() {
   return (
     <div className="min-h-screen bg-brand-bg overflow-x-hidden">
       {/* HERO SEKCIJA */}
-      <section className="pt-20 bg-white">
+      <section className="pt-6 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             className="text-center"

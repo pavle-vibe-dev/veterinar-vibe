@@ -21,7 +21,7 @@ export async function bookAppointment(data: AppointmentData) {
 
     const emailContent = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #10b981; margin-bottom: 20px;">Nova rezervacija proizvoda - BG PET</h2>
+        <h2 style="color: #10b981; margin-bottom: 20px;">Nova poruka sa kontakt forme - BG PET</h2>
         
         <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
           <h3 style="color: #1e293b; margin-bottom: 15px;">Podaci o kupcu:</h3>
@@ -50,7 +50,7 @@ export async function bookAppointment(data: AppointmentData) {
     const { data: responseData, error } = await resend.emails.send({
       from: 'BG PET <onboarding@resend.dev>',
       to: ['pavlemaksimovic6@gmail.com'],
-      subject: `Nova rezervacija proizvoda - BG PET - ${ownerName}`,
+      subject: `Nova poruka sa kontakt forme - BG PET - ${ownerName}`,
       html: emailContent,
     })
 

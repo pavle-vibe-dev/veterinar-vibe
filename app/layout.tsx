@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { CartProvider } from "../components/cart/CartProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
     title: 'BG PET - Veterinarska apoteka i Pet Shop',
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=1920&h=1080&fit=crop',
+        url: '/hero.jpg',
         width: 1200,
         height: 630,
         alt: 'BG PET - Veterinarska apoteka i Pet Shop'
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'BG PET - Veterinarska apoteka i Pet Shop',
     description: 'Veterinarska apoteka i Pet Shop na Voždovcu. Medicinska hrana, zaštita od parazita, suplementi, vitamini, oprema i kozmetika za pse i mačke.',
-    images: ['https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=1920&h=1080&fit=crop']
+    images: ['/hero.jpg']
   },
   icons: {
     icon: '/favicon.svg',
@@ -56,11 +57,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
       >
-        <Navbar />
-        <main className="w-full max-w-full overflow-x-hidden min-h-screen relative block pt-16">
-          {children}
-        </main>
-        <Footer />
+        <CartProvider>
+          <Navbar />
+          <main className="w-full max-w-full overflow-x-hidden min-h-screen relative block pt-16">
+            {children}
+          </main>
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );
