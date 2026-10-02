@@ -4,6 +4,9 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import { MapPin, Phone, Mail, Clock, Navigation, Loader2, Check } from "lucide-react"
 import Link from "next/link"
+import Canonical from "../../components/Canonical"
+import { shopInfo, fullAddress, mapEmbed, hoursDisplay } from "../../data/shop-info"
+import { trackInquiry } from "../../lib/analytics"
 
 export default function KontaktPage() {
   const [formData, setFormData] = useState({
@@ -27,19 +30,18 @@ export default function KontaktPage() {
     setIsSubmitting(true)
 
     try {
-      const { bookAppointment } = await import('../actions/bookAppointment')
+      const { sendInquiry } = await import('../actions/sendInquiry')
 
-      const result = await bookAppointment({
+      const result = await sendInquiry({
         ownerName: formData.ownerName,
         phone: formData.phone,
-        email: formData.email,
-        notes: formData.productRequest,
-        petName: "",
-        petType: "",
-        service: ""
+        email: formData.email || undefined,
+        note: formData.productRequest,
+        items: []
       })
 
       if (result.success) {
+        trackInquiry()
         setIsSubmitted(true)
         setTimeout(() => {
           setIsSubmitted(false)
@@ -63,8 +65,9 @@ export default function KontaktPage() {
 
   return (
     <div className="min-h-screen bg-brand-bg overflow-x-hidden">
+      <Canonical path="/kontakt" />
       {/* HERO SEKCIJA */}
-      <section className="pt-20 bg-white">
+      <section className="pt-6 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             className="text-center"
@@ -72,9 +75,9 @@ export default function KontaktPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="h1 mt-4 mb-2 md:mt-8 md:mb-4">Rezervišite proizvod ili proverite dostupnost</h1>
+            <h1 className="h1 mt-4 mb-2 md:mt-8 md:mb-4">Kontaktirajte nas</h1>
             <p className="text-xl text-brand-muted max-w-3xl mx-auto">
-              Pošaljite nam upit i javićemo Vam se u najkraćem roku
+              Imate pitanje o proizvodima, dostupnosti ili ishrani ljubimca? Pišite nam — javljamo se u najkraćem roku
             </p>
           </motion.div>
         </div>
@@ -84,14 +87,14 @@ export default function KontaktPage() {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            {/* Levo - Forma za rezervaciju */}
+            {/* Levo - Kontakt forma */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <div className="bg-white border border-slate-100 rounded-2xl p-8 shadow-lg">
-                <h2 className="text-2xl font-bold text-brand-dark mb-6">Pošaljite upit</h2>
+                <h2 className="text-2xl font-bold text-brand-dark mb-6">Pošaljite nam poruku</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <label className="block text-sm font-medium text-brand-dark mb-2">Ime i prezime</label>
@@ -132,12 +135,12 @@ export default function KontaktPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-brand-dark mb-2">Porudžbina / Upit</label>
-                    <textarea
-                      name="productRequest"
-                      value={formData.productRequest}
-                      onChange={handleInputChange}
-                      placeholder="Navedite naziv proizvoda, leka ili hrane koji Vam je potreban (i željenu količinu)..."
+                      <label className="block text-sm font-medium text-brand-dark mb-2">Vaša poruka</label>
+                      <textarea
+                        name="productRequest"
+                        value={formData.productRequest}
+                        onChange={handleInputChange}
+                        placeholder="Napišite nam pitanje — o proizvodu, dostupnosti, ishrani ili nezi ljubimca..."
                       rows={5}
                       required
                       className="w-full px-4 py-3 bg-brand-bg border border-slate-200 rounded-xl text-brand-dark placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:bg-white transition-all duration-300 resize-none"
@@ -152,7 +155,7 @@ export default function KontaktPage() {
                     whileTap={{ scale: isSubmitting || isSubmitted ? 1 : 0.98 }}
                   >
                     {!isSubmitting && !isSubmitted && (
-                      <span>Pošalji upit za rezervaciju</span>
+                      <span>Pošalji poruku</span>
                     )}
                     {isSubmitting && (
                       <span className="flex items-center justify-center space-x-2">
@@ -187,12 +190,9 @@ export default function KontaktPage() {
                   <h3 className="text-xl font-bold text-slate-900">Adresa</h3>
                 </div>
                 <div className="space-y-4">
-                  <p className="text-slate-700 leading-relaxed text-lg">
-                    Bulevar oslobođenja 45<br />
-                    11000 Beograd, Srbija
-                  </p>
+                  <p className="text-slate-700 leading-relaxed text-lg">{fullAddress}</p>
                   <Link
-                    href="https://maps.google.com/?q=Bulevar+Oslobođenja+45+Beograd"
+                    href={`https://maps.google.com/?q=${encodeURIComponent(fullAddress)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center space-x-2 bg-brand-primary hover:bg-brand-primary/90 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg"
@@ -214,20 +214,20 @@ export default function KontaktPage() {
                 <div className="space-y-4">
                   <div>
                     <Link
-                      href="tel:+381112345678"
+                      href={shopInfo.phoneHref}
                       className="flex items-center space-x-2 text-slate-700 hover:text-brand-primary transition-colors duration-300 text-2xl font-bold"
                     >
                       <Phone className="w-5 h-5" />
-                      <span>011/234-5678</span>
+                      <span>{shopInfo.phone}</span>
                     </Link>
                   </div>
                   <div>
                     <Link
-                      href="mailto:info@bgpet.rs"
+                      href={`mailto:${shopInfo.email}`}
                       className="flex items-center space-x-2 text-slate-600 hover:text-brand-primary transition-colors duration-300"
                     >
                       <Mail className="w-4 h-4" />
-                      <span className="font-medium">info@bgpet.rs</span>
+                      <span className="font-medium">{shopInfo.email}</span>
                     </Link>
                   </div>
                 </div>
@@ -242,18 +242,12 @@ export default function KontaktPage() {
                   <h3 className="text-xl font-bold text-slate-900">Radno vreme</h3>
                 </div>
                 <div className="space-y-3">
-                  <div className="flex justify-between text-slate-700">
-                    <span className="font-medium">Pon-Pet</span>
-                    <span className="font-bold">08-20h</span>
-                  </div>
-                  <div className="flex justify-between text-slate-700">
-                    <span className="font-medium">Subota</span>
-                    <span className="font-bold">08-16h</span>
-                  </div>
-                  <div className="flex justify-between text-slate-700">
-                    <span className="font-medium">Nedelja</span>
-                    <span className="font-bold">09-14h</span>
-                  </div>
+                  {hoursDisplay.map((h) => (
+                    <div key={h.days} className="flex justify-between text-slate-700">
+                      <span className="font-medium">{h.days}</span>
+                      <span className="font-bold">{h.time}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </motion.div>
@@ -285,7 +279,7 @@ export default function KontaktPage() {
             viewport={{ once: true }}
           >
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2806.8345!2d20.4622!3d44.8125!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDTCsDQ4JzQ1LjAiTiAyMMKwMjcnNDcuOSJF!5e0!3m2!1ssr!2srs!4v1234567890"
+              src={mapEmbed}
               width="100%"
               height="450"
               style={{ border: 0 }}
@@ -293,7 +287,7 @@ export default function KontaktPage() {
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               className="w-full h-[450px]"
-              title="BG PET Veterinarska apoteka - Lokacija"
+              title={`${shopInfo.name} ${shopInfo.tagline} — Lokacija`}
             />
           </motion.div>
         </div>

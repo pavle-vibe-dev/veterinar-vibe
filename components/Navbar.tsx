@@ -2,11 +2,17 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ShoppingBag, Phone, Menu, X } from "lucide-react"
+import { ShoppingBag, Phone, Menu, X, ShoppingCart, ChevronDown } from "lucide-react"
 import Link from "next/link"
+import { useCart } from "./cart/CartProvider"
+import { categories, subgroupsOf } from "../data/shop"
+import { shopInfo } from "../data/shop-info"
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [openShop, setOpenShop] = useState(false)
+  const [openGroup, setOpenGroup] = useState<string | null>(null)
+  const { count } = useCart()
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
@@ -14,6 +20,8 @@ export default function Navbar() {
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false)
+    setOpenShop(false)
+    setOpenGroup(null)
   }
   return (
     <motion.nav
@@ -26,7 +34,7 @@ export default function Navbar() {
           {/* Logo - Levo */}
           <Link href="/" className="flex items-center space-x-2 group">
             <ShoppingBag className="w-8 h-8 text-brand-primary group-hover:scale-110 transition-transform duration-300" />
-            <span className="text-xl font-bold text-brand-dark">BG PET</span>
+            <span className="text-xl font-bold text-brand-dark">{shopInfo.name}</span>
           </Link>
 
           {/* Linkovi - Sredina */}
@@ -38,13 +46,58 @@ export default function Navbar() {
               Početna
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-primary group-hover:w-full transition-all duration-300"></span>
             </Link>
-            <Link 
-              href="/usluge" 
-              className="text-brand-dark hover:text-brand-primary transition-colors duration-300 font-medium relative group"
-            >
-              Asortiman
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-primary group-hover:w-full transition-all duration-300"></span>
-            </Link>
+            {/* Prodavnica sa dropdown panelom (grupe + podgrupe) */}
+            <div className="relative group/nav">
+              <Link
+                href="/prodavnica"
+                className="text-brand-dark hover:text-brand-primary transition-colors duration-300 font-medium relative inline-flex items-center gap-1 py-2"
+              >
+                Prodavnica
+                <ChevronDown className="w-4 h-4 transition-transform duration-200 group-hover/nav:rotate-180" />
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-primary group-hover/nav:w-full transition-all duration-300"></span>
+              </Link>
+              <div className="absolute left-1/2 top-full -translate-x-1/2 pt-3 opacity-0 invisible translate-y-2 group-hover/nav:opacity-100 group-hover/nav:visible group-hover/nav:translate-y-0 transition-all duration-200">
+                <div className="w-[580px] bg-white rounded-2xl shadow-2xl border border-slate-100 p-6">
+                  <div className="grid grid-cols-2 gap-x-6 gap-y-5">
+                    {categories.map((c) => (
+                      <div key={c.slug}>
+                        <Link
+                          href={`/prodavnica?category=${c.slug}`}
+                          className="font-bold text-brand-dark hover:text-brand-primary transition-colors"
+                        >
+                          {c.name}
+                        </Link>
+                        <div className="mt-1.5 space-y-1">
+                          {subgroupsOf(c.slug).map((s) => (
+                            <Link
+                              key={s.slug}
+                              href={`/prodavnica?category=${c.slug}&sub=${s.slug}`}
+                              className="block text-sm text-slate-600 hover:text-brand-primary hover:translate-x-0.5 transition-all"
+                            >
+                              {s.name}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <Link
+                      href="/prodavnica?prikaz=lista"
+                      className="text-sm font-bold text-brand-primary hover:gap-3 inline-flex items-center gap-2 transition-all"
+                    >
+                      Svi proizvodi
+                    </Link>
+                    <Link
+                      href="/upit"
+                      className="text-sm font-medium text-slate-500 hover:text-brand-primary transition-colors"
+                    >
+                      Bez plaćanja karticom — sve na upit
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
             <Link 
               href="/blog" 
               className="text-brand-dark hover:text-brand-primary transition-colors duration-300 font-medium relative group"
@@ -56,17 +109,30 @@ export default function Navbar() {
               href="/kontakt" 
               className="text-brand-dark hover:text-brand-primary transition-colors duration-300 font-medium relative group"
             >
-              Rezervacija
+              Kontakt
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-primary group-hover:w-full transition-all duration-300"></span>
             </Link>
           </div>
 
-          {/* Hamburger Menu Button - Mobile */}
-          <button
-            onClick={toggleMobileMenu}
-            className="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors duration-300"
-            aria-label="Toggle mobile menu"
-          >
+          {/* Mobile desno: upit + hamburger */}
+          <div className="md:hidden flex items-center gap-1">
+            <Link
+              href="/upit"
+              className="relative p-2 rounded-lg hover:bg-slate-100 transition-colors"
+              aria-label="Upit"
+            >
+              <ShoppingCart className="w-6 h-6 text-slate-900" />
+              {count > 0 && (
+                <span className="absolute top-0 right-0 min-w-5 h-5 px-1 rounded-full bg-red-500 text-white text-xs font-bold flex items-center justify-center">
+                  {count}
+                </span>
+              )}
+            </Link>
+            <button
+              onClick={toggleMobileMenu}
+              className="p-2 rounded-lg hover:bg-white/10 transition-colors duration-300"
+              aria-label="Toggle mobile menu"
+            >
             <AnimatePresence mode="wait">
               {isMobileMenuOpen ? (
                 <motion.div
@@ -91,9 +157,23 @@ export default function Navbar() {
               )}
             </AnimatePresence>
           </button>
+          </div>
 
           {/* Dugme - Desno (Desktop Only) */}
-          <Link href="tel:+381112345678" className="hidden md:block">
+          <div className="hidden md:flex items-center gap-3">
+            <Link
+              href="/upit"
+              className="relative inline-flex items-center gap-2 px-4 py-2.5 rounded-button border-2 border-brand-primary/20 text-brand-primary font-bold text-sm hover:bg-emerald-50 transition-all"
+            >
+              <ShoppingCart className="w-4 h-4" />
+              <span>Upit</span>
+              {count > 0 && (
+                <span className="absolute -top-2 -right-2 min-w-6 h-6 px-1.5 rounded-full bg-red-500 text-white text-xs font-bold flex items-center justify-center">
+                  {count}
+                </span>
+              )}
+            </Link>
+            <Link href="tel:+381658665393">
             <motion.div 
               className="btn-primary px-6 py-3 text-sm font-bold relative overflow-hidden cursor-pointer inline-flex items-center space-x-2"
               whileHover={{ scale: 1.1 }}
@@ -101,10 +181,11 @@ export default function Navbar() {
             >
               <Phone className="w-4 h-4" />
               <span>Pozovite nas</span>
-              <span className="text-xs opacity-80">011/234-5678</span>
+              <span className="text-xs opacity-80">065/866-5393</span>
             </motion.div>
           </Link>
         </div>
+      </div>
 
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
@@ -117,39 +198,104 @@ export default function Navbar() {
             className="absolute top-16 left-0 w-full h-screen bg-white z-[60] overflow-y-auto px-4 py-8 shadow-xl transition-transform duration-300 md:hidden pt-2"
             onClick={closeMobileMenu}
           >
-            {/* Mobile Menu Links - Full Height Centered */}
-            <div className="flex flex-col items-center justify-center h-full space-y-8">
+            {/* Mobile Menu Links - accordion hijerarhija */}
+            <div className="flex flex-col items-stretch justify-start min-h-full space-y-1 py-4 max-w-md mx-auto w-full">
               <Link
                 href="/"
                 onClick={closeMobileMenu}
-                className="text-2xl font-bold text-slate-900 hover:text-brand-primary transition-colors duration-300 py-2 px-4 rounded-lg"
+                className="text-xl font-bold text-slate-900 hover:text-brand-primary transition-colors duration-300 py-3 px-4 rounded-lg"
               >
                 Početna
               </Link>
+
+              {/* Prodavnica accordion */}
+              <div className="rounded-lg">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setOpenShop((v) => !v)
+                  }}
+                  className="w-full flex items-center justify-between text-xl font-bold text-slate-900 py-3 px-4 rounded-lg cursor-pointer"
+                >
+                  <span>Prodavnica</span>
+                  <ChevronDown
+                    className={`w-5 h-5 transition-transform duration-200 ${openShop ? "rotate-180" : ""}`}
+                  />
+                </button>
+                {openShop && (
+                  <div className="ml-2 mb-2 border-l-2 border-emerald-100 pl-3 space-y-1">
+                    <Link
+                      href="/prodavnica?prikaz=lista"
+                      onClick={closeMobileMenu}
+                      className="block text-base font-bold text-brand-primary py-2 px-3 rounded-lg"
+                    >
+                      Svi proizvodi
+                    </Link>
+                    {categories.map((c) => (
+                      <div key={c.slug}>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            setOpenGroup((g) => (g === c.slug ? null : c.slug))
+                          }}
+                          className="w-full flex items-center justify-between text-base font-bold text-slate-800 py-2 px-3 rounded-lg cursor-pointer"
+                        >
+                          <span>{c.name}</span>
+                          <ChevronDown
+                            className={`w-4 h-4 transition-transform duration-200 ${openGroup === c.slug ? "rotate-180" : ""}`}
+                          />
+                        </button>
+                        {openGroup === c.slug && (
+                          <div className="ml-2 border-l border-slate-200 pl-3 pb-1">
+                            <Link
+                              href={`/prodavnica?category=${c.slug}`}
+                              onClick={closeMobileMenu}
+                              className="block text-sm font-semibold text-slate-600 py-1.5 px-2"
+                            >
+                              Sve iz {c.name}
+                            </Link>
+                            {subgroupsOf(c.slug).map((s) => (
+                              <Link
+                                key={s.slug}
+                                href={`/prodavnica?category=${c.slug}&sub=${s.slug}`}
+                                onClick={closeMobileMenu}
+                                className="block text-sm text-slate-600 py-1.5 px-2 hover:text-brand-primary"
+                              >
+                                {s.name}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               <Link
-                href="/usluge"
+                href="/upit"
                 onClick={closeMobileMenu}
-                className="text-2xl font-bold text-slate-900 hover:text-brand-primary transition-colors duration-300 py-2 px-4 rounded-lg"
+                className="text-xl font-bold text-brand-primary py-3 px-4 rounded-lg"
               >
-                Asortiman
+                Upit{count > 0 ? ` (${count})` : ""}
               </Link>
               <Link
                 href="/blog"
                 onClick={closeMobileMenu}
-                className="text-2xl font-bold text-slate-900 hover:text-brand-primary transition-colors duration-300 py-2 px-4 rounded-lg"
+                className="text-xl font-bold text-slate-900 hover:text-brand-primary transition-colors duration-300 py-3 px-4 rounded-lg"
               >
                 Blog
               </Link>
               <Link
                 href="/kontakt"
                 onClick={closeMobileMenu}
-                className="text-2xl font-bold text-slate-900 hover:text-brand-primary transition-colors duration-300 py-2 px-4 rounded-lg"
+                className="text-xl font-bold text-slate-900 hover:text-brand-primary transition-colors duration-300 py-3 px-4 rounded-lg"
               >
-                Rezervacija
+                Kontakt
               </Link>
 
-              {/* Poziv Button - Below Rezervacija */}
-              <Link href="tel:+381112345678" onClick={closeMobileMenu}>
+              {/* Poziv Button - Below Kontakt */}
+              <Link href="tel:+381658665393" onClick={closeMobileMenu}>
                 <motion.div
                   className="btn-primary px-6 py-3 text-sm font-bold relative overflow-hidden cursor-pointer inline-flex items-center justify-center space-x-2 w-full"
                   whileHover={{ scale: 1.1 }}
@@ -157,7 +303,7 @@ export default function Navbar() {
                 >
                   <Phone className="w-4 h-4" />
                   <span>Pozovite nas</span>
-                  <span className="text-xs opacity-80">011/234-5678</span>
+                  <span className="text-xs opacity-80">065/866-5393</span>
                 </motion.div>
               </Link>
             </div>

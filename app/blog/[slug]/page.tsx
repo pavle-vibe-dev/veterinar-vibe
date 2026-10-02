@@ -1,10 +1,47 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { ArrowLeft, Calendar, User, Clock, Share2, Heart, MessageCircle, ChevronRight } from "lucide-react"
+import { ArrowLeft, Calendar, User, Clock, Share2, Heart, MessageCircle, ChevronRight, ShoppingBag } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { use } from "react"
+import type { ReactNode } from "react"
+import InlineProduct from "../../../components/blog/InlineProduct"
+import ProductCard from "../../../components/cart/ProductCard"
+import { getProduct } from "../../../data/shop"
+import Canonical from "../../../components/Canonical"
+
+function renderRichContent(html: string) {
+  // Token mora biti ceo <p> blok da chunkovi ostanu balansirani (bez hydration greške)
+  const regex = /<p>\[product:([a-z0-9-]+)\]<\/p>/g
+  const out: ReactNode[] = []
+  let last = 0
+  let i = 0
+  let m: RegExpExecArray | null
+  while ((m = regex.exec(html)) !== null) {
+    if (m.index > last) {
+      out.push(
+        <span
+          key={i++}
+          className="contents"
+          dangerouslySetInnerHTML={{ __html: html.slice(last, m.index) }}
+        />
+      )
+    }
+    out.push(<InlineProduct key={`${m[1]}-${i++}`} slug={m[1]} />)
+    last = m.index + m[0].length
+  }
+  if (last < html.length) {
+    out.push(
+      <span
+        key={i++}
+        className="contents"
+        dangerouslySetInnerHTML={{ __html: html.slice(last) }}
+      />
+    )
+  }
+  return out
+}
 
 export default function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params)
@@ -18,6 +55,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
     image: string;
     alt: string;
     content: string;
+    relatedProducts: string[];
   }
 
   const blogPostsData: Record<string, BlogPostData> = {
@@ -27,8 +65,9 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
       author: "BG PET Tim",
       date: "Mar 15, 2024",
       readTime: "6 min čitanja",
-      image: "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=800&h=600&fit=crop",
+      image: "/products/nexgard-spectra-s-3tbl.jpg",
       alt: "Zaštita od krpelja i buva",
+      relatedProducts: ["nexgard-spectra-s-3tbl", "bravecto-tablete-psi", "foresto-ogrlica-8kg"],
       content: `
         <h2>Zašto je zaštita od parazita važna?</h2>
         <p>
@@ -39,6 +78,8 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
         <p>
           Tablete su najmoderniji vid zaštite koji deluje sistemski - ljubimac proguta tabletu i aktivne supstance kroz krvotok štite celo telo. Prednost tableta je što deluju brzo (već nakon 30 minuta) i ne mogu se isprati vodom. U našoj apoteci imamo tablete koje štite od 4 do 12 nedelja.
         </p>
+        <p>[product:nexgard-spectra-s-3tbl]</p>
+        <p>[product:bravecto-tablete-psi]</p>
         
         <h2>Ampule (Spot-on) preparati</h2>
         <p>
@@ -49,6 +90,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
         <p>
           Ogrlice pružaju dugotrajnu zaštitu - pojedini modeli štite i do 8 meseci. Aktivne supstance se postepeno oslobađaju i šire po celom telu. Ogrlice su vodootporne i idealne za aktivne ljubimce koji često borave u prirodi.
         </p>
+        <p>[product:foresto-ogrlica-8kg]</p>
         
         <h2>Koju zaštitu odabrati?</h2>
         <p>
@@ -56,9 +98,9 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
         </p>
         
         <div style="background: #f0fdf4; padding: 20px; border-radius: 12px; margin: 30px 0;">
-          <h3 style="color: #10b981; margin-bottom: 10px;">Imate pitanja ili želite da rezervišete ovaj proizvod za Vašeg ljubimca?</h3>
-          <p style="color: #4b5563;">Pišite nam kroz formu za rezervacije!</p>
-          <p><a href="/kontakt" style="display: inline-block; background: #10b981; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px;">Rezervišite proizvod</a></p>
+          <h3 style="color: #10b981; margin-bottom: 10px;">Imate pitanja? Pišite nam!</h3>
+          <p style="color: #4b5563;">Naš tim će vam rado pomoći savetom oko izbora pravog proizvoda za vašeg ljubimca.</p>
+          <p><a href="/kontakt" style="display: inline-block; background: #10b981; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px;">Pošaljite upit</a></p>
         </div>
       `
     },
@@ -68,8 +110,9 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
       author: "BG PET Tim",
       date: "Mar 10, 2024",
       readTime: "8 min čitanja",
-      image: "https://cdn.pixabay.com/photo/2017/02/20/18/03/dog-2083492_1280.jpg",
+      image: "/products/hills-kd-macke-15kg.jpg",
       alt: "Medicinska hrana za ljubimce",
+      relatedProducts: ["hills-kd-macke-15kg", "acana-grass-fed-lamb-114kg", "orijen-six-fish-macke-54kg"],
       content: `
         <h2>Šta je medicinska hrana za ljubimce?</h2>
         <p>
@@ -80,6 +123,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
         <p>
           Bubrežne dijete imaju smanjen sadržaj proteina, fosfora i natrijuma, što smanjuje opterećenje na bubrege. Ove dijete su neophodne kod hronične bubrežne insuficijencije. Simptomi uključuju pojačano pijenje vode, učestalo mokrenje, gubitak apetita i povraćanje.
         </p>
+        <p>[product:hills-kd-macke-15kg]</p>
         
         <h2>Dijete za osetljiv stomak</h2>
         <p>
@@ -90,6 +134,8 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
         <p>
           Alergije na hranu se manifestuju kroz svrab, crvenilo kože, hronične infekcije uha i digestivne smetnje. Hrana sa hidrolizovanim proteinima ili novim izvorima proteina (poput lososa ili divljači) može pomoći u identifikaciji i lečenju alergija.
         </p>
+        <p>[product:acana-grass-fed-lamb-114kg]</p>
+        <p>[product:orijen-six-fish-macke-54kg]</p>
         
         <h2>Kako prepoznati da je vreme za medicinsku hranu?</h2>
         <p>
@@ -97,9 +143,9 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
         </p>
         
         <div style="background: #f0fdf4; padding: 20px; border-radius: 12px; margin: 30px 0;">
-          <h3 style="color: #10b981; margin-bottom: 10px;">Imate pitanja ili želite da rezervišete ovaj proizvod za Vašeg ljubimca?</h3>
-          <p style="color: #4b5563;">Pišite nam kroz formu za rezervacije!</p>
-          <p><a href="/kontakt" style="display: inline-block; background: #10b981; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px;">Rezervišite proizvod</a></p>
+          <h3 style="color: #10b981; margin-bottom: 10px;">Imate pitanja? Pišite nam!</h3>
+          <p style="color: #4b5563;">Naš tim će vam rado pomoći savetom oko izbora pravog proizvoda za vašeg ljubimca.</p>
+          <p><a href="/kontakt" style="display: inline-block; background: #10b981; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px;">Pošaljite upit</a></p>
         </div>
       `
     },
@@ -109,8 +155,9 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
       author: "BG PET Tim",
       date: "Feb 28, 2024",
       readTime: "7 min čitanja",
-      image: "https://images.unsplash.com/photo-1589923188900-85dae523342b?q=80&w=800&auto=format&fit=crop",
+      image: "/products/anima-strath-250ml.jpg",
       alt: "Vitamini za pse",
+      relatedProducts: ["anima-strath-250ml", "vethealth-cbd-ulje-8", "probiovet-forte-40tbl"],
       content: `
         <h2>Zašto su suplementi važni?</h2>
         <p>
@@ -131,16 +178,18 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
         <p>
           Ponekad ishrana ne pokriva sve potrebe za vitaminima i mineralima. Vitaminski kompleksi pružaju podršku imunitetu, zdravlju kože, dlake i vitalnosti. U BG PET apoteci imamo vitamine prilagođene različitim uzrastima i rasama.
         </p>
+        <p>[product:anima-strath-250ml]</p>
         
         <h2>Probiotici za digestiju</h2>
         <p>
           Probiotici su korisne bakterije koje podržavaju zdravu crevnu floru. Pomažu kod probavnih smetnji, dijareje, zatvora i slabijeg imuniteta. Nakon terapije antibioticima, probiotici su posebno važni za obnovu crevne flore.
         </p>
+        <p>[product:probiovet-forte-40tbl]</p>
         
         <div style="background: #f0fdf4; padding: 20px; border-radius: 12px; margin: 30px 0;">
-          <h3 style="color: #10b981; margin-bottom: 10px;">Imate pitanja ili želite da rezervišete ovaj proizvod za Vašeg ljubimca?</h3>
-          <p style="color: #4b5563;">Pišite nam kroz formu za rezervacije!</p>
-          <p><a href="/kontakt" style="display: inline-block; background: #10b981; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px;">Rezervišite proizvod</a></p>
+          <h3 style="color: #10b981; margin-bottom: 10px;">Imate pitanja? Pišite nam!</h3>
+          <p style="color: #4b5563;">Naš tim će vam rado pomoći savetom oko izbora pravog proizvoda za vašeg ljubimca.</p>
+          <p><a href="/kontakt" style="display: inline-block; background: #10b981; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px;">Pošaljite upit</a></p>
         </div>
       `
     },
@@ -150,8 +199,9 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
       author: "BG PET Tim",
       date: "Feb 20, 2024",
       readTime: "5 min čitanja",
-      image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=800&auto=format&fit=crop",
+      image: "/products/fruity-sampon-banana-250ml.jpg",
       alt: "Nega dlake i kože",
+      relatedProducts: ["fruity-sampon-banana-250ml", "trixie-cetka-cesalj-27cm"],
       content: `
         <h2>Letnja nega ljubimaca</h2>
         <p>
@@ -162,6 +212,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
         <p>
           Za ljubimce sa osetljivom kožom preporučujemo blage, hipoalergene šampone bez mirisa i jakih hemikalija. Ovi šamponi sadrže ovsene pahuljice, aloe veru i pantenol koji smiruju iritacije i hidriraju kožu. Posebno su pogodni za pse i mačke koje često kopkaju ili imaju perut.
         </p>
+        <p>[product:fruity-sampon-banana-250ml]</p>
         
         <h2>Šamponi protiv parazita</h2>
         <p>
@@ -177,11 +228,12 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
         <p>
           Pravilna nega podrazumeva i odgovarajuće alate - četke, češljeve, fen za sušenje i makaze. U BG PET apoteci možete pronaći kvalitetne brendove opreme za negu koji će vam olakšati svakodnevno održavanje.
         </p>
+        <p>[product:trixie-cetka-cesalj-27cm]</p>
         
         <div style="background: #f0fdf4; padding: 20px; border-radius: 12px; margin: 30px 0;">
-          <h3 style="color: #10b981; margin-bottom: 10px;">Imate pitanja ili želite da rezervišete ovaj proizvod za Vašeg ljubimca?</h3>
-          <p style="color: #4b5563;">Pišite nam kroz formu za rezervacije!</p>
-          <p><a href="/kontakt" style="display: inline-block; background: #10b981; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px;">Rezervišite proizvod</a></p>
+          <h3 style="color: #10b981; margin-bottom: 10px;">Imate pitanja? Pišite nam!</h3>
+          <p style="color: #4b5563;">Naš tim će vam rado pomoći savetom oko izbora pravog proizvoda za vašeg ljubimca.</p>
+          <p><a href="/kontakt" style="display: inline-block; background: #10b981; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px;">Pošaljite upit</a></p>
         </div>
       `
     },
@@ -191,8 +243,9 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
       author: "BG PET Tim",
       date: "Feb 15, 2024",
       readTime: "4 min čitanja",
-      image: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?q=80&w=800&auto=format&fit=crop",
+      image: "/products/bravecto-tablete-psi.jpg",
       alt: "Čuvanje veterinarskih preparata",
+      relatedProducts: [],
       content: `
         <h2>Pravilno skladištenje lekova</h2>
         <p>
@@ -220,9 +273,9 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
         </p>
         
         <div style="background: #f0fdf4; padding: 20px; border-radius: 12px; margin: 30px 0;">
-          <h3 style="color: #10b981; margin-bottom: 10px;">Imate pitanja ili želite da rezervišete ovaj proizvod za Vašeg ljubimca?</h3>
-          <p style="color: #4b5563;">Pišite nam kroz formu za rezervacije!</p>
-          <p><a href="/kontakt" style="display: inline-block; background: #10b981; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px;">Rezervišite proizvod</a></p>
+          <h3 style="color: #10b981; margin-bottom: 10px;">Imate pitanja? Pišite nam!</h3>
+          <p style="color: #4b5563;">Naš tim će vam rado pomoći savetom oko izbora pravog proizvoda za vašeg ljubimca.</p>
+          <p><a href="/kontakt" style="display: inline-block; background: #10b981; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px;">Pošaljite upit</a></p>
         </div>
       `
     },
@@ -232,8 +285,9 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
       author: "BG PET Tim",
       date: "Feb 10, 2024",
       readTime: "6 min čitanja",
-      image: "https://images.unsplash.com/photo-1576201836106-db1758fd1c97?q=80&w=800&auto=format&fit=crop",
+      image: "/products/probiovet-forte-40tbl.jpg",
       alt: "Probiotici za pse",
+      relatedProducts: ["probiovet-forte-40tbl", "anima-strath-250ml"],
       content: `
         <h2>Šta su probiotici?</h2>
         <p>
@@ -254,6 +308,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
         <p>
           U BG PET apoteci probiotike možete pronaći u obliku praha koji se dodaje hrani, tableta i poslastica. Praškasti probiotici su idealni za izbirljive ljubimce jer se lako mešaju sa hranom. Tablete i poslastice su praktične za svakodnevnu upotrebu.
         </p>
+        <p>[product:probiovet-forte-40tbl]</p>
         
         <h2>Prebiotici vs probiotici</h2>
         <p>
@@ -261,9 +316,9 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
         </p>
         
         <div style="background: #f0fdf4; padding: 20px; border-radius: 12px; margin: 30px 0;">
-          <h3 style="color: #10b981; margin-bottom: 10px;">Imate pitanja ili želite da rezervišete ovaj proizvod za Vašeg ljubimca?</h3>
-          <p style="color: #4b5563;">Pišite nam kroz formu za rezervacije!</p>
-          <p><a href="/kontakt" style="display: inline-block; background: #10b981; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px;">Rezervišite proizvod</a></p>
+          <h3 style="color: #10b981; margin-bottom: 10px;">Imate pitanja? Pišite nam!</h3>
+          <p style="color: #4b5563;">Naš tim će vam rado pomoći savetom oko izbora pravog proizvoda za vašeg ljubimca.</p>
+          <p><a href="/kontakt" style="display: inline-block; background: #10b981; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px;">Pošaljite upit</a></p>
         </div>
       `
     }
@@ -271,20 +326,24 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
 
   const blogPost = blogPostsData[slug] || blogPostsData["kako-odabrati-najbolju-zastitu-od-krpelja"]
 
+  const relatedProducts = (blogPost.relatedProducts || [])
+    .map((s) => getProduct(s))
+    .filter((p): p is NonNullable<typeof p> => Boolean(p))
+
   const recentPosts = [
     {
       title: "Kada je ljubimcu potrebna medicinska hrana?",
-      image: "https://cdn.pixabay.com/photo/2017/02/20/18/03/dog-2083492_1280.jpg",
+      image: "/products/hills-kd-macke-15kg.jpg",
       slug: "kada-je-ljubimcu-potrebna-medicinska-hrana"
     },
     {
       title: "Značaj suplemenata u ishrani pasa",
-      image: "https://images.unsplash.com/photo-1589923188900-85dae523342b?q=80&w=800&auto=format&fit=crop",
+      image: "/products/anima-strath-250ml.jpg",
       slug: "znacaj-suplemenata-u-ishrani-pasa"
     },
     {
       title: "Nega dlake i kože tokom leta",
-      image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=800&auto=format&fit=crop",
+      image: "/products/fruity-sampon-banana-250ml.jpg",
       slug: "nega-dlake-i-koze-tokom-leta"
     }
   ]
@@ -292,18 +351,19 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
   const relatedPosts = [
     {
       title: "Probiotici za pse: Kada su potrebni?",
-      image: "https://images.unsplash.com/photo-1576201836106-db1758fd1c97?q=80&w=800&auto=format&fit=crop",
+      image: "/products/probiovet-forte-40tbl.jpg",
       slug: "probiotici-za-pse-kada-su-potrebni"
     },
     {
       title: "Kako pravilno čuvati veterinarske preparate?",
-      image: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?q=80&w=800&auto=format&fit=crop",
+      image: "/products/bravecto-tablete-psi.jpg",
       slug: "kako-pravilno-cuvati-veterinarske-preparate"
     }
   ]
 
   return (
     <div className="min-h-screen bg-brand-bg">
+      <Canonical path={`/blog/${slug}`} />
       {/* BREADCRUMBS */}
       <section className="py-6 bg-white border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -374,7 +434,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <article className="prose prose-lg prose-slate max-w-none" dangerouslySetInnerHTML={{ __html: blogPost.content }}></article>
+              <article className="prose prose-lg prose-slate max-w-none">{renderRichContent(blogPost.content)}</article>
 
               {/* SHARE DUGMIĆI */}
               <div className="mt-12 pt-8 border-t border-slate-200">
@@ -412,19 +472,6 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              {/* CTA BOX */}
-              <div className="bg-white rounded-2xl p-6 shadow-lg">
-                <h3 className="text-lg font-bold text-brand-dark mb-4">Potreban vam je savet?</h3>
-                <p className="text-brand-muted mb-6">Pišite nam za savet o proizvodima ili rezervišite proizvod za vašeg ljubimca.</p>
-                <Link
-                  href="/kontakt"
-                  className="w-full bg-brand-primary hover:bg-brand-primary/90 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg inline-flex items-center justify-center space-x-2"
-                >
-                  <span>Rezervišite proizvod</span>
-                  <ChevronRight className="w-4 h-4" />
-                </Link>
-              </div>
-
               {/* RECENT POSTS */}
               <div className="bg-white rounded-2xl p-6 shadow-lg">
                 <h3 className="text-lg font-bold text-brand-dark mb-6">Najnoviji članci</h3>
@@ -453,6 +500,28 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
               </div>
             </motion.div>
           </div>
+
+          {/* PROIZVODI IZ ČLANKA - puna širina, klik dodaje direktno u korpu */}
+          {relatedProducts.length > 0 && (
+            <div className="mt-12 bg-white rounded-2xl p-6 sm:p-8 shadow-md border border-emerald-100">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-10 h-10 bg-brand-primary/10 rounded-xl flex items-center justify-center">
+                  <ShoppingBag className="w-5 h-5 text-brand-primary" />
+                </div>
+                <h2 className="text-xl sm:text-2xl font-bold text-brand-dark">
+                  Proizvodi iz ovog članka
+                </h2>
+              </div>
+              <p className="text-brand-muted mb-6">
+                Klikom na &bdquo;Dodaj u upit&ldquo; proizvod ide direktno u vašu korpu.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {relatedProducts.map((p) => (
+                  <ProductCard key={p.slug} product={p} />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </section>
 

@@ -92,7 +92,7 @@ export default function Services() {
             transition={{ duration: 0.8, delay: 0.6 }}
             viewport={{ once: true }}
           >
-            <Link href="/usluge">
+            <Link href="/prodavnica">
               <motion.button
                 className="btn-outline inline-flex items-center gap-2 group"
                 whileHover={{ 

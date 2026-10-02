@@ -69,7 +69,7 @@ export default function Testimonials() {
 
                 {/* Recenzija */}
                 <p className="text-brand-muted mb-6 leading-relaxed grow">
-                  "{testimonial.review}"
+                  &ldquo;{testimonial.review}&rdquo;
                 </p>
 
                 {/* Profil */}

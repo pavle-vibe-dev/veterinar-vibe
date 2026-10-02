@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BG PET — demo prodavnica za vet apoteke i pet shop
 
-## Getting Started
+Next.js sajt sa funkcionalnom prodavnicom: katalog proizvoda, korpa, dostava,
+plaćanje i evidencija narudžbi. Koristi se kao **demo i template** za
+isporuku lokalnimveterinarskim apotekama i pet shopovima.
 
-First, run the development server:
+## Struktura
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+app/
+  prodavnica/      katalog + detalj proizvoda ([slug])
+  upit/            upit bez porudžbine (brza forma)
+  kontakt/         kontakt + mapa + radno vreme
+  blog/            članci sa ugrađenim proizvodima
+  actions/
+    sendOrder.ts   porudžbina → email + Google Sheet
+    sendInquiry.ts upit → email + Google Sheet
+components/
+  cart/            korpa (React context, čuva se u localStorage)
+data/
+  shop.ts          PROIZVODI, kategorije, brendovi  ← menja se za klijenta
+  shop-info.ts     IME, telefon, adresa, radno vreme ← menja se za klijenta
+  checkout.ts      dostava, plaćanje, limit besplatne dostave
+  productDetails.ts
+lib/
+  orders.ts        upis u Google Sheet
+scripts/
+  test-sheet.mjs   provera da li Sheet evidencija radi
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Podešavanje
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+cp .env.example .env.local     # popuni vrednosti
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`.env.example` sadrži opis svake promenljive. **Nikad ne commituj `.env.local`.**
 
-## Learn More
+Bez popunjenih `GOOGLE_*` promenljivih sajt radi normalno — narudžbe idu na
+email, samo se ne upisuju u tabelu za praćenje.
 
-To learn more about Next.js, take a look at the following resources:
+### Google Sheet kao panel za praćenje
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Umesto baze, svaka porudžbina i upit se upisuju kao red u Google Sheet
+(`lib/orders.ts`). Vlasnik apoteke menja status kolone
+(`Novi` → `Kontaktiran` → `Dostavljeno` → `Zatvoreno`) direktno u tabeli.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Provera da li radi:
 
-## Deploy on Vercel
+```bash
+npm run test:sheet
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Skripta pravi probni red i ispisuje da li je upis prošao. Posle toga obriši
+probni red iz tabele.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Komande
+
+```bash
+npm run dev          # razvoj
+npm run build        # produkcijski build
+npm run lint         # eslint
+npm run typecheck    # tsc --noEmit
+npm run test:sheet   # provera Google Sheet veze
+```
+
+## Brendiranje za klijenta
+
+Dva fajla pokrivaju sve što se menja:
+
+1. **`data/shop-info.ts`** — ime apoteke, telefon, email, adresa, radno vreme,
+   primač narudžbi. Uvezano u Navbar, Footer, SEO (`app/layout.tsx`) i kontakt.
+2. **`data/shop.ts`** — proizvodi, kategorije, brendovi.
+
+Boje su u `app/globals.css` (`@theme` — `--color-brand-primary`).
+
+**Ostalo mora ručno:** naslovi blog članaka i tekstovi na početnoj stranici
+sadrže „BG PET" u sadržaju, ne u infrastrukturi. Prođi kroz njih pre isporuke.

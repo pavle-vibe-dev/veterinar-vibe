@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import { Apple, Shield, Pill, Dog, ArrowRight, Check, Star } from "lucide-react"
-import Link from "next/link"
+import Canonical from "../../components/Canonical"
 
 export default function AsortimanPage() {
   const categories = [
@@ -66,6 +66,7 @@ export default function AsortimanPage() {
 
   return (
     <div className="min-h-screen bg-brand-bg overflow-x-hidden">
+      <Canonical path="/usluge" />
       {/* Hero Section */}
       <section className="pt-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

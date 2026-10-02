@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="BG PET">
+  <rect width="64" height="64" rx="14" fill="#0f172a"/>
+  <g fill="#10b981">
+    <ellipse cx="17.5" cy="27" rx="5.2" ry="6.6"/>
+    <ellipse cx="29" cy="18.5" rx="5.2" ry="7"/>
+    <ellipse cx="41.5" cy="20.5" rx="5.2" ry="6.8"/>
+    <ellipse cx="51" cy="30" rx="4.8" ry="6"/>
+    <path d="M32 30c7.2 0 13.8 4.6 15.4 10.6 1.5 5.6-2.2 11.4-8.4 12.4-2.6.4-4.8-.6-7-.6s-4.4 1-7 .6C18.8 52 15.1 46.2 16.6 40.6 18.2 34.6 24.8 30 32 30Z"/>
+  </g>
+</svg>
