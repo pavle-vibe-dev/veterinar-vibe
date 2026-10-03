@@ -23,9 +23,9 @@ import {
 import { useCart } from "../../components/cart/CartProvider"
 import { trackOrder } from "../../lib/analytics"
 import { formatPrice, getProduct } from "../../data/shop"
+import { shopInfo } from "../../data/shop-info"
 import {
   FREE_DELIVERY_THRESHOLD,
-  DEMO_BANK_ACCOUNT,
   deliveryMethods,
   paymentMethods,
   deliveryPrice,
@@ -194,12 +194,21 @@ export default function UpitPage() {
                     Uputstvo za uplatu (virman):
                   </p>
                   <p className="text-sm text-slate-700">
-                    Račun: <strong>{DEMO_BANK_ACCOUNT}</strong>
-                    <br />
+                    {shopInfo.bankAccount && (
+                      <>
+                        Račun: <strong>{shopInfo.bankAccount}</strong>
+                        <br />
+                      </>
+                    )}
                     Poziv na broj: <strong>{sentOrder.number}</strong>
                     <br />
-                    Primalac: BG PET, Beograd
+                    Primalac: {shopInfo.legalName}, {shopInfo.city}
                   </p>
+                  {!shopInfo.bankAccount && (
+                    <p className="text-sm text-slate-700 mt-2">
+                      Broj računa šaljemo uz potvrdu porudžbine.
+                    </p>
+                  )}
                   <p className="text-xs text-slate-500 mt-2">
                     Porudžbinu šaljemo po evidentiranoj uplati.
                   </p>
@@ -261,7 +270,7 @@ export default function UpitPage() {
                 Korpa je prazna
               </p>
               <p className="text-brand-muted mb-6">
-                Dodajte proizvode iz prodavnice klikom na &bdquo;Dodaj u upit&ldquo;.
+                Dodajte proizvode iz prodavnice klikom na &bdquo;Dodaj u korpu&ldquo;.
               </p>
               <Link
                 href="/prodavnica?prikaz=lista"
@@ -353,7 +362,7 @@ export default function UpitPage() {
                         <div className="flex-1 min-w-0">
                           <Link
                             href={`/prodavnica/${slug}`}
-                            className="font-bold text-sm sm:text-base text-brand-dark hover:text-brand-primary line-clamp-1"
+                            className="font-bold text-sm sm:text-base text-brand-dark hover:text-brand-primary"
                           >
                             {product!.name}
                           </Link>

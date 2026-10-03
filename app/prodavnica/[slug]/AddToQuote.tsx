@@ -18,7 +18,7 @@ export default function AddToQuote({ slug }: { slug: string }) {
 
   return (
     <div className="flex flex-col sm:flex-row gap-3">
-      <div className="flex items-center border border-slate-200 rounded-button overflow-hidden">
+      <div className="flex items-center justify-center border border-slate-200 rounded-button overflow-hidden">
         <button
           onClick={() => setQty((q) => Math.max(1, q - 1))}
           className="px-4 py-3 font-bold text-lg hover:bg-slate-100 transition-colors cursor-pointer"
@@ -39,13 +39,13 @@ export default function AddToQuote({ slug }: { slug: string }) {
         onClick={handleAdd}
         className="flex-1 bg-brand-primary hover:bg-brand-primary-hover text-white font-bold py-3 px-6 rounded-button transition-all cursor-pointer"
       >
-        {added ? "✓ Dodato u upit!" : "Dodaj u upit"}
+        {added ? "✓ U korpi!" : "Dodaj u korpu"}
       </button>
       <Link
         href="/upit"
         className="inline-flex items-center justify-center px-6 py-3 border-2 border-brand-primary/20 text-brand-primary font-bold rounded-button hover:bg-emerald-50 transition-all"
       >
-        Pogledaj upit
+        Pogledaj korpu
       </Link>
     </div>
   )

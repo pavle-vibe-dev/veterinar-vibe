@@ -2,11 +2,12 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ShoppingBag, Phone, Menu, X, ShoppingCart, ChevronDown } from "lucide-react"
+import { Phone, Menu, X, ShoppingCart, ChevronDown } from "lucide-react"
 import Link from "next/link"
 import { useCart } from "./cart/CartProvider"
 import { categories, subgroupsOf } from "../data/shop"
 import { shopInfo } from "../data/shop-info"
+import BrandLogo from "./BrandLogo"
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -32,9 +33,11 @@ export default function Navbar() {
     >
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           {/* Logo - Levo */}
-          <Link href="/" className="flex items-center space-x-2 group">
-            <ShoppingBag className="w-8 h-8 text-brand-primary group-hover:scale-110 transition-transform duration-300" />
-            <span className="text-xl font-bold text-brand-dark">{shopInfo.name}</span>
+          <Link
+            href="/"
+            className="flex items-center space-x-2 group transition-transform duration-300 hover:scale-105"
+          >
+            <BrandLogo variant="dark" />
           </Link>
 
           {/* Linkovi - Sredina */}
@@ -119,7 +122,7 @@ export default function Navbar() {
             <Link
               href="/upit"
               className="relative p-2 rounded-lg hover:bg-slate-100 transition-colors"
-              aria-label="Upit"
+              aria-label="Korpa"
             >
               <ShoppingCart className="w-6 h-6 text-slate-900" />
               {count > 0 && (
@@ -166,14 +169,14 @@ export default function Navbar() {
               className="relative inline-flex items-center gap-2 px-4 py-2.5 rounded-button border-2 border-brand-primary/20 text-brand-primary font-bold text-sm hover:bg-emerald-50 transition-all"
             >
               <ShoppingCart className="w-4 h-4" />
-              <span>Upit</span>
+              <span>Korpa</span>
               {count > 0 && (
                 <span className="absolute -top-2 -right-2 min-w-6 h-6 px-1.5 rounded-full bg-red-500 text-white text-xs font-bold flex items-center justify-center">
                   {count}
                 </span>
               )}
             </Link>
-            <Link href="tel:+381658665393">
+            <Link href={shopInfo.phoneHref}>
             <motion.div 
               className="btn-primary px-6 py-3 text-sm font-bold relative overflow-hidden cursor-pointer inline-flex items-center space-x-2"
               whileHover={{ scale: 1.1 }}
@@ -181,7 +184,7 @@ export default function Navbar() {
             >
               <Phone className="w-4 h-4" />
               <span>Pozovite nas</span>
-              <span className="text-xs opacity-80">065/866-5393</span>
+              <span className="text-xs opacity-80">{shopInfo.phone}</span>
             </motion.div>
           </Link>
         </div>
@@ -277,7 +280,7 @@ export default function Navbar() {
                 onClick={closeMobileMenu}
                 className="text-xl font-bold text-brand-primary py-3 px-4 rounded-lg"
               >
-                Upit{count > 0 ? ` (${count})` : ""}
+                Korpa{count > 0 ? ` (${count})` : ""}
               </Link>
               <Link
                 href="/blog"
@@ -295,7 +298,7 @@ export default function Navbar() {
               </Link>
 
               {/* Poziv Button - Below Kontakt */}
-              <Link href="tel:+381658665393" onClick={closeMobileMenu}>
+              <Link href={shopInfo.phoneHref} onClick={closeMobileMenu}>
                 <motion.div
                   className="btn-primary px-6 py-3 text-sm font-bold relative overflow-hidden cursor-pointer inline-flex items-center justify-center space-x-2 w-full"
                   whileHover={{ scale: 1.1 }}
@@ -303,7 +306,7 @@ export default function Navbar() {
                 >
                   <Phone className="w-4 h-4" />
                   <span>Pozovite nas</span>
-                  <span className="text-xs opacity-80">065/866-5393</span>
+                  <span className="text-xs opacity-80">{shopInfo.phone}</span>
                 </motion.div>
               </Link>
             </div>

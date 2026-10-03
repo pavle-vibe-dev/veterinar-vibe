@@ -61,7 +61,7 @@ export default function InlineProduct({ slug }: { slug: string }) {
           </>
         ) : (
           <>
-            <Plus className="w-4 h-4" /> Dodaj u upit
+            <Plus className="w-4 h-4" /> Dodaj u korpu
           </>
         )}
       </button>

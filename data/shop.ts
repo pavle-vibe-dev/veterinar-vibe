@@ -22,6 +22,11 @@ export interface Product {
   price: number // RSD
   oldPrice?: number
   image: string
+  /**
+   * Dodatne slike proizvoda (galerija). Prva slika je glavna.
+   * Ako je prazno, koristi se samo `image` — demo artikli imaju po jednu sliku.
+   */
+  images?: string[]
   shortDesc: string
   description: string
   stock: "dostupno" | "poslednji-komadi" | "na-upit"
@@ -100,7 +105,7 @@ export const brands = [
   "Rogz",
   "Duvo",
   "Fruity",
-  "BG PET",
+  "Cat's Best",
 ]
 
 export const products: Product[] = [
@@ -265,7 +270,7 @@ export const products: Product[] = [
   {
     slug: "drveni-pelet-posip-5kg",
     name: "Drveni pelet posip za mačke 5kg",
-    brand: "BG PET",
+    brand: "Cat's Best",
     category: "oprema",
     sub: "toaleti",
     price: 650,
@@ -360,6 +365,12 @@ export const products: Product[] = [
 
 export function getProduct(slug: string) {
   return products.find((p) => p.slug === slug)
+}
+
+/** Galerija: uvek bar jedna slika (glavna) */
+export function productImages(p: Product): string[] {
+  if (p.images && p.images.length > 0) return p.images
+  return [p.image]
 }
 
 export function getCategory(slug: string) {

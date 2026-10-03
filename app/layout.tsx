@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import MobileStickyCta from "../components/MobileStickyCta";
 import Analytics from "../components/Analytics";
 import StructuredData from "../components/StructuredData";
 import { CartProvider } from "../components/cart/CartProvider";
@@ -68,6 +69,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <MobileStickyCta />
         </CartProvider>
       </body>
     </html>

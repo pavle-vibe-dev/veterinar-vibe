@@ -2,13 +2,16 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { MapPin, Phone, Mail, Clock, Navigation, Loader2, Check } from "lucide-react"
+import { MapPin, Phone, Mail, Clock, Navigation, Loader2, Check, ShoppingCart, Pencil } from "lucide-react"
 import Link from "next/link"
 import Canonical from "../../components/Canonical"
 import { shopInfo, fullAddress, mapEmbed, hoursDisplay } from "../../data/shop-info"
 import { trackInquiry } from "../../lib/analytics"
+import { useCart } from "../../components/cart/CartProvider"
+import { formatPrice, getProduct } from "../../data/shop"
 
 export default function KontaktPage() {
+  const { items: cartItems, clear } = useCart()
   const [formData, setFormData] = useState({
     ownerName: "",
     phone: "",
@@ -17,6 +20,11 @@ export default function KontaktPage() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+
+  // Korpa se prilaže upitu — kupac ne mora ručno da prepisuje artikle
+  const cartDetailed = cartItems
+    .map((i) => ({ ...i, product: getProduct(i.slug) }))
+    .filter((x) => x.product)
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -37,12 +45,19 @@ export default function KontaktPage() {
         phone: formData.phone,
         email: formData.email || undefined,
         note: formData.productRequest,
-        items: []
+        items: cartDetailed.map((d) => ({
+          slug: d.slug,
+          name: d.product!.name,
+          unit: d.product!.unit,
+          price: d.product!.price,
+          qty: d.qty,
+        })),
       })
 
       if (result.success) {
         trackInquiry()
         setIsSubmitted(true)
+        clear()
         setTimeout(() => {
           setIsSubmitted(false)
           setFormData({
@@ -96,6 +111,66 @@ export default function KontaktPage() {
               <div className="bg-white border border-slate-100 rounded-2xl p-8 shadow-lg">
                 <h2 className="text-2xl font-bold text-brand-dark mb-6">Pošaljite nam poruku</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Korpa koja se prilaže uz upit */}
+                  <div className="bg-brand-bg border border-slate-100 rounded-xl p-4">
+                    <div className="flex items-center justify-between gap-3 mb-2">
+                      <p className="flex items-center gap-2 text-sm font-bold text-brand-dark">
+                        <ShoppingCart className="w-4 h-4 text-brand-primary" />
+                        Vaša korpa{cartDetailed.length > 0 ? ` (${cartDetailed.length})` : ""}
+                      </p>
+                      {cartDetailed.length > 0 && (
+                        <Link
+                          href="/upit"
+                          className="inline-flex items-center gap-1 text-xs font-bold text-brand-primary hover:gap-2 transition-all"
+                        >
+                          <Pencil className="w-3.5 h-3.5" />
+                          Izmeni
+                        </Link>
+                      )}
+                    </div>
+
+                    {cartDetailed.length === 0 ? (
+                      <p className="text-xs text-brand-muted leading-relaxed">
+                        Korpa je prazna — upit možete poslati i bez nje, samo
+                        nam u poruci opišite šta vam treba.
+                      </p>
+                    ) : (
+                      <>
+                        <ul className="space-y-1.5">
+                          {cartDetailed.map((d) => (
+                            <li
+                              key={d.slug}
+                              className="flex justify-between gap-3 text-xs sm:text-sm text-brand-muted"
+                            >
+                              <span className="min-w-0 truncate">
+                                {d.product!.name} × {d.qty}
+                              </span>
+                              <span className="font-semibold text-brand-dark shrink-0">
+                                {formatPrice(d.product!.price * d.qty)}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                        <p className="mt-2 pt-2 border-t border-slate-200 flex justify-between text-xs sm:text-sm">
+                          <span className="font-bold text-brand-dark">
+                            Ukupno (okvirno)
+                          </span>
+                          <span className="font-bold text-brand-primary">
+                            {formatPrice(
+                              cartDetailed.reduce(
+                                (s, d) => s + d.product!.price * d.qty,
+                                0
+                              )
+                            )}
+                          </span>
+                        </p>
+                        <p className="text-[11px] text-brand-muted mt-1">
+                          Cena i dostupnost potvrđuju se pre porudžbine.
+                        </p>
+                      </>
+                    )}
+                  </div>
+
                   <div>
                     <label className="block text-sm font-medium text-brand-dark mb-2">Ime i prezime</label>
                     <input
@@ -142,7 +217,7 @@ export default function KontaktPage() {
                         onChange={handleInputChange}
                         placeholder="Napišite nam pitanje — o proizvodu, dostupnosti, ishrani ili nezi ljubimca..."
                       rows={5}
-                      required
+                      required={cartDetailed.length === 0}
                       className="w-full px-4 py-3 bg-brand-bg border border-slate-200 rounded-xl text-brand-dark placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:bg-white transition-all duration-300 resize-none"
                     />
                   </div>
@@ -155,7 +230,9 @@ export default function KontaktPage() {
                     whileTap={{ scale: isSubmitting || isSubmitted ? 1 : 0.98 }}
                   >
                     {!isSubmitting && !isSubmitted && (
-                      <span>Pošalji poruku</span>
+                      <span>
+                        {cartDetailed.length > 0 ? "Pošalji upit" : "Pošalji poruku"}
+                      </span>
                     )}
                     {isSubmitting && (
                       <span className="flex items-center justify-center space-x-2">

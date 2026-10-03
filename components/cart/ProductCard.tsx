@@ -65,11 +65,11 @@ export default function ProductCard({ product }: { product: Product }) {
       </Link>
 
       <div className="p-3 sm:p-5 flex flex-col flex-1">
-        <div className="text-[11px] sm:text-xs text-brand-muted font-medium mb-1 line-clamp-1">
+        <div className="text-[11px] sm:text-xs text-brand-muted font-medium mb-1 line-clamp-2">
           {product.brand} • {category?.name} • {product.unit}
         </div>
         <Link href={`/prodavnica/${product.slug}`}>
-          <h3 className="font-bold text-sm sm:text-base text-brand-dark leading-snug mb-2 hover:text-brand-primary transition-colors line-clamp-2">
+          <h3 className="font-bold text-sm sm:text-base text-brand-dark leading-snug mb-2 hover:text-brand-primary transition-colors">
             {product.name}
           </h3>
         </Link>
@@ -98,7 +98,7 @@ export default function ProductCard({ product }: { product: Product }) {
               className="w-full inline-flex items-center justify-center gap-1.5 bg-brand-primary hover:bg-brand-primary-hover text-white font-bold py-2 sm:py-2.5 px-3 rounded-button text-xs sm:text-sm transition-all cursor-pointer"
             >
               <Plus className="w-4 h-4" />
-              Dodaj u upit
+              Dodaj u korpu
             </button>
             <Link
               href={`/prodavnica/${product.slug}`}

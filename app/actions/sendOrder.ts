@@ -1,7 +1,6 @@
 "use server"
 
 import { Resend } from "resend"
-import { DEMO_BANK_ACCOUNT } from "../../data/checkout"
 import { shopInfo } from "../../data/shop-info"
 import { recordOrder } from "../../lib/orders"
 
@@ -78,7 +77,9 @@ export async function sendOrder(data: OrderData) {
 
     const paymentNote =
       paymentSlug === "virman"
-        ? `<p><strong>Uplata na račun:</strong> ${DEMO_BANK_ACCOUNT}<br/><strong>Poziv na broj:</strong> ${orderNumber}</p>`
+        ? shopInfo.bankAccount
+          ? `<p><strong>Uplata na račun:</strong> ${shopInfo.bankAccount}<br/><strong>Poziv na broj:</strong> ${orderNumber}</p>`
+          : `<p><strong>Poziv na broj:</strong> ${orderNumber}<br/>Račun za uplatu dobijate uz potvrdu porudžbine.</p>`
         : paymentSlug === "pouzecem"
           ? `<p>Naplata pouzećem — kurir naplaćuje prilikom isporuke.</p>`
           : `<p>Plaćanje pri preuzimanju u apoteci.</p>`

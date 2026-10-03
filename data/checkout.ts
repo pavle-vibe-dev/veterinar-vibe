@@ -1,3 +1,5 @@
+import { shopInfo } from "./shop-info"
+
 export interface DeliveryMethod {
   slug: string
   name: string
@@ -19,7 +21,7 @@ export const deliveryMethods: DeliveryMethod[] = [
   {
     slug: "preuzimanje",
     name: "Lično preuzimanje",
-    desc: "BG PET, Vojvode Stepe 189 — besplatno",
+    desc: `${shopInfo.name}, ${shopInfo.street} — besplatno`,
     price: 0,
   },
   {
@@ -57,8 +59,8 @@ export const paymentMethods: PaymentMethod[] = [
   },
 ]
 
-// Demo račun za virman — zameniti pravim pre produkcije
-export const DEMO_BANK_ACCOUNT = "160-0000000000000-00"
+// Teći račun se cuva u data/shop-info.ts (bankAccount).
+// Prazno = kupac NE vidi broj, dobija ga uz potvrdu porudzbine.
 
 export function deliveryPrice(deliverySlug: string, subtotal: number) {
   if (deliverySlug === "preuzimanje") return 0
@@ -71,7 +73,7 @@ export function deliveryPrice(deliverySlug: string, subtotal: number) {
 export function makeOrderNumber() {
   const year = new Date().getFullYear()
   const rand = Math.floor(1000 + Math.random() * 9000)
-  return `BG-${year}-${rand}`
+  return `${shopInfo.orderPrefix}-${year}-${rand}`
 }
 
 export interface SavedOrder {

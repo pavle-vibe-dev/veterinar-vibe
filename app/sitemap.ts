@@ -13,7 +13,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/prodavnica", priority: 0.9 },
     { path: "/upit", priority: 0.8 },
     { path: "/kontakt", priority: 0.7 },
+    { path: "/dostava-i-placanje", priority: 0.7 },
+    { path: "/o-nama", priority: 0.6 },
     { path: "/blog", priority: 0.6 },
+    { path: "/politika-privatnosti", priority: 0.3 },
+    { path: "/uslovi-koriscenja", priority: 0.3 },
     { path: "/usluge", priority: 0.5 }
   ].map((r) => ({
     url: `${base}${r.path}`,

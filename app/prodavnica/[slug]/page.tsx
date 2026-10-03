@@ -1,4 +1,3 @@
-import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import {
@@ -16,12 +15,15 @@ import {
   getProduct,
   products,
 } from "../../../data/shop"
+import { shopInfo } from "../../../data/shop-info"
 import {
   getProductDetails,
   getBrandDescription,
 } from "../../../data/productDetails"
 import AddToQuote from "./AddToQuote"
 import ProductCard from "../../../components/cart/ProductCard"
+import ProductGallery from "../../../components/product/ProductGallery"
+import NotifyWhenAvailable from "../../../components/product/NotifyWhenAvailable"
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }))
@@ -103,7 +105,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               </>
             )}
             <ChevronRight className="w-4 h-4" />
-            <span className="font-semibold text-brand-dark line-clamp-1">
+            <span className="font-semibold text-brand-dark">
               {product.name}
             </span>
           </nav>
@@ -120,38 +122,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Levo - slika */}
             <div>
-              <div className="relative rounded-2xl overflow-hidden border border-slate-100 shadow-sm bg-brand-bg">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  width={800}
-                  height={600}
-                  className="w-full h-72 sm:h-96 lg:h-[460px] object-cover"
-                  priority
-                />
-                <div className="absolute top-4 left-4 flex gap-2">
-                  {product.badges?.map((b) => (
-                    <span
-                      key={b}
-                      className={`text-xs font-bold px-3 py-1.5 rounded-full shadow ${
-                        b === "akcija"
-                          ? "bg-red-500 text-white"
-                          : b === "novo"
-                            ? "bg-blue-500 text-white"
-                            : "bg-brand-primary text-white"
-                      }`}
-                    >
-                      {b === "akcija" && discount > 0
-                        ? `Akcija -${discount}%`
-                        : b === "akcija"
-                          ? "Akcija"
-                          : b === "novo"
-                            ? "Novo"
-                            : "Naša preporuka"}
-                    </span>
-                  ))}
-                </div>
-              </div>
+              <ProductGallery product={product} discount={discount} />
             </div>
 
             {/* Desno - info kao kod sata */}
@@ -195,6 +166,14 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               <div className="mt-6">
                 <AddToQuote slug={product.slug} />
               </div>
+
+              {product.stock === "na-upit" && (
+                <NotifyWhenAvailable
+                  slug={product.slug}
+                  name={product.name}
+                  unit={product.unit}
+                />
+              )}
 
               {/* Bulleti */}
               {info.highlights.length > 0 && (
@@ -250,11 +229,11 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               </div>
 
               <a
-                href="tel:+381658665393"
+                href={shopInfo.phoneHref}
                 className="mt-4 inline-flex items-center gap-2 font-semibold text-brand-dark hover:text-brand-primary text-sm"
               >
                 <Phone className="w-4 h-4 text-brand-primary" />
-                065/866-5393 — pitajte nas o proizvodu
+                {shopInfo.phone} — pitajte nas o proizvodu
               </a>
             </div>
           </div>

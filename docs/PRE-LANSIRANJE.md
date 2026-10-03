@@ -11,14 +11,20 @@ klijent sajt stavi u javno korišćenje. Prođi kroz listu sa njim na sastanku.
 |---|---|---|---|
 | 1.1 | Ime apoteke | `data/shop-info.ts` → `name`, `legalName` | ime klijenta |
 | 1.2 | Telefon, email | `data/shop-info.ts` → `phone`, `email` | stvarni podaci |
-| 1.3 | Adresa i radno vreme | `data/shop-info.ts` → `street`, `hours` | stvarni podaci |
-| 1.4 | Bank račun | `data/checkout.ts` → `DEMO_BANK_ACCOUNT` | **obavezno** — vidi razlog ispod |
+| 1.3 | Adresa i radno vreme | `data/shop-info.ts` → `street`, `openingHours` | stvarni podaci |
+| 1.4 | Bank račun | `data/shop-info.ts` → `bankAccount` | **obavezno** — vidi razlog ispod |
 | 1.5 | Boje | `app/globals.css` → `--color-brand-primary` | brend klijenta |
-| 1.6 | Logo | `public/` | trenutno nema logotipa, samo tekst u Navbaru |
+| 1.6 | Logo | `data/shop-info.ts` → `logo` + fajl u `public/` | prazno = ikonica + tekst |
+| 1.7 | Prefiks broja porudžbine | `data/shop-info.ts` → `orderPrefix` | npr. `"AJ"` umesto `"BG"` |
+| 1.8 | Domen za email | `.env.local` + Resend verifikacija | obavezno pre lansa |
 
-> **Zašto je bank račun hitan:** demo vrednost je `160-0000000000000-00`. Ako
-> kupac na demo-u izabere „plaćanje virmanom", vidi lažni račun. Kod klijenta
-> ovo mora biti pravi račun ili opcija virmana mora biti isključena.
+> **Bank račun je bezbedan po default-u:** `bankAccount` je prazan, pa kupac
+> **ne vidi nijedan broj** — piše „broj računa dobijate uz potvrdu".
+> Mora se popuniti pre lansa, inače kupac ne može da plati virmanom.
+
+> **Svi kontakt podaci su centralizovani.** Telefon, adresa i ime čitaju se iz
+> `data/shop-info.ts` — nijedan broj nije utvrđen u kodu. Menjaš jedan fajl.
+
 
 ## 2. Proizvodi — obavezno
 
@@ -45,15 +51,22 @@ klijent sajt stavi u javno korišćenje. Prođi kroz listu sa njim na sastanku.
 
 | # | Šta | Gde |
 |---|---|---|
-| 4.1 | **Recenzije kupaca su izmišljene** | `components/Testimonials.tsx` |
+| 4.1 | **Recenzije kupaca su izmišljene** | `data/testimonials.ts` → `testimonials = []` |
 | 4.2 | Naslovi i tekstovi u blog člancima | `app/blog/` |
 | 4.3 | Naslovi i tekstovi na početnoj stranici | `app/page.tsx` |
 | 4.4 | TrustSection brojevi (500+ proizvoda, 1000+ kupaca…) | `components/TrustSection.tsx` |
 | 4.5 | Hero slika | `public/hero.jpg` |
+| 4.6 | Rating zvezdice na karticama proizvoda (`rating: 4.9`) | `data/shop.ts` → `products[].rating` |
 
 > **Recenzije su pravni riziko.** Konkretna imena i priče koje ne postoje
 > predstavljaju lažnu reklamu — kažnjivo u Srbiji. Klijent MORA da ih ukloni
 > ili zameni stvarnim iskustvima pre lansa. Ovo uvek pomeni usmeno.
+
+> **Sada je pod kontrolom:** recenzije su u `data/testimonials.ts` i sekcija
+> se sama uklanja kad je niz prazan (`export const testimonials = []`).
+> Lažna Google ocena (`4.9 / 150+ recenzija`) je **uklonjena iz koda** —
+> blok se prikazuje samo kad `googleReviews` nije `null`.
+
 
 ## 5. Tehničko — preporučeno
 

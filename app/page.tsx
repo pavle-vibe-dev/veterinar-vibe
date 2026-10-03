@@ -1,13 +1,12 @@
 "use client"
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import Canonical from "../components/Canonical"
+import { shopInfo } from "../data/shop-info"
+import { googleReviews } from "../data/testimonials"
 import { motion } from "framer-motion"
 import {
-  Search,
   Dog,
   Cat,
   Pill,
@@ -27,6 +26,7 @@ import {
 } from "lucide-react"
 import { brands, products } from "../data/shop"
 import ProductCard from "../components/cart/ProductCard"
+import SearchAutocomplete from "../components/SearchAutocomplete"
 import Testimonials from "../components/Testimonials"
 
 const mostWanted = [
@@ -116,20 +116,11 @@ function SectionHead({
 }
 
 export default function Home() {
-  const router = useRouter()
-  const [search, setSearch] = useState("")
-
   const recommended = products
     .filter((p) => p.badges?.includes("preporuka"))
     .slice(0, 4)
   const discounted = products.filter((p) => p.oldPrice).slice(0, 4)
   const fresh = products.filter((p) => p.badges?.includes("novo")).slice(0, 4)
-
-  const submitSearch = (e: React.FormEvent) => {
-    e.preventDefault()
-    const q = search.trim()
-    router.push(q ? `/prodavnica?q=${encodeURIComponent(q)}` : "/prodavnica")
-  }
 
   return (
     <div className="w-full max-w-full overflow-x-hidden bg-white">
@@ -142,7 +133,7 @@ export default function Home() {
             Internet prodavnica <strong>na upit — bez plaćanja karticom</strong>
             <span className="hidden sm:inline">
               {" "}
-              • Potvrda dostupnosti isti dan • 065/866-5393
+              • Potvrda dostupnosti isti dan • {shopInfo.phone}
             </span>
           </span>
         </div>
@@ -168,10 +159,13 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <p className="inline-flex items-center gap-2 text-emerald-100 text-sm font-semibold bg-white/10 border border-white/20 backdrop-blur-sm rounded-full px-4 py-1.5 mb-5">
-              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-              4.9/5 na osnovu 150+ recenzija
-            </p>
+            {googleReviews && (
+              <p className="inline-flex items-center gap-2 text-emerald-100 text-sm font-semibold bg-white/10 border border-white/20 backdrop-blur-sm rounded-full px-4 py-1.5 mb-5">
+                <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                {googleReviews.rating}/5 na osnovu {googleReviews.count}{" "}
+                recenzija
+              </p>
+            )}
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.05] tracking-tight drop-shadow-lg">
               Veterinarska apoteka i Pet Shop{" "}
               <span className="text-emerald-300">BG PET</span>
@@ -183,26 +177,9 @@ export default function Home() {
             </p>
 
             {/* Pretraga */}
-            <form
-              onSubmit={submitSearch}
-              className="mt-7 flex flex-col sm:flex-row gap-3 max-w-xl"
-            >
-              <div className="relative flex-1">
-                <Search className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-                <input
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Pretraga: npr. hills, nexgard, transporter..."
-                  className="w-full pl-11 pr-4 py-4 rounded-2xl text-brand-dark placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-emerald-300/50 shadow-xl"
-                />
-              </div>
-              <button
-                type="submit"
-                className="bg-emerald-400 hover:bg-emerald-300 text-emerald-950 font-bold px-8 py-4 rounded-2xl transition-all shadow-xl cursor-pointer"
-              >
-                Pretraži
-              </button>
-            </form>
+            <div className="mt-7">
+              <SearchAutocomplete />
+            </div>
 
             <div className="mt-7 flex flex-wrap gap-3">
               <Link
@@ -213,7 +190,7 @@ export default function Home() {
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
-                href="/upit"
+                href="/kontakt"
                 className="inline-flex items-center gap-2 border-2 border-white/40 text-white font-bold px-7 py-3.5 rounded-button hover:bg-white/10 backdrop-blur-sm transition-all"
               >
                 Pošalji upit
@@ -263,14 +240,14 @@ export default function Home() {
               </div>
             </div>
             <a
-              href="tel:+381658665393"
+              href={shopInfo.phoneHref}
               className="flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-4 py-3 hover:bg-white/20 transition-all"
             >
               <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shrink-0">
                 <Phone className="w-5 h-5 text-emerald-800" />
               </div>
               <div>
-                <p className="font-bold text-sm text-white">065/866-5393</p>
+                <p className="font-bold text-sm text-white">{shopInfo.phone}</p>
                 <p className="text-xs text-emerald-100/80">pozovite nas</p>
               </div>
             </a>
@@ -383,11 +360,11 @@ export default function Home() {
                 Otvori prodavnicu
               </Link>
               <a
-                href="tel:+381658665393"
+                href={shopInfo.phoneHref}
                 className="inline-flex items-center justify-center gap-2 border-2 border-white/40 text-white font-bold px-7 py-3.5 rounded-button hover:bg-white/10 transition-all"
               >
                 <Phone className="w-4 h-4" />
-                065/866-5393
+                {shopInfo.phone}
               </a>
             </div>
           </motion.div>
@@ -438,8 +415,8 @@ export default function Home() {
             ))}
           </div>
           <p className="text-center text-sm text-brand-muted mt-6">
-            + još 300 brendova dostupno po porudžbini — pitajte kroz{" "}
-            <Link href="/upit" className="font-bold text-brand-primary">
+            + još 300 brendova dostupno po porudžbini — pošaljite nam{" "}
+            <Link href="/kontakt" className="font-bold text-brand-primary">
               upit
             </Link>
             .

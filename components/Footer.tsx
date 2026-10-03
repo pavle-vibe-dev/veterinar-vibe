@@ -1,13 +1,14 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { ShoppingBag, Phone, MapPin, Clock, Instagram, Facebook, ArrowRight } from "lucide-react"
+import { Phone, MapPin, Clock, Instagram, Facebook, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { shopInfo, fullAddress, hoursDisplay } from "../data/shop-info"
+import BrandLogo from "./BrandLogo"
 
 export default function Footer() {
   return (
-    <footer className="bg-brand-dark text-white overflow-x-hidden">
+    <footer className="bg-brand-dark text-white overflow-x-hidden pb-16 md:pb-0">
       {/* Tanka CTA traka umesto stare forme */}
       <section className="border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
@@ -16,10 +17,10 @@ export default function Footer() {
             <p className="text-slate-300">
               Trebate savet ili potvrdu dostupnosti?{" "}
               <a
-                href="tel:+381658665393"
+                href={shopInfo.phoneHref}
                 className="font-bold text-white hover:text-brand-primary transition-colors"
               >
-                065/866-5393
+                {shopInfo.phone}
               </a>
             </p>
           </div>
@@ -27,7 +28,7 @@ export default function Footer() {
             href="/upit"
             className="inline-flex items-center gap-2 bg-brand-primary hover:bg-brand-primary-hover text-white font-bold px-6 py-3 rounded-button transition-all shrink-0"
           >
-            Pogledaj svoj upit
+            Pogledaj korpu
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -44,9 +45,8 @@ export default function Footer() {
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <div className="flex items-center space-x-2 mb-4">
-                <ShoppingBag className="w-8 h-8 text-brand-primary" />
-                <span className="text-xl font-bold text-white">{shopInfo.name}</span>
+              <div className="mb-4">
+                <BrandLogo variant="light" />
               </div>
               <p className="text-slate-400 leading-relaxed">
                 {shopInfo.tagline} na {shopInfo.district}u. Specializovani za medicinsku hranu, zaštitu od parazita, suplemente i opremu za Vaše ljubimce.
@@ -69,7 +69,17 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link href="/upit" className="text-slate-400 hover:text-white transition-colors duration-300">
-                    Upit
+                    Korpa
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/dostava-i-placanje" className="text-slate-400 hover:text-white transition-colors duration-300">
+                    Dostava i plaćanje
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/o-nama" className="text-slate-400 hover:text-white transition-colors duration-300">
+                    O nama
                   </Link>
                 </li>
                 <li>
@@ -138,6 +148,17 @@ export default function Footer() {
 
           {/* Copyright */}
           <div className="border-t border-white/10 mt-12 pt-8 text-center">
+            <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 mb-3 text-sm">
+              <Link href="/politika-privatnosti" className="text-slate-400 hover:text-white transition-colors duration-300">
+                Politika privatnosti
+              </Link>
+              <Link href="/uslovi-koriscenja" className="text-slate-400 hover:text-white transition-colors duration-300">
+                Uslovi korišćenja
+              </Link>
+              <Link href="/dostava-i-placanje" className="text-slate-400 hover:text-white transition-colors duration-300">
+                Dostava i plaćanje
+              </Link>
+            </div>
             <p className="text-slate-400">
               &copy; {new Date().getFullYear()} {shopInfo.legalName}. Sva prava zadržana. Napravljeno sa ❤️ za vaše ljubimce.
             </p>

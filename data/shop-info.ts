@@ -26,6 +26,29 @@ export type ShopInfo = {
   orderFrom: string
   gaId: string
   metaPixelId: string
+  /**
+   * Putanja do logotipa npr. "/logo.png" (fajl u public/).
+   * Prazno = koristi se ikonica + naziv (tekst).
+   */
+  logo: string
+  /**
+   * Tekući račun za virman. Prazno = broj se NE prikazuje kupcu,
+   * umesto toga stoji "račun dobijate nakon potvrde".
+   * OVO MORAS ZA SVAKOG KLJENTA — inace kupac vidi tudji broj.
+   */
+  bankAccount: string
+  /**
+   * Prefiks broja porudžbine, npr. "BG-2026-1234".
+   * Menja se po klijentu da broj ne nosi tudje ime.
+   */
+  orderPrefix: string
+  /**
+   * PIB i matični broj pravnog lica — OBAVEZNI na Uslovima korišćenja
+   * i Politici privatnosti (Zakon o zaštiti potrošača / e-trgovina).
+   * Prazno = podatak se ne prikazuje, a lice NIJE registrovano za e-trgovinu.
+   */
+  pib: string
+  registrationNo: string
 }
 
 export const shopInfo: ShopInfo = {
@@ -50,7 +73,12 @@ export const shopInfo: ShopInfo = {
   orderEmail: process.env.NEXT_PUBLIC_SHOP_EMAIL || "pavlemaksimovic6@gmail.com",
   orderFrom: process.env.ORDER_FROM_EMAIL || "onboarding@resend.dev",
   gaId: process.env.NEXT_PUBLIC_GA_ID || "",
-  metaPixelId: process.env.NEXT_PUBLIC_META_PIXEL_ID || ""
+  metaPixelId: process.env.NEXT_PUBLIC_META_PIXEL_ID || "",
+  logo: "",
+  bankAccount: "",
+  orderPrefix: "BG",
+  pib: "",
+  registrationNo: "",
 }
 
 export const analyticsEnabled = () =>

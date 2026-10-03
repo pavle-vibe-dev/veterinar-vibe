@@ -32,8 +32,8 @@ export const brandDescriptions: Record<string, string> = {
     "Duvo+ (Laroy Group) pravi udobnu opremu za odmor ljubimaca — krevete, korpe i ćebad od prijatnih, perivih materijala koji se uklapaju u svaki dom.",
   Fruity:
     "Fruity je linija blage kozmetike za pse i mačke prijatnih voćnih mirisa. Formulacije su prilagođene osetljivoj koži ljubimaca i redovnom kupanju.",
-  "BG PET":
-    "BG PET izbor su provereni proizvodi koje naša apoteka preporučuje iz svakodnevne prakse — od prirodnog posipa do dodataka ishrani, po poštenim cenama.",
+  "Cat's Best":
+    "Cat's Best je brend prirodnih posipa na bazi drvenih vlakana. Pelete upijaju tečnost i miris, a korišćeni posip se može odlagati u kućni otpad — praktičan izbor za mačje toalete.",
 }
 
 const details: Record<string, ProductDetails> = {
@@ -313,6 +313,6 @@ export function getProductDetails(slug: string): ProductDetails {
 export function getBrandDescription(brand: string): string {
   return (
     brandDescriptions[brand] ||
-    "Provereni brend iz asortimana BG PET apoteke — originalni proizvodi uz savet našeg tima."
+    "Provereni brend iz našeg asortimana — originalni proizvodi uz savet našeg tima."
   )
 }

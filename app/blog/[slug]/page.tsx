@@ -513,7 +513,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
                 </h2>
               </div>
               <p className="text-brand-muted mb-6">
-                Klikom na &bdquo;Dodaj u upit&ldquo; proizvod ide direktno u vašu korpu.
+                 Klikom na &bdquo;Dodaj u korpu&ldquo; proizvod ide direktno u vašu korpu.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 {relatedProducts.map((p) => (

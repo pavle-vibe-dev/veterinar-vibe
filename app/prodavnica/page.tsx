@@ -42,6 +42,9 @@ import Canonical from "../../components/Canonical"
 
 type SortKey = "popular" | "price-asc" | "price-desc" | "name"
 
+/** Koliko proizvoda se prikazuje odjednom (ostatak ide na "Učitaj još") */
+const PAGE_SIZE = 12
+
 const groupIcons: Record<string, LucideIcon> = {
   "hrana-psi": Dog,
   "hrana-macke": Cat,
@@ -64,6 +67,31 @@ const subIcons: Record<string, LucideIcon> = {
 
 function countCat(catSlug: string) {
   return products.filter((p) => p.category === catSlug).length
+}
+
+function LoadMore({
+  remaining,
+  shown,
+  onLoadMore,
+}: {
+  remaining: number
+  shown: number
+  onLoadMore: () => void
+}) {
+  if (remaining <= 0) return null
+  return (
+    <div className="mt-8 flex flex-col items-center gap-2">
+      <button
+        onClick={onLoadMore}
+        className="btn-outline px-8 py-3.5 cursor-pointer"
+      >
+        Učitaj još ({remaining})
+      </button>
+      <p className="text-xs text-brand-muted">
+        Prikazano {shown} od {shown + remaining} proizvoda
+      </p>
+    </div>
+  )
 }
 
 function ProdavnicaContent() {
@@ -89,6 +117,8 @@ function ProdavnicaContent() {
   )
   const [sort, setSort] = useState<SortKey>("popular")
   const [showFilters, setShowFilters] = useState(false)
+  /** Koliko je kartica učitano, po kombinaciji filtera (ključ = filterSig) */
+  const [visibleMap, setVisibleMap] = useState<Record<string, number>>({})
 
   // Sinhronizacija kad se dođe linkom (npr. ?category=apoteka&sub=vitamini)
   // searchParams je spoljašnji izvor — React preporučuje key prop umesto ovoga,
@@ -156,6 +186,17 @@ function ProdavnicaContent() {
     }
     return list
   }, [query, activeCategory, activeSub, activeBrand, onlyAction, sort])
+
+  // Potpis filtera — kad se promeni, lista se vraća na prvu stranicu
+  const filterSig = `${query}|${activeCategory}|${activeSub}|${activeBrand}|${onlyAction}|${sort}`
+  const visible = visibleMap[filterSig] ?? PAGE_SIZE
+  const shown = filtered.slice(0, visible)
+  const remaining = filtered.length - shown.length
+  const loadMore = () =>
+    setVisibleMap((m) => ({
+      ...m,
+      [filterSig]: (m[filterSig] ?? PAGE_SIZE) + PAGE_SIZE,
+    }))
 
   const resetAll = () => {
     setQuery("")
@@ -362,10 +403,11 @@ function ProdavnicaContent() {
             </Link>
           </div>
           <div className="mt-5 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6 pb-12">
-            {filtered.map((p) => (
+            {shown.map((p) => (
               <ProductCard key={p.slug} product={p} />
             ))}
           </div>
+          <LoadMore remaining={remaining} shown={shown.length} onLoadMore={loadMore} />
         </div>
       </section>
     </div>
@@ -601,11 +643,18 @@ function ProdavnicaContent() {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
-              {filtered.map((p) => (
-                <ProductCard key={p.slug} product={p} />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
+                {shown.map((p) => (
+                  <ProductCard key={p.slug} product={p} />
+                ))}
+              </div>
+              <LoadMore
+                remaining={remaining}
+                shown={shown.length}
+                onLoadMore={loadMore}
+              />
+            </>
           )}
         </div>
       </section>
