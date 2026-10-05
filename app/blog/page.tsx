@@ -137,7 +137,7 @@ export default function BlogPage() {
       {/* BLOG GRID */}
       <section className="py-20 bg-brand-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8">
             {filteredPosts.map((post, index) => (
               <motion.div
                 key={post.id}
@@ -155,44 +155,44 @@ export default function BlogPage() {
                         alt={post.alt}
                         width={400}
                         height={250}
-                        className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105 max-w-full box-border"
+                        className="w-full h-40 sm:h-64 object-cover transition-transform duration-300 group-hover:scale-105 max-w-full box-border"
                       />
                       
                       {/* Tag */}
-                      <div className="absolute top-4 left-4">
-                        <span className="inline-flex items-center space-x-1 bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-sm font-medium">
+                      <div className="absolute top-2 left-2 sm:top-4 sm:left-4">
+                        <span className="inline-flex items-center space-x-1 bg-slate-100 text-slate-700 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs sm:text-sm font-medium">
                           <span>{post.category}</span>
                         </span>
                       </div>
                     </div>
 
                     {/* Sadržaj */}
-                    <div className="p-6">
+                    <div className="p-3 sm:p-6">
                       {/* Meta informacije */}
-                      <div className="flex items-center space-x-4 text-sm text-brand-muted mb-4">
-                        <div className="flex items-center space-x-1">
-                          <Calendar className="w-4 h-4" />
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs sm:text-sm text-brand-muted mb-2 sm:mb-4">
+                        <div className="flex items-center gap-1">
+                          <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                           <span>{post.date}</span>
                         </div>
-                        <div className="flex items-center space-x-1">
-                          <Clock className="w-4 h-4" />
+                        <div className="flex items-center gap-1">
+                          <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                           <span>{post.readTime}</span>
                         </div>
                       </div>
 
                       {/* Naslov */}
-                      <h3 className="text-xl font-bold text-slate-900 mb-3 line-clamp-2 group-hover:text-brand-primary transition-colors duration-300">
+                      <h3 className="text-sm sm:text-xl font-bold text-slate-900 mb-2 sm:mb-3 line-clamp-3 sm:line-clamp-2 group-hover:text-brand-primary transition-colors duration-300">
                         {post.title}
                       </h3>
 
                       {/* Izvod */}
-                      <p className="text-brand-muted leading-relaxed line-clamp-3">
+                      <p className="text-xs sm:text-base text-brand-muted leading-relaxed line-clamp-2 sm:line-clamp-3">
                         {post.excerpt}
                       </p>
 
                       {/* Tag */}
-                      <div className="mt-4">
-                        <span className="inline-block bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-sm">
+                      <div className="mt-2 sm:mt-4">
+                        <span className="inline-block bg-slate-100 text-slate-600 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm">
                           #{post.tag}
                         </span>
                       </div>
