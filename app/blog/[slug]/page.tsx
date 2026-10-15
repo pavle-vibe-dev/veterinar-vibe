@@ -503,7 +503,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
 
           {/* PROIZVODI IZ ČLANKA - puna širina, klik dodaje direktno u korpu */}
           {relatedProducts.length > 0 && (
-            <div className="mt-12 bg-white rounded-2xl p-6 sm:p-8 shadow-md border border-emerald-100">
+            <div className="mt-12 bg-white rounded-2xl p-6 sm:p-8 shadow-md border border-brand-100">
               <div className="flex items-center gap-3 mb-2">
                 <div className="w-10 h-10 bg-brand-primary/10 rounded-xl flex items-center justify-center">
                   <ShoppingBag className="w-5 h-5 text-brand-primary" />

@@ -21,7 +21,7 @@ export default function InlineProduct({ slug }: { slug: string }) {
   }
 
   return (
-    <span className="my-6 flex flex-col sm:flex-row sm:items-center gap-3 bg-white border border-emerald-100 rounded-2xl p-4 shadow-sm">
+    <span className="my-6 flex flex-col sm:flex-row sm:items-center gap-3 bg-white border border-brand-100 rounded-2xl p-4 shadow-sm">
       <span className="flex items-center gap-3 flex-1 min-w-0">
         <Link
           href={`/prodavnica/${product.slug}`}
@@ -51,7 +51,7 @@ export default function InlineProduct({ slug }: { slug: string }) {
         onClick={handleAdd}
         className={`w-full sm:w-auto shrink-0 inline-flex items-center justify-center gap-1.5 font-bold py-2.5 px-4 rounded-button text-sm transition-all cursor-pointer ${
           added
-            ? "bg-emerald-100 text-emerald-700"
+            ? "bg-brand-100 text-brand-700"
             : "bg-brand-primary hover:bg-brand-primary-hover text-white"
         }`}
       >

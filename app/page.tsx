@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import Canonical from "../components/Canonical"
-import { shopInfo, isPetShop } from "../data/shop-info"
+import { shopInfo, isPetShop, heroImage } from "../data/shop-info"
 import { googleReviews } from "../data/testimonials"
 import { motion } from "framer-motion"
 import {
@@ -132,7 +132,7 @@ export default function Home() {
     <div className="w-full max-w-full overflow-x-hidden bg-white">
       <Canonical path="/" />
       {/* Promo traka */}
-      <div className="bg-emerald-950 text-emerald-50 text-xs sm:text-sm">
+      <div className="bg-brand-950 text-brand-50 text-xs sm:text-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-center gap-2 text-center">
           <ShieldCheck className="w-4 h-4 shrink-0" />
           <span>
@@ -148,15 +148,15 @@ export default function Home() {
       {/* HERO — full-bleed fotografija, moderan preklopni stil */}
       <section className="relative overflow-hidden">
         <Image
-          src="/hero.jpg"
+          src={heroImage}
           alt={`Dva srećna psa — ${shopInfo.name} ${isPetShop ? "pet shop" : "veterina i pet shop"}`}
           fill
           className="object-cover object-center"
           priority
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-emerald-950/95 via-emerald-950/70 to-emerald-900/25" />
-        <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/70 via-transparent to-emerald-950/20" />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-950/95 via-brand-950/70 to-brand-900/25" />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-950/70 via-transparent to-brand-950/20" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-12 md:pt-24 md:pb-16">
           <motion.div
@@ -166,7 +166,7 @@ export default function Home() {
             transition={{ duration: 0.7 }}
           >
             {googleReviews && (
-              <p className="inline-flex items-center gap-2 text-emerald-100 text-sm font-semibold bg-white/10 border border-white/20 backdrop-blur-sm rounded-full px-4 py-1.5 mb-5">
+              <p className="inline-flex items-center gap-2 text-brand-100 text-sm font-semibold bg-white/10 border border-white/20 backdrop-blur-sm rounded-full px-4 py-1.5 mb-5">
                 <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                 {googleReviews.rating}/5 na osnovu {googleReviews.count}{" "}
                 recenzija
@@ -174,9 +174,9 @@ export default function Home() {
             )}
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.05] tracking-tight drop-shadow-lg">
               {shopInfo.tagline}{" "}
-              <span className="text-emerald-300">{shopInfo.name}</span>
+              <span className="text-brand-300">{shopInfo.name}</span>
             </h1>
-            <p className="text-emerald-50/90 text-lg mt-5 max-w-xl leading-relaxed">
+            <p className="text-brand-50/90 text-lg mt-5 max-w-xl leading-relaxed">
               Hrana, oprema i poslastice za pse i mačke. Izaberite
               proizvode, pošaljite upit na email — mi potvrđujemo cenu i
               dostupnost.
@@ -190,7 +190,7 @@ export default function Home() {
             <div className="mt-7 flex flex-wrap gap-3">
               <Link
                 href="/prodavnica"
-                className="inline-flex items-center gap-2 bg-white text-emerald-950 font-bold px-7 py-3.5 rounded-button hover:bg-emerald-50 transition-all shadow-lg"
+                className="inline-flex items-center gap-2 bg-white text-brand-950 font-bold px-7 py-3.5 rounded-button hover:bg-brand-50 transition-all shadow-lg"
               >
                 Pogledaj prodavnicu
                 <ArrowRight className="w-4 h-4" />
@@ -207,15 +207,15 @@ export default function Home() {
             <div className="mt-8 flex gap-8 text-white">
               <div>
                 <p className="text-2xl font-bold">{products.length}+</p>
-                <p className="text-emerald-100/80 text-sm">proizvoda u demo ponudi</p>
+                <p className="text-brand-100/80 text-sm">proizvoda u demo ponudi</p>
               </div>
               <div>
                 <p className="text-2xl font-bold">{brands.length}+</p>
-                <p className="text-emerald-100/80 text-sm">brendova</p>
+                <p className="text-brand-100/80 text-sm">brendova</p>
               </div>
               <div>
                 <p className="text-2xl font-bold">24h</p>
-                <p className="text-emerald-100/80 text-sm">odgovor na upit</p>
+                <p className="text-brand-100/80 text-sm">odgovor na upit</p>
               </div>
             </div>
           </motion.div>
@@ -233,16 +233,16 @@ export default function Home() {
               </div>
               <div>
                 <p className="font-bold text-sm text-white">Akcija meseca</p>
-                <p className="text-xs text-emerald-100/80">popusti do −25%</p>
+                <p className="text-xs text-brand-100/80">popusti do −25%</p>
               </div>
             </div>
             <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-4 py-3">
-              <div className="w-10 h-10 bg-emerald-400 rounded-full flex items-center justify-center shrink-0">
-                <Mail className="w-5 h-5 text-emerald-950" />
+              <div className="w-10 h-10 bg-brand-400 rounded-full flex items-center justify-center shrink-0">
+                <Mail className="w-5 h-5 text-brand-950" />
               </div>
               <div>
                 <p className="font-bold text-sm text-white">Upit na email</p>
-                <p className="text-xs text-emerald-100/80">bez plaćanja karticom</p>
+                <p className="text-xs text-brand-100/80">bez plaćanja karticom</p>
               </div>
             </div>
             <a
@@ -250,11 +250,11 @@ export default function Home() {
               className="flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-4 py-3 hover:bg-white/20 transition-all"
             >
               <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shrink-0">
-                <Phone className="w-5 h-5 text-emerald-800" />
+                <Phone className="w-5 h-5 text-brand-800" />
               </div>
               <div>
                 <p className="font-bold text-sm text-white">{shopInfo.phone}</p>
-                <p className="text-xs text-emerald-100/80">pozovite nas</p>
+                <p className="text-xs text-brand-100/80">pozovite nas</p>
               </div>
             </a>
           </motion.div>
@@ -273,7 +273,7 @@ export default function Home() {
               transition={{ duration: 0.5, delay: i * 0.1 }}
               viewport={{ once: true }}
             >
-              <div className="w-11 h-11 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
+              <div className="w-11 h-11 rounded-xl bg-brand-50 flex items-center justify-center shrink-0">
                 <t.icon className="w-5 h-5 text-brand-primary" />
               </div>
               <div>
@@ -304,9 +304,9 @@ export default function Home() {
                 viewport={{ once: true }}
               >
                 <Link href={c.href} className="group flex flex-col items-center gap-2">
-                  <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 p-[3px] shadow-md group-hover:shadow-xl group-hover:scale-105 transition-all">
+                  <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 p-[3px] shadow-md group-hover:shadow-xl group-hover:scale-105 transition-all">
                     <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
-                      <c.icon className="w-7 h-7 md:w-8 md:h-8 text-emerald-700" />
+                      <c.icon className="w-7 h-7 md:w-8 md:h-8 text-brand-700" />
                     </div>
                   </div>
                   <span className="text-xs md:text-sm font-semibold text-brand-dark text-center group-hover:text-brand-primary transition-colors">
@@ -340,20 +340,20 @@ export default function Home() {
       <section className="py-6 bg-brand-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-800 to-emerald-600 p-8 md:p-12 flex flex-col md:flex-row items-start md:items-center gap-6"
+            className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-brand-800 to-brand-600 p-8 md:p-12 flex flex-col md:flex-row items-start md:items-center gap-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
             <div className="flex-1">
-              <p className="text-emerald-200 font-bold text-sm uppercase tracking-widest mb-2">
+              <p className="text-brand-200 font-bold text-sm uppercase tracking-widest mb-2">
                 Bez kartice • Samo upit
               </p>
               <h3 className="text-2xl md:text-3xl font-bold text-white">
                 Niste sigurni šta vašem ljubimcu treba?
               </h3>
-              <p className="text-emerald-100 mt-2 max-w-xl">
+              <p className="text-brand-100 mt-2 max-w-xl">
                 Pošaljite nam spisak ili opišite problem —{" "}
                 {isPetShop ? "naš tim" : "veterinarski tim"} odgovara sa
                 preporukom i okvirnom cenom.
@@ -362,7 +362,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-3 shrink-0">
               <Link
                 href="/prodavnica"
-                className="inline-flex items-center justify-center gap-2 bg-white text-emerald-900 font-bold px-7 py-3.5 rounded-button hover:bg-emerald-50 transition-all"
+                className="inline-flex items-center justify-center gap-2 bg-white text-brand-900 font-bold px-7 py-3.5 rounded-button hover:bg-brand-50 transition-all"
               >
                 Otvori prodavnicu
               </Link>

@@ -18,7 +18,7 @@ export const mazaNera: TenantConfig = {
     phone: "069/1660-190",
     phoneHref: "tel:+381691660190",
     email: "petshopmazainera2026@gmail.com",
-    instagram: "https://www.instagram.com/mazanera2026",
+    instagram: "https://www.instagram.com/mazanera.2026", // IG handle: @mazanera.2026 (provereno preko 011info/moja-delatnost)
     facebook: "",
     street: "Gornjogradska 7i",
     zip: "11080",
@@ -37,7 +37,14 @@ export const mazaNera: TenantConfig = {
     orderFrom: "onboarding@resend.dev",
     gaId: "",
     metaPixelId: "",
-    logo: "", // privremeno ikona + tekst; zameniti fajlom kad stigne logo
+    // Logo preuzet sa 011info (crno-beli linework) — konvertovan u PNG
+    // sa providnom pozadinom (crna verzija za navbar, bela za footer).
+    logo: "/tenants/maza-nera/logo.png",
+    logoLight: "/tenants/maza-nera/logo-light.png",
+    // Kad klijent pošalje fotografiju radnje (široki format ~1920x1080),
+    // snimiti je u public/tenants/maza-nera/hero.jpg i odkomentarisati:
+    // heroImage: "/tenants/maza-nera/hero.jpg",
+    heroImage: "",
     // Prazno = kupac ne vidi broj (piše "račun dobijate uz potvrdu").
     // Račun postoji (Raiffeisen, 265-1100310102187-08) — dodati uz potvrdu klijenta.
     bankAccount: "",
@@ -56,9 +63,10 @@ export const mazaNera: TenantConfig = {
     schemaType: "PetStore",
   },
   colors: {
-    // PRIVREMENO zeleno (podrazumevano) — zameniti bojom brenda klijenta
-    primary: "#10b981",
-    primaryHover: "#059669",
+    // Topla narandžasta — u skladu sa crno-belim logom (pas+mačka+šapa).
+    // Razlikuje se od bg-pet zelenog (#10b981) i primer plavog (#2563eb).
+    primary: "#f97316",
+    primaryHover: "#ea580c",
   },
   // Recenzije: [] = sekcija se automatski uklanja (ne izmišljati!)
   testimonials: [],

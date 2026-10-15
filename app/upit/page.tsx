@@ -169,12 +169,12 @@ export default function UpitPage() {
         <section className="pt-6">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
             <motion.div
-              className="bg-white rounded-2xl border border-emerald-200 p-8 sm:p-12 text-center shadow-sm"
+              className="bg-white rounded-2xl border border-brand-200 p-8 sm:p-12 text-center shadow-sm"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
             >
-              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Check className="w-8 h-8 text-emerald-600" />
+              <div className="w-16 h-16 bg-brand-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Check className="w-8 h-8 text-brand-600" />
               </div>
               <h1 className="text-2xl sm:text-3xl font-bold text-brand-dark mb-2">
                 Porudžbina primljena!
@@ -215,7 +215,7 @@ export default function UpitPage() {
                 </div>
               )}
               {sentOrder.payment.includes("Pouzećem") && (
-                <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-5 text-left mb-6">
+                <div className="bg-brand-50 border border-brand-200 rounded-xl p-5 text-left mb-6">
                   <p className="text-sm text-slate-700">
                     Kurir stiže za 1–4 radna dana —{" "}
                     <strong>plaćate gotovinom pri prijemu</strong>. Javićemo se
@@ -224,7 +224,7 @@ export default function UpitPage() {
                 </div>
               )}
               {sentOrder.payment.includes("apoteci") && (
-                <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-5 text-left mb-6">
+                <div className="bg-brand-50 border border-brand-200 rounded-xl p-5 text-left mb-6">
                   <p className="text-sm text-slate-700">
                     Vidimo se u apoteci — Vojvode Stepe 189, Pon–Pet
                     9–20h, Sub 10–16h. Javićemo se kad je
@@ -537,7 +537,7 @@ export default function UpitPage() {
                           key={d.slug}
                           className={`flex items-center gap-3 border-2 rounded-xl px-4 py-3 cursor-pointer transition-all ${
                             delivery === d.slug
-                              ? "border-brand-primary bg-emerald-50/50"
+                              ? "border-brand-primary bg-brand-50/50"
                               : "border-slate-200 hover:border-slate-300"
                           }`}
                         >
@@ -546,7 +546,7 @@ export default function UpitPage() {
                             name="delivery"
                             checked={delivery === d.slug}
                             onChange={() => pickDelivery(d.slug)}
-                            className="w-4 h-4 accent-emerald-600"
+                            className="w-4 h-4 accent-brand-600"
                           />
                           {d.slug === "preuzimanje" ? (
                             <Store className="w-5 h-5 text-brand-primary shrink-0" />
@@ -586,7 +586,7 @@ export default function UpitPage() {
                           key={p.slug}
                           className={`flex items-center gap-3 border-2 rounded-xl px-4 py-3 cursor-pointer transition-all ${
                             payment === p.slug
-                              ? "border-brand-primary bg-emerald-50/50"
+                              ? "border-brand-primary bg-brand-50/50"
                               : "border-slate-200 hover:border-slate-300"
                           }`}
                         >
@@ -595,7 +595,7 @@ export default function UpitPage() {
                             name="payment"
                             checked={payment === p.slug}
                             onChange={() => setPayment(p.slug)}
-                            className="w-4 h-4 accent-emerald-600"
+                            className="w-4 h-4 accent-brand-600"
                           />
                           <Icon className="w-5 h-5 text-brand-primary shrink-0" />
                           <span className="flex-1">

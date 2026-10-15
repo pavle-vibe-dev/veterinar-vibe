@@ -144,8 +144,8 @@ export default function DostavaIPlacanjePage() {
                 key={s.title}
                 className="bg-brand-bg border border-slate-100 rounded-2xl p-6"
               >
-                <div className="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center mb-4">
-                  <s.icon className="w-6 h-6 text-emerald-700" />
+                <div className="w-12 h-12 rounded-xl bg-brand-100 flex items-center justify-center mb-4">
+                  <s.icon className="w-6 h-6 text-brand-700" />
                 </div>
                 <h3 className="font-bold text-brand-dark mb-2">{s.title}</h3>
                 <p className="text-sm text-brand-muted leading-relaxed">
@@ -183,7 +183,7 @@ export default function DostavaIPlacanjePage() {
                   className="bg-white border border-slate-200 rounded-2xl p-6"
                 >
                   <div className="flex items-center gap-3 mb-3">
-                    <span className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
+                    <span className="w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center">
                       <Icon className="w-5 h-5 text-brand-primary" />
                     </span>
                     <h3 className="font-bold text-brand-dark">{d.name}</h3>
@@ -199,9 +199,9 @@ export default function DostavaIPlacanjePage() {
             })}
           </div>
 
-          <div className="mt-6 flex items-start gap-3 bg-emerald-50 border border-emerald-100 rounded-2xl p-5">
-            <PackageCheck className="w-5 h-5 text-emerald-700 shrink-0 mt-0.5" />
-            <p className="text-sm text-emerald-900">
+          <div className="mt-6 flex items-start gap-3 bg-brand-50 border border-brand-100 rounded-2xl p-5">
+            <PackageCheck className="w-5 h-5 text-brand-700 shrink-0 mt-0.5" />
+            <p className="text-sm text-brand-900">
               Za porudžbine veće od{" "}
               <strong>
                 {FREE_DELIVERY_THRESHOLD.toLocaleString("sr-RS")} RSD
@@ -230,7 +230,7 @@ export default function DostavaIPlacanjePage() {
                   className="bg-white border border-slate-200 rounded-2xl p-6"
                 >
                   <div className="flex items-center gap-3 mb-3">
-                    <span className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
+                    <span className="w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center">
                       <Icon className="w-5 h-5 text-brand-primary" />
                     </span>
                     <h3 className="font-bold text-brand-dark">{p.name}</h3>

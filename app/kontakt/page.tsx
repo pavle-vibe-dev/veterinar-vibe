@@ -344,7 +344,7 @@ export default function KontaktPage() {
           >
             <h2 className="h2 mb-4">Naša lokacija</h2>
             <p className="text-lg text-brand-muted">
-              Pronađite nas na Voždovcu
+              Dođite u našu radnju — {fullAddress}
             </p>
           </motion.div>
 

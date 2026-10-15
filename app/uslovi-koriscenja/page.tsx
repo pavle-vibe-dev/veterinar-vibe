@@ -74,11 +74,11 @@ export default function UsloviKoriscenjaPage() {
       <section className="py-14">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
           {(shopInfo.pib || shopInfo.registrationNo) && (
-            <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-6">
-              <h2 className="text-lg font-bold text-emerald-900 mb-2">
+            <div className="bg-brand-50 border border-brand-100 rounded-2xl p-6">
+              <h2 className="text-lg font-bold text-brand-900 mb-2">
                 Podaci o prodavcu
               </h2>
-              <p className="text-[15px] text-emerald-900/80 leading-relaxed">
+              <p className="text-[15px] text-brand-900/80 leading-relaxed">
                 Naziv: <strong>{shopInfo.legalName}</strong>
                 {shopInfo.pib && (
                   <>
@@ -106,8 +106,8 @@ export default function UsloviKoriscenjaPage() {
               className="bg-brand-bg border border-slate-100 rounded-2xl p-6"
             >
               <div className="flex items-center gap-3 mb-3">
-                <span className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0">
-                  <s.icon className="w-5 h-5 text-emerald-700" />
+                <span className="w-10 h-10 rounded-xl bg-brand-100 flex items-center justify-center shrink-0">
+                  <s.icon className="w-5 h-5 text-brand-700" />
                 </span>
                 <h2 className="text-lg font-bold text-brand-dark">{s.title}</h2>
               </div>
@@ -140,33 +140,33 @@ export default function UsloviKoriscenjaPage() {
             </p>
           </div>
 
-          <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-6">
-            <p className="text-[15px] text-emerald-900 leading-relaxed">
+          <div className="bg-brand-50 border border-brand-100 rounded-2xl p-6">
+            <p className="text-[15px] text-brand-900 leading-relaxed">
               Pitanja o uslovima šaljite na{" "}
               <a
                 href={`mailto:${email}`}
-                className="font-bold text-emerald-800 hover:underline"
+                className="font-bold text-brand-800 hover:underline"
               >
                 {email}
               </a>{" "}
               ili pozovite{" "}
               <a
                 href={shopInfo.phoneHref}
-                className="font-bold text-emerald-800 hover:underline"
+                className="font-bold text-brand-800 hover:underline"
               >
                 {shopInfo.phone}
               </a>
               . Povezano:{" "}
               <Link
                 href="/politika-privatnosti"
-                className="font-bold text-emerald-800 hover:underline"
+                className="font-bold text-brand-800 hover:underline"
               >
                 Politika privatnosti
               </Link>{" "}
               i{" "}
               <Link
                 href="/dostava-i-placanje"
-                className="font-bold text-emerald-800 hover:underline"
+                className="font-bold text-brand-800 hover:underline"
               >
                 Dostava i plaćanje
               </Link>

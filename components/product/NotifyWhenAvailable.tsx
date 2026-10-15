@@ -35,11 +35,11 @@ export default function NotifyWhenAvailable({
 
   if (state === "done") {
     return (
-      <div className="mt-5 flex items-start gap-3 bg-emerald-50 border border-emerald-200 rounded-2xl p-4">
-        <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+      <div className="mt-5 flex items-start gap-3 bg-brand-50 border border-brand-200 rounded-2xl p-4">
+        <CheckCircle2 className="w-5 h-5 text-brand-600 shrink-0 mt-0.5" />
         <div className="text-sm">
-          <p className="font-bold text-emerald-900">Zabeleženo!</p>
-          <p className="text-emerald-800/80">
+          <p className="font-bold text-brand-900">Zabeleženo!</p>
+          <p className="text-brand-800/80">
             Javićemo vam se na <strong>{email}</strong> čim ovaj artikal stigne.
           </p>
         </div>

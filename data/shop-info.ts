@@ -37,6 +37,12 @@ export const analyticsEnabled = () =>
 
 export const fullAddress = `${shopInfo.street}, ${shopInfo.zip} ${shopInfo.city}`
 
+/**
+ * Hero slika aktivnog tenanta. Ako klijent ima svoju fotografiju radnje
+ * (shopInfo.heroImage), koristi se ona; inače deljeni demo stock foto.
+ */
+export const heroImage = shopInfo.heroImage || "/hero.jpg"
+
 export const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(
   fullAddress
 )}&output=embed`

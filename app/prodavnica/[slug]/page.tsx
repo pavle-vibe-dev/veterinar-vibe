@@ -182,8 +182,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 <ul className="mt-6 space-y-2.5">
                   {info.highlights.map((h) => (
                     <li key={h} className="flex items-start gap-2.5 text-brand-dark">
-                      <span className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center shrink-0 mt-0.5">
-                        <Check className="w-3 h-3 text-emerald-700" />
+                      <span className="w-5 h-5 rounded-full bg-brand-100 flex items-center justify-center shrink-0 mt-0.5">
+                        <Check className="w-3 h-3 text-brand-700" />
                       </span>
                       <span className="text-[15px] leading-relaxed">{h}</span>
                     </li>

@@ -30,7 +30,7 @@ export default function MobileStickyCta() {
       </a>
       <Link
         href="/kontakt"
-        className="flex-[1.5] inline-flex items-center justify-center gap-2 bg-brand-primary hover:bg-brand-primary-hover text-white font-bold text-sm py-3 rounded-button shadow-lg shadow-emerald-200/50 transition-all"
+        className="flex-[1.5] inline-flex items-center justify-center gap-2 bg-brand-primary hover:bg-brand-primary-hover text-white font-bold text-sm py-3 rounded-button shadow-lg shadow-brand-200/50 transition-all"
       >
         <Send className="w-4 h-4" />
         Pošalji upit

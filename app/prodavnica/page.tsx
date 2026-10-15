@@ -295,9 +295,9 @@ function ProdavnicaContent() {
                     href={`/prodavnica?category=${c.slug}`}
                     className="block bg-brand-bg border border-slate-100 rounded-3xl p-6 text-center active:border-brand-primary/50 transition-all"
                   >
-                    <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 p-[3px] shadow-md">
+                    <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-brand-500 to-brand-700 p-[3px] shadow-md">
                       <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
-                        <Icon className="w-9 h-9 text-emerald-700" />
+                        <Icon className="w-9 h-9 text-brand-700" />
                       </div>
                     </div>
                     <h2 className="text-xl font-bold text-brand-dark mt-4">
@@ -377,9 +377,9 @@ function ProdavnicaContent() {
                     className="group flex flex-col items-center gap-2 py-2"
                     title={s.desc}
                   >
-                    <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 p-[3px] shadow-md group-hover:shadow-xl group-hover:scale-105 transition-all">
+                    <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 p-[3px] shadow-md group-hover:shadow-xl group-hover:scale-105 transition-all">
                       <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
-                        <Icon className="w-8 h-8 md:w-9 md:h-9 text-emerald-700" />
+                        <Icon className="w-8 h-8 md:w-9 md:h-9 text-brand-700" />
                       </div>
                     </div>
                     <span className="text-xs md:text-sm font-semibold text-brand-dark text-center group-hover:text-brand-primary transition-colors">
@@ -617,7 +617,7 @@ function ProdavnicaContent() {
                   type="checkbox"
                   checked={onlyAction}
                   onChange={(e) => setOnlyAction(e.target.checked)}
-                  className="w-4 h-4 accent-emerald-600 cursor-pointer"
+                  className="w-4 h-4 accent-brand-600 cursor-pointer"
                 />
                 Samo akcije
               </label>

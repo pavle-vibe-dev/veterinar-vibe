@@ -11,7 +11,7 @@ export default function AsortimanPage() {
       icon: Apple,
       title: "Medicinska hrana i dijete",
       description: "Specijalizovana hrana za pse i mačke sa specifičnim zdravstvenim potrebama",
-      color: "from-emerald-500 to-green-600",
+      color: "from-brand-500 to-brand-600",
       items: [
         "Hrana za bubrežne dijete",
         "Hrana za osetljiv stomak",

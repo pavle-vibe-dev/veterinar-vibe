@@ -16,12 +16,29 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
 }
 
 @theme {
-  /* Boje */
+  /* Boje — primarne (tenant ih override-uje inline stilom na <html>) */
   --color-brand-primary: #10b981;
   --color-brand-primary-hover: #059669;
   --color-brand-dark: #0f172a;
   --color-brand-muted: #64748b;
   --color-brand-bg: #f8fafc;
+
+  /* Cela brand skala izvedena iz primary boje.
+     Kako radi: --color-brand-primary se u app/layout.tsx menja inline stilom
+     po tenantu, pa sve ispod (50–950) automatski prati tu boju.
+     50–400 = primary pomešan sa belim (svetlije nijanse),
+     500 = primary, 600 = hover, 700–950 = tamnije (mešanje sa crnim). */
+  --color-brand-50: color-mix(in oklab, var(--color-brand-primary) 12%, white);
+  --color-brand-100: color-mix(in oklab, var(--color-brand-primary) 22%, white);
+  --color-brand-200: color-mix(in oklab, var(--color-brand-primary) 38%, white);
+  --color-brand-300: color-mix(in oklab, var(--color-brand-primary) 55%, white);
+  --color-brand-400: color-mix(in oklab, var(--color-brand-primary) 75%, white);
+  --color-brand-500: var(--color-brand-primary);
+  --color-brand-600: var(--color-brand-primary-hover);
+  --color-brand-700: color-mix(in oklab, var(--color-brand-primary-hover) 82%, black);
+  --color-brand-800: color-mix(in oklab, var(--color-brand-primary-hover) 62%, black);
+  --color-brand-900: color-mix(in oklab, var(--color-brand-primary-hover) 45%, black);
+  --color-brand-950: color-mix(in oklab, var(--color-brand-primary-hover) 30%, black);
 
   /* Zaobljene ivice */
   --radius-brand: 2rem;

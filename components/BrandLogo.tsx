@@ -18,9 +18,11 @@ export default function BrandLogo({ variant = "dark", className = "" }: Props) {
   const iconClass = variant === "light" ? "text-brand-primary" : "text-brand-primary"
 
   if (shopInfo.logo) {
+    // Na tamnoj pozadini (footer) koristi se svetla verzija ako postoji
+    const src = variant === "light" && shopInfo.logoLight ? shopInfo.logoLight : shopInfo.logo
     return (
       <Image
-        src={shopInfo.logo}
+        src={src}
         alt={shopInfo.name}
         width={200}
         height={40}

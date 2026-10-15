@@ -43,7 +43,7 @@ export default function AddToQuote({ slug }: { slug: string }) {
       </button>
       <Link
         href="/upit"
-        className="inline-flex items-center justify-center px-6 py-3 border-2 border-brand-primary/20 text-brand-primary font-bold rounded-button hover:bg-emerald-50 transition-all"
+        className="inline-flex items-center justify-center px-6 py-3 border-2 border-brand-primary/20 text-brand-primary font-bold rounded-button hover:bg-brand-50 transition-all"
       >
         Pogledaj korpu
       </Link>

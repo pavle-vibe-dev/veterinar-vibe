@@ -108,8 +108,8 @@ export default function ONamaPage() {
             <ul className="space-y-4">
               {categories.map((c) => (
                 <li key={c.slug} className="flex items-start gap-3">
-                  <span className="w-9 h-9 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0 mt-0.5">
-                    <HeartHandshake className="w-4 h-4 text-emerald-700" />
+                  <span className="w-9 h-9 rounded-xl bg-brand-100 flex items-center justify-center shrink-0 mt-0.5">
+                    <HeartHandshake className="w-4 h-4 text-brand-700" />
                   </span>
                   <span>
                     <Link
@@ -139,7 +139,7 @@ export default function ONamaPage() {
                 key={v.title}
                 className="bg-white border border-slate-100 rounded-2xl p-6"
               >
-                <span className="w-11 h-11 rounded-xl bg-emerald-50 flex items-center justify-center mb-4">
+                <span className="w-11 h-11 rounded-xl bg-brand-50 flex items-center justify-center mb-4">
                   <v.icon className="w-5 h-5 text-brand-primary" />
                 </span>
                 <h3 className="font-bold text-brand-dark mb-2">{v.title}</h3>

@@ -50,6 +50,17 @@ export type ShopInfo = {
    */
   logo: string
   /**
+   * Opciona svetla (bela) verzija logotipa za TAMNU pozadinu (footer).
+   * Ako ne postoji, koristi se isti fajl kao u `logo`.
+   */
+  logoLight?: string
+  /**
+   * Tenant-specific hero slika (široki format, npr. 1920x1080).
+   * Prazno = koristi se deljena /hero.jpg (demo stock foto).
+   * Staviti ovde čim klijent pošalje svoju fotografiju radnje.
+   */
+  heroImage?: string
+  /**
    * Tekući račun za virman. Prazno = broj se NE prikazuje kupcu,
    * umesto toga stoji "račun dobijate nakon potvrde".
    * OVO MORAS ZA SVAKOG KLJENTA — inace kupac vidi tudji broj.

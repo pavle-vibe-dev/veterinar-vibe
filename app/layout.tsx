@@ -7,7 +7,7 @@ import MobileStickyCta from "../components/MobileStickyCta";
 import Analytics from "../components/Analytics";
 import StructuredData from "../components/StructuredData";
 import { CartProvider } from "../components/cart/CartProvider";
-import { shopInfo } from "../data/shop-info";
+import { shopInfo, heroImage } from "../data/shop-info";
 import { tenant } from "../data/tenants";
 
 const geistSans = Geist({
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     title: `${shopInfo.name} - ${shopInfo.tagline}`,
     images: [
       {
-        url: '/hero.jpg',
+        url: heroImage,
         width: 1200,
         height: 630,
         alt: `${shopInfo.name} - ${shopInfo.tagline}`
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: `${shopInfo.name} - ${shopInfo.tagline}`,
     description: shopInfo.description,
-    images: ['/hero.jpg']
+    images: [heroImage]
   },
   icons: {
     icon: '/favicon.svg',

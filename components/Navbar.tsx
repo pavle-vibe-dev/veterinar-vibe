@@ -166,7 +166,7 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-3">
             <Link
               href="/upit"
-              className="relative inline-flex items-center gap-2 px-4 py-2.5 rounded-button border-2 border-brand-primary/20 text-brand-primary font-bold text-sm hover:bg-emerald-50 transition-all"
+              className="relative inline-flex items-center gap-2 px-4 py-2.5 rounded-button border-2 border-brand-primary/20 text-brand-primary font-bold text-sm hover:bg-brand-50 transition-all"
             >
               <ShoppingCart className="w-4 h-4" />
               <span>Korpa</span>
@@ -226,7 +226,7 @@ export default function Navbar() {
                   />
                 </button>
                 {openShop && (
-                  <div className="ml-2 mb-2 border-l-2 border-emerald-100 pl-3 space-y-1">
+                  <div className="ml-2 mb-2 border-l-2 border-brand-100 pl-3 space-y-1">
                     <Link
                       href="/prodavnica?prikaz=lista"
                       onClick={closeMobileMenu}

@@ -109,12 +109,12 @@ export default function SearchAutocomplete({
             aria-expanded={show}
             aria-controls="search-suggestions"
             aria-autocomplete="list"
-            className="w-full pl-11 pr-4 py-4 rounded-2xl text-brand-dark placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-emerald-300/50 shadow-xl bg-white"
+            className="w-full pl-11 pr-4 py-4 rounded-2xl text-brand-dark placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-brand-300/50 shadow-xl bg-white"
           />
         </div>
         <button
           type="submit"
-          className="bg-emerald-400 hover:bg-emerald-300 text-emerald-950 font-bold px-8 py-4 rounded-2xl transition-all shadow-xl cursor-pointer"
+          className="bg-brand-400 hover:bg-brand-300 text-brand-950 font-bold px-8 py-4 rounded-2xl transition-all shadow-xl cursor-pointer"
         >
           Pretraži
         </button>
@@ -138,7 +138,7 @@ export default function SearchAutocomplete({
                 goProduct(p.slug)
               }}
               className={`w-full flex items-center gap-3 px-3 py-2.5 text-left transition-colors ${
-                i === active ? "bg-emerald-50" : "bg-white"
+                i === active ? "bg-brand-50" : "bg-white"
               }`}
             >
               <span className="relative w-10 h-10 rounded-lg bg-brand-bg overflow-hidden shrink-0">
@@ -171,7 +171,7 @@ export default function SearchAutocomplete({
               goSearch(query)
             }}
             className={`w-full flex items-center justify-between gap-3 px-4 py-3 border-t border-slate-100 text-left transition-colors ${
-              active === suggestions.length ? "bg-emerald-50" : "bg-slate-50"
+              active === suggestions.length ? "bg-brand-50" : "bg-slate-50"
             }`}
           >
             <span className="flex items-center gap-2 text-sm font-semibold text-brand-dark">

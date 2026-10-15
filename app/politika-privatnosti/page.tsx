@@ -78,8 +78,8 @@ export default function PolitikaPrivatnostiPage() {
               className="bg-brand-bg border border-slate-100 rounded-2xl p-6"
             >
               <div className="flex items-center gap-3 mb-3">
-                <span className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0">
-                  <s.icon className="w-5 h-5 text-emerald-700" />
+                <span className="w-10 h-10 rounded-xl bg-brand-100 flex items-center justify-center shrink-0">
+                  <s.icon className="w-5 h-5 text-brand-700" />
                 </span>
                 <h2 className="text-lg font-bold text-brand-dark">{s.title}</h2>
               </div>
@@ -149,32 +149,32 @@ export default function PolitikaPrivatnostiPage() {
             </p>
           </div>
 
-          <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-6">
-            <h2 className="text-lg font-bold text-emerald-900 mb-2">
+          <div className="bg-brand-50 border border-brand-100 rounded-2xl p-6">
+            <h2 className="text-lg font-bold text-brand-900 mb-2">
               Kontakt za pitanja o privatnosti
             </h2>
-            <p className="text-[15px] text-emerald-900/80 leading-relaxed">
+            <p className="text-[15px] text-brand-900/80 leading-relaxed">
               Pišite na{" "}
               <a
                 href={`mailto:${shopInfo.email}`}
-                className="font-bold text-emerald-800 hover:underline"
+                className="font-bold text-brand-800 hover:underline"
               >
                 {shopInfo.email}
               </a>{" "}
               ili pozovite{" "}
               <a
                 href={shopInfo.phoneHref}
-                className="font-bold text-emerald-800 hover:underline"
+                className="font-bold text-brand-800 hover:underline"
               >
                 {shopInfo.phone}
               </a>
               .
             </p>
-            <p className="text-sm text-emerald-900/70 mt-4">
+            <p className="text-sm text-brand-900/70 mt-4">
               Povezano:{" "}
               <Link
                 href="/uslovi-koriscenja"
-                className="font-bold text-emerald-800 hover:underline"
+                className="font-bold text-brand-800 hover:underline"
               >
                 Uslovi korišćenja
               </Link>
