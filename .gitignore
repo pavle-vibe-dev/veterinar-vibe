@@ -30,6 +30,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+# logovi (dev server, build ispisi) — nisu izvor
+*.log
+
 # env files (can opt-in for committing if needed)
 .env*
 # ali .env.example ide u git — to je dokumentacija, nema tajni

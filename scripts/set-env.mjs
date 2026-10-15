@@ -11,6 +11,7 @@ import { join } from "node:path"
 import { createInterface } from "node:readline/promises"
 
 const KNOWN = [
+  "NEXT_PUBLIC_TENANT",
   "RESEND_API_KEY",
   "ORDER_FROM_EMAIL",
   "NEXT_PUBLIC_SHOP_EMAIL",

@@ -1,7 +1,7 @@
 "use server"
 
 import { Resend } from "resend"
-import { shopInfo } from "../../data/shop-info"
+import { shopInfo, brandColors } from "../../data/shop-info"
 import { recordOrder } from "../../lib/orders"
 
 const resend = new Resend(process.env.RESEND_API_KEY || "")
@@ -86,7 +86,7 @@ export async function sendOrder(data: OrderData) {
 
     const html = `
       <div style="font-family: Arial, sans-serif; max-width: 640px; margin: 0 auto;">
-        <h2 style="color: #10b981;">Nova porudžbina ${orderNumber} — ${shopInfo.name}</h2>
+        <h2 style="color: ${brandColors.primary};">Nova porudžbina ${orderNumber} — ${shopInfo.name}</h2>
         <p><strong>Kupac:</strong> ${ownerName}<br/>
         <strong>Telefon:</strong> ${phone}<br/>
         ${email ? `<strong>Email:</strong> ${email}<br/>` : ""}
@@ -132,7 +132,7 @@ export async function sendOrder(data: OrderData) {
         subject: `Potvrda porudžbine ${orderNumber} — ${shopInfo.name}`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 640px; margin: 0 auto;">
-            <h2 style="color:#10b981;">Hvala na porudžbini, ${ownerName}!</h2>
+            <h2 style="color:${brandColors.primary};">Hvala na porudžbini, ${ownerName}!</h2>
             <p>Vaša porudžbina <strong>${orderNumber}</strong> je primljena. Javljamo se
             telefonom na <strong>${phone}</strong> da potvrdimo dostupnost i termin isporuke.</p>
             <p style="font-size:18px;"><strong>Ukupno: ${formatRSD(total)}</strong></p>

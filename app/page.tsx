@@ -143,7 +143,7 @@ export default function Home() {
       <section className="relative overflow-hidden">
         <Image
           src="/hero.jpg"
-          alt="Dva srećna psa — BG PET veterina i pet shop"
+          alt={`Dva srećna psa — ${shopInfo.name} veterina i pet shop`}
           fill
           className="object-cover object-center"
           priority
@@ -168,7 +168,7 @@ export default function Home() {
             )}
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.05] tracking-tight drop-shadow-lg">
               Veterinarska apoteka i Pet Shop{" "}
-              <span className="text-emerald-300">BG PET</span>
+              <span className="text-emerald-300">{shopInfo.name}</span>
             </h1>
             <p className="text-emerald-50/90 text-lg mt-5 max-w-xl leading-relaxed">
               Premium hrana, apoteka i oprema za pse i mačke. Izaberite
@@ -429,7 +429,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <p className="text-sm font-bold text-brand-primary uppercase tracking-widest mb-2">
-              BG PET
+              {shopInfo.name}
             </p>
             <h2 className="h2">Veterinarska apoteka i Pet Shop Vam nudi</h2>
           </div>

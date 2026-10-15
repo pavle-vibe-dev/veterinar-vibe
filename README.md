@@ -18,9 +18,13 @@ app/
 components/
   cart/            korpa (React context, čuva se u localStorage)
 data/
+  tenants/         KONFIGURACIJA PO KLJENTU (multi-tenant) ← menja se za klijenta
+    index.ts       registr tenanata + izbor preko NEXT_PUBLIC_TENANT
+    bg-pet.ts      demo brend (podrazumevani kad env nije setovan)
+    primer.ts      šablon za novog klijenta + test multi-tenanta
   shop.ts          PROIZVODI, kategorije, brendovi  ← menja se za klijenta
-  shop-info.ts     IME, telefon, adresa, radno vreme ← menja se za klijenta
-  checkout.ts      dostava, plaćanje, limit besplatne dostave
+  shop-info.ts     čita aktivni tenant (+ env varijable) — ne dirati
+  checkout.ts      dostava, plaćanje, limit besplatne dostave (zajedničko)
   productDetails.ts
 lib/
   orders.ts        upis u Google Sheet
@@ -66,15 +70,55 @@ npm run typecheck    # tsc --noEmit
 npm run test:sheet   # provera Google Sheet veze
 ```
 
-## Brendiranje za klijenta
+## Više klijenata (multi-tenant)
 
-Dva fajla pokrivaju sve što se menja:
+Jedan kod → više sajtova. Svaki klijent = jedan fajl u `data/tenants/`,
+a aktivan se bira env varijablom `NEXT_PUBLIC_TENANT`.
 
-1. **`data/shop-info.ts`** — ime apoteke, telefon, email, adresa, radno vreme,
-   primač narudžbi. Uvezano u Navbar, Footer, SEO (`app/layout.tsx`) i kontakt.
-2. **`data/shop.ts`** — proizvodi, kategorije, brendovi.
+### Novi klijent — 4 koraka
 
-Boje su u `app/globals.css` (`@theme` — `--color-brand-primary`).
+1. Kopiraj `data/tenants/primer.ts` u `data/tenants/<id>.ts`
+   (id = mala slova i crtice, npr. `pet-shop-jovanovic`)
+2. Popuni podatke: ime, logo, boje, kontakt, adresa, bank račun, prefiks
+3. Registruj ga u `data/tenants/index.ts` — jedan red u `registry`
+4. Na Vercelu u projektu tog klijenta podesi `NEXT_PUBLIC_TENANT=<id>`
 
-**Ostalo mora ručno:** naslovi blog članaka i tekstovi na početnoj stranici
-sadrže „BG PET" u sadržaju, ne u infrastrukturi. Prođi kroz njih pre isporuke.
+Iz tog fajla dolazi SVE: ime, logo, boje (tenant boja se postavlja kao
+inline CSS varijabla na `<html>` u `app/layout.tsx`), kontakt, SEO naslovi,
+boja u email šablonima, recenzije.
+
+Lokalni test drugog tenanta:
+
+```bash
+set NEXT_PUBLIC_TENANT=primer && npm run dev    # Windows cmd
+NEXT_PUBLIC_TENANT=primer npm run dev           # Linux/macOS
+```
+
+Nepoznat id pada NA BUILD-U sa greškom koja nabraja poznate tenante.
+
+### Vercel — 1 projekat = 1 klijent (isti repo)
+
+| Env varijabla | Šta razdvaja |
+|---|---|
+| `NEXT_PUBLIC_TENANT` | koji je klijent aktivan (**obavezno**) |
+| `NEXT_PUBLIC_SITE_URL` | domen (test: `https://<id>.vercel.app`) |
+| `NEXT_PUBLIC_SHOP_EMAIL` | kome stižu porudžbine |
+| `GOOGLE_SHEET_ID` | njegova tabela porudžbina |
+| `RESEND_API_KEY` + `ORDER_FROM_EMAIL` | njegov email domen (Resend) |
+
+Dodavanje domena: Vercel projekt → Settings → Domains → DNS zapisi kod
+registratara (A `@ → 76.76.21.21`, CNAME `www → cname.vercel-dns.com`).
+
+### Šta je još uvek zajedničko (menja se ručno po klijentu)
+
+- **Proizvodi** — `data/shop.ts` je zajednički za sve tenante
+  (prodavnica, blog inline proizvodi, kategorije, brendovi)
+- **Sadržaj** — blog članci (`app/blog/`) i neki tekstovi na početnoj
+  stranici još sadrže „BG PET" — prođi kroz njih pre isporuke
+  (vidi `docs/PRE-LANSIRANJE.md`, sekcija 4)
+- **Slike** — `public/hero.jpg`, `public/favicon.svg`, slike proizvoda
+- **Dostava i plaćanje** — `data/checkout.ts`
+
+Prednost u odnosu na grane po klijentu: svaka ispravka u kodu važe
+odmah za SVE klijente — samo odradi `git push` i Vercel redeploy-uje
+sve projekte.

@@ -1,85 +1,29 @@
-export type OpeningHours = {
-  /** Schema.org format, npr. "Mo-Fr", "Sa" */
-  days: string
-  /** Za prikaz na sajtu, npr. "Pon-Pet" */
-  label: string
-  opens?: string
-  closes?: string
-  closed?: boolean
-}
+import { tenant } from "./tenants"
+import type { ShopInfo } from "./tenants/types"
 
-export type ShopInfo = {
-  name: string
-  tagline: string
-  legalName: string
-  description: string
-  phone: string
-  phoneHref: string
-  email: string
-  street: string
-  zip: string
-  city: string
-  district: string
-  siteUrl: string
-  openingHours: OpeningHours[]
-  orderEmail: string
-  orderFrom: string
-  gaId: string
-  metaPixelId: string
-  /**
-   * Putanja do logotipa npr. "/logo.png" (fajl u public/).
-   * Prazno = koristi se ikonica + naziv (tekst).
-   */
-  logo: string
-  /**
-   * Tekući račun za virman. Prazno = broj se NE prikazuje kupcu,
-   * umesto toga stoji "račun dobijate nakon potvrde".
-   * OVO MORAS ZA SVAKOG KLJENTA — inace kupac vidi tudji broj.
-   */
-  bankAccount: string
-  /**
-   * Prefiks broja porudžbine, npr. "BG-2026-1234".
-   * Menja se po klijentu da broj ne nosi tudje ime.
-   */
-  orderPrefix: string
-  /**
-   * PIB i matični broj pravnog lica — OBAVEZNI na Uslovima korišćenja
-   * i Politici privatnosti (Zakon o zaštiti potrošača / e-trgovina).
-   * Prazno = podatak se ne prikazuje, a lice NIJE registrovano za e-trgovinu.
-   */
-  pib: string
-  registrationNo: string
-}
+export type { OpeningHours, ShopInfo, Testimonial } from "./tenants/types"
 
+/**
+ * Kontakt/brend podaci AKTIVNOG tenanta (bira se preko NEXT_PUBLIC_TENANT).
+ *
+ * Env varijable (per Vercel projekat) imaju prioritet nad fallback
+ * vrednostima iz data/tenants/<id>.ts — tako svaki deploy dobija
+ * svoj domen, email i analitiku iz istog koda.
+ *
+ * Menjaj podatke klijenta u data/tenants/<id>.ts, ne ovde.
+ */
 export const shopInfo: ShopInfo = {
-  name: "BG PET",
-  tagline: "Veterinarska apoteka i Pet Shop",
-  legalName: "BG PET DOO",
-  description:
-    "Veterinarska apoteka i Pet Shop na Voždovcu. Medicinska hrana, zaštita od parazita, suplementi, vitamini, oprema i kozmetika za pse i mačke. Porudžbine online, preuzimanje u radnji ili dostava.",
-  phone: "065/866-5393",
-  phoneHref: "tel:+381658665393",
-  email: "info@bgpet.rs",
-  street: "Vojvode Stepe 189",
-  zip: "11010",
-  city: "Beograd",
-  district: "Voždovac",
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://veterinar-vibe.vercel.app",
-  openingHours: [
-    { days: "Mo-Fr", label: "Pon-Pet", opens: "09:00", closes: "20:00" },
-    { days: "Sa", label: "Subota", opens: "10:00", closes: "16:00" },
-    { days: "Su", label: "Nedelja", closed: true }
-  ],
-  orderEmail: process.env.NEXT_PUBLIC_SHOP_EMAIL || "pavlemaksimovic6@gmail.com",
-  orderFrom: process.env.ORDER_FROM_EMAIL || "onboarding@resend.dev",
-  gaId: process.env.NEXT_PUBLIC_GA_ID || "",
-  metaPixelId: process.env.NEXT_PUBLIC_META_PIXEL_ID || "",
-  logo: "",
-  bankAccount: "",
-  orderPrefix: "BG",
-  pib: "",
-  registrationNo: "",
+  ...tenant.shopInfo,
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || tenant.shopInfo.siteUrl,
+  orderEmail: process.env.NEXT_PUBLIC_SHOP_EMAIL || tenant.shopInfo.orderEmail,
+  orderFrom: process.env.ORDER_FROM_EMAIL || tenant.shopInfo.orderFrom,
+  gaId: process.env.NEXT_PUBLIC_GA_ID || tenant.shopInfo.gaId,
+  metaPixelId:
+    process.env.NEXT_PUBLIC_META_PIXEL_ID || tenant.shopInfo.metaPixelId,
 }
+
+/** Brend boje aktivnog tenanta — koristi se i u email šablonima (app/actions/*) */
+export const brandColors = tenant.colors
 
 export const analyticsEnabled = () =>
   Boolean(shopInfo.gaId || shopInfo.metaPixelId)

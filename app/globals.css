@@ -46,7 +46,7 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
   /* Glavno Dugme (Primary Button) */
   .btn-primary {
     @apply inline-flex items-center justify-center px-8 py-4 bg-brand-primary 
-           text-white font-bold rounded-button shadow-lg shadow-emerald-200/50 
+           text-white font-bold rounded-button shadow-lg shadow-brand-primary/30 
            hover:bg-brand-primary-hover hover:shadow-xl transition-all duration-300
            cursor-pointer;
   }
@@ -54,7 +54,7 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
   /* Sekundarno Dugme (Outline Button) */
   .btn-outline {
     @apply inline-flex items-center justify-center px-8 py-4 border-2 border-brand-primary/20 
-           text-brand-primary font-bold rounded-button hover:bg-emerald-50 
+           text-brand-primary font-bold rounded-button hover:bg-brand-primary/10 
            transition-all duration-300 cursor-pointer;
   }
 

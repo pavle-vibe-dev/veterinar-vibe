@@ -6,6 +6,7 @@ import Image from "next/image"
 import { useState } from "react"
 import Link from "next/link"
 import Canonical from "../../components/Canonical"
+import { shopInfo } from "../../data/shop-info"
 
 export default function BlogPage() {
   const [activeFilter, setActiveFilter] = useState("Sve")
@@ -103,7 +104,7 @@ export default function BlogPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="h1 mt-6 mb-2 md:mt-8 md:mb-4">BG PET Blog</h1>
+            <h1 className="h1 mt-6 mb-2 md:mt-8 md:mb-4">{shopInfo.name} Blog</h1>
             <p className="text-xl text-brand-muted max-w-3xl mx-auto">
               Saveti za zdravlje, ishranu i negu vaših ljubimaca
             </p>

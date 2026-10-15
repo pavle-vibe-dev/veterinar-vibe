@@ -2,7 +2,7 @@
 
 import { Resend } from "resend"
 import { recordInquiry } from "../../lib/orders"
-import { shopInfo } from "../../data/shop-info"
+import { shopInfo, brandColors } from "../../data/shop-info"
 
 const resend = new Resend(process.env.RESEND_API_KEY || "")
 
@@ -68,7 +68,7 @@ export async function sendInquiry(data: InquiryData) {
 
     const html = `
       <div style="font-family: Arial, sans-serif; max-width: 640px; margin: 0 auto;">
-        <h2 style="color: #10b981;">Novi upit za proizvode — ${shopInfo.name}</h2>
+        <h2 style="color: ${brandColors.primary};">Novi upit za proizvode — ${shopInfo.name}</h2>
         <p><strong>Kupac:</strong> ${ownerName}<br/>
         <strong>Telefon:</strong> ${phone}<br/>
         ${email ? `<strong>Email:</strong> ${email}<br/>` : ""}</p>
@@ -97,7 +97,7 @@ export async function sendInquiry(data: InquiryData) {
         subject: `Potvrda upita — ${shopInfo.name}`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 640px; margin: 0 auto;">
-            <h2 style="color:#10b981;">Hvala na upitu, ${ownerName}!</h2>
+            <h2 style="color:${brandColors.primary};">Hvala na upitu, ${ownerName}!</h2>
             <p>Vaš upit je primljen. Javljamo se telefonom na <strong>${phone}</strong>
             da potvrdimo dostupnost i tačnu cenu.</p>
             <p style="color:#64748b;font-size:13px;">Ako imate pitanja, odgovorite na ovaj email.</p>

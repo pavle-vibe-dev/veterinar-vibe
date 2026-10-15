@@ -1,7 +1,7 @@
 "use server"
 
 import { Resend } from "resend"
-import { shopInfo } from "../../data/shop-info"
+import { shopInfo, brandColors } from "../../data/shop-info"
 
 const resend = new Resend(process.env.RESEND_API_KEY || "")
 
@@ -24,7 +24,7 @@ export async function sendRestockNotify(data: NotifyData) {
 
     const html = `
       <div style="font-family: Arial, sans-serif; max-width: 640px; margin: 0 auto;">
-        <h2 style="color: #10b981;">Zahtev za obaveštenje — ${shopInfo.name}</h2>
+        <h2 style="color: ${brandColors.primary};">Zahtev za obaveštenje — ${shopInfo.name}</h2>
         <p>Kupac želi da bude obavešten kada proizvod ponovo bude dostupan:</p>
         <table style="border-collapse:collapse;width:100%;margin:16px 0;">
           <tbody>

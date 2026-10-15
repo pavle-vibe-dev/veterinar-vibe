@@ -8,6 +8,7 @@ import Analytics from "../components/Analytics";
 import StructuredData from "../components/StructuredData";
 import { CartProvider } from "../components/cart/CartProvider";
 import { shopInfo } from "../data/shop-info";
+import { tenant } from "../data/tenants";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,6 +19,17 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+/**
+ * Boje aktivnog tenanta (data/tenants/<id>.ts) — inline CSS varijable na
+ * <html> imaju prioritet nad @theme podrazumevima iz globals.css, a svaki
+ * brand-* utility (bg-brand-primary, text-brand-primary...) čita var(),
+ * pa se cela sajt oboji bez menjanja koda.
+ */
+const brandStyle = {
+  "--color-brand-primary": tenant.colors.primary,
+  "--color-brand-primary-hover": tenant.colors.primaryHover,
+} as React.CSSProperties;
 
 export const metadata: Metadata = {
   metadataBase: new URL(shopInfo.siteUrl),
@@ -57,7 +69,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="sr">
+    <html lang="sr" style={brandStyle}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
       >

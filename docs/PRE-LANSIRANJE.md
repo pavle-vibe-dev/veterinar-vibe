@@ -9,13 +9,14 @@ klijent sajt stavi u javno korišćenje. Prođi kroz listu sa njim na sastanku.
 
 | # | Šta | Gde | Zamena |
 |---|---|---|---|
-| 1.1 | Ime apoteke | `data/shop-info.ts` → `name`, `legalName` | ime klijenta |
-| 1.2 | Telefon, email | `data/shop-info.ts` → `phone`, `email` | stvarni podaci |
-| 1.3 | Adresa i radno vreme | `data/shop-info.ts` → `street`, `openingHours` | stvarni podaci |
-| 1.4 | Bank račun | `data/shop-info.ts` → `bankAccount` | **obavezno** — vidi razlog ispod |
-| 1.5 | Boje | `app/globals.css` → `--color-brand-primary` | brend klijenta |
-| 1.6 | Logo | `data/shop-info.ts` → `logo` + fajl u `public/` | prazno = ikonica + tekst |
-| 1.7 | Prefiks broja porudžbine | `data/shop-info.ts` → `orderPrefix` | npr. `"AJ"` umesto `"BG"` |
+| 1.0 | Aktivan tenant | env `NEXT_PUBLIC_TENANT` (per Vercel projekat) | id iz `data/tenants/index.ts` |
+| 1.1 | Ime apoteke | `data/tenants/<id>.ts` → `name`, `legalName` | ime klijenta |
+| 1.2 | Telefon, email | `data/tenants/<id>.ts` → `phone`, `email` | stvarni podaci |
+| 1.3 | Adresa i radno vreme | `data/tenants/<id>.ts` → `street`, `openingHours` | stvarni podaci |
+| 1.4 | Bank račun | `data/tenants/<id>.ts` → `bankAccount` | **obavezno** — vidi razlog ispod |
+| 1.5 | Boje | `data/tenants/<id>.ts` → `colors` | brend klijenta |
+| 1.6 | Logo | `data/tenants/<id>.ts` → `logo` + fajl u `public/` | prazno = ikonica + tekst |
+| 1.7 | Prefiks broja porudžbine | `data/tenants/<id>.ts` → `orderPrefix` | npr. `"AJ"` umesto `"BG"` |
 | 1.8 | Domen za email | `.env.local` + Resend verifikacija | obavezno pre lansa |
 
 > **Bank račun je bezbedan po default-u:** `bankAccount` je prazan, pa kupac
@@ -23,7 +24,7 @@ klijent sajt stavi u javno korišćenje. Prođi kroz listu sa njim na sastanku.
 > Mora se popuniti pre lansa, inače kupac ne može da plati virmanom.
 
 > **Svi kontakt podaci su centralizovani.** Telefon, adresa i ime čitaju se iz
-> `data/shop-info.ts` — nijedan broj nije utvrđen u kodu. Menjaš jedan fajl.
+> `data/tenants/<id>.ts` — nijedan broj nije utvrđen u kodu. Menjaš jedan fajl.
 
 
 ## 2. Proizvodi — obavezno
@@ -51,7 +52,7 @@ klijent sajt stavi u javno korišćenje. Prođi kroz listu sa njim na sastanku.
 
 | # | Šta | Gde |
 |---|---|---|
-| 4.1 | **Recenzije kupaca su izmišljene** | `data/testimonials.ts` → `testimonials = []` |
+| 4.1 | **Recenzije kupaca su izmišljene** | `data/tenants/<id>.ts` → `testimonials: []` |
 | 4.2 | Naslovi i tekstovi u blog člancima | `app/blog/` |
 | 4.3 | Naslovi i tekstovi na početnoj stranici | `app/page.tsx` |
 | 4.4 | TrustSection brojevi (500+ proizvoda, 1000+ kupaca…) | `components/TrustSection.tsx` |
@@ -62,8 +63,8 @@ klijent sajt stavi u javno korišćenje. Prođi kroz listu sa njim na sastanku.
 > predstavljaju lažnu reklamu — kažnjivo u Srbiji. Klijent MORA da ih ukloni
 > ili zameni stvarnim iskustvima pre lansa. Ovo uvek pomeni usmeno.
 
-> **Sada je pod kontrolom:** recenzije su u `data/testimonials.ts` i sekcija
-> se sama uklanja kad je niz prazan (`export const testimonials = []`).
+> **Sada je pod kontrolom:** recenzije su u `data/tenants/<id>.ts` i sekcija
+> se sama uklanja kad je niz prazan (`testimonials: []`).
 > Lažna Google ocena (`4.9 / 150+ recenzija`) je **uklonjena iz koda** —
 > blok se prikazuje samo kad `googleReviews` nije `null`.
 
