@@ -155,8 +155,10 @@ export default function Home() {
           priority
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-brand-950/95 via-brand-950/70 to-brand-900/25" />
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-950/70 via-transparent to-brand-950/20" />
+        {/* Neutralni tamni overlay (ne bojen brendom) — beli tekst ostaje
+            čitljiv, a fotografija zadržava prirodne tonove bez braon mutnoće */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/78 via-slate-950/45 to-slate-950/5" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/45 via-transparent to-slate-950/10" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-12 md:pt-24 md:pb-16">
           <motion.div

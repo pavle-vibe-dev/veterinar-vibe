@@ -41,10 +41,8 @@ export const mazaNera: TenantConfig = {
     // sa providnom pozadinom (crna verzija za navbar, bela za footer).
     logo: "/tenants/maza-nera/logo.png",
     logoLight: "/tenants/maza-nera/logo-light.png",
-    // Kad klijent pošalje fotografiju radnje (široki format ~1920x1080),
-    // snimiti je u public/tenants/maza-nera/hero.jpg i odkomentarisati:
-    // heroImage: "/tenants/maza-nera/hero.jpg",
-    heroImage: "",
+    // Fotografija izloga radnje (011info, preuzeta 15.10.2026)
+    heroImage: "/tenants/maza-nera/hero.jpg",
     // Prazno = kupac ne vidi broj (piše "račun dobijate uz potvrdu").
     // Račun postoji (Raiffeisen, 265-1100310102187-08) — dodati uz potvrdu klijenta.
     bankAccount: "",
