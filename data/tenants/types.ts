@@ -67,6 +67,17 @@ export type ShopInfo = {
    */
   pib: string
   registrationNo: string
+  /** SEO ključne reči po klijentu (Google metadata) */
+  keywords?: string[]
+  /**
+   * Schema.org tip biznisa za structured data:
+   * "VeterinaryCare" (vet apoteka) ili "PetStore" (pet shop).
+   */
+  schemaType?: string
+  /** Instagram profil — prazno = ikonica se ne prikazuje u footeru */
+  instagram?: string
+  /** Facebook profil — prazno = ikonica se ne prikazuje u footeru */
+  facebook?: string
 }
 
 export type Testimonial = {
@@ -106,4 +117,16 @@ export type TenantConfig = {
    */
   testimonials: Testimonial[]
   googleReviews: GoogleReviews
+  /**
+   * Preimenovanje kategorija za ovog klijenta (slug kategorije → ime).
+   * npr. pet shop klijent: { apoteka: "Zaštita i vitamini" }
+   */
+  categoryNames?: Record<string, string>
+  /**
+   * Tip biznisa — kontroliše brend-tekstove na sajtu:
+   * "mixed" (default) = vet apoteka + pet shop,
+   * "pet-shop" = samo pet shop — UI tada NE pominje apoteku/veterinara
+   * u brend kontekstu (medicinska upozorenja na proizvodima ostaju).
+   */
+  businessType?: "mixed" | "pet-shop"
 }

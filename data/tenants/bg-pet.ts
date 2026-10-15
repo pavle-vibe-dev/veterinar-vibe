@@ -31,11 +31,21 @@ export const bgPet: TenantConfig = {
     orderFrom: "onboarding@resend.dev",
     gaId: "",
     metaPixelId: "",
+    instagram: "https://www.instagram.com/_bg_pet",
+    facebook: "",
     logo: "",
     bankAccount: "",
     orderPrefix: "BG",
     pib: "",
     registrationNo: "",
+    keywords: [
+      "veterinarska apoteka",
+      "pet shop Beograd",
+      "hrana za pse",
+      "zaštita od krpelja",
+      "vitamini za ljubimce",
+    ],
+    schemaType: "VeterinaryCare",
   },
   colors: {
     primary: "#10b981",
@@ -69,4 +79,5 @@ export const bgPet: TenantConfig = {
     },
   ],
   googleReviews: null,
+  businessType: "mixed",
 }

@@ -17,7 +17,7 @@ import {
   paymentMethods,
   FREE_DELIVERY_THRESHOLD,
 } from "../../data/checkout"
-import { shopInfo, fullAddress } from "../../data/shop-info"
+import { shopInfo, fullAddress, isPetShop } from "../../data/shop-info"
 import Canonical from "../../components/Canonical"
 
 export const metadata: Metadata = {
@@ -56,7 +56,7 @@ const faq = [
   },
   {
     q: "Kako da znam da li je proizvod dostupan?",
-    a: "Na svakom proizvodu stoji status dostupnosti (Dostupno u apoteci / Poslednji komadi / Na upit). Za tačnu potvrdu pošaljite upit — odgovaramo istog radnog dana, najčešće u roku od nekoliko sati.",
+    a: `Na svakom proizvodu stoji status dostupnosti (${isPetShop ? "Dostupno u prodavnici" : "Dostupno u apoteci"} / Poslednji komadi / Na upit). Za tačnu potvrdu pošaljite upit — odgovaramo istog radnog dana, najčešće u roku od nekoliko sati.`,
   },
   {
     q: "Koliko košta dostava?",
@@ -68,7 +68,9 @@ const faq = [
   },
   {
     q: "Da li šaljete lekove i antiparazitike?",
-    a: "Apotekarske preparate, antiparazitike i medicinsku hranu šaljemo uz prethodnu proveru i savet apotekara. Stavke koje zahtevaju recept ne šaljemo bez konsultacije sa veterinarom.",
+    a: isPetShop
+      ? "Antiparazitike i preparate za negu šaljemo uz prethodnu proveru i savet našeg tima. Proizvode koji zahtevaju recept ne šaljemo bez konsultacije sa veterinarom."
+      : "Apotekarske preparate, antiparazitike i medicinsku hranu šaljemo uz prethodnu proveru i savet apotekara. Stavke koje zahtevaju recept ne šaljemo bez konsultacije sa veterinarom.",
   },
   {
     q: "Kako dobijam podatke za virman?",

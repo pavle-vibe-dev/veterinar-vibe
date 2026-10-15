@@ -39,6 +39,7 @@ import {
 } from "../../data/shop"
 import ProductCard from "../../components/cart/ProductCard"
 import Canonical from "../../components/Canonical"
+import { isPetShop } from "../../data/shop-info"
 
 type SortKey = "popular" | "price-asc" | "price-desc" | "name"
 
@@ -270,8 +271,12 @@ function ProdavnicaContent() {
             <h1 className="h1 mt-2 mb-4">Internet prodavnica</h1>
             <p className="text-lg text-brand-muted leading-relaxed">
               Sve za vašeg ljubimca na jednom mestu — od hrane i opreme za pse
-              i mačke do apotekarskih preparata. Izaberite grupu, pa podgrupu,
-              dodajte proizvode u upit — bez plaćanja karticom.
+              i mačke
+              {isPetShop
+                ? " do preparata za negu i zaštitu."
+                : " do apotekarskih preparata."}{" "}
+              Izaberite grupu, pa podgrupu, dodajte proizvode u upit — bez
+              plaćanja karticom.
             </p>
           </motion.div>
 

@@ -48,12 +48,16 @@ export const primerTenant: TenantConfig = {
     orderFrom: "narudzbe@demo.rs",
     gaId: "",
     metaPixelId: "",
+    instagram: "", // npr. "https://www.instagram.com/ime_profila"
+    facebook: "",
     // ── Brend ──────────────────────────────────────────────────
     logo: "", // npr. "/tenants/primer/logo.png" (fajl u public/)
     bankAccount: "", // PRAZNO = kupac ne vidi broj (bezbedno pre popunjavanja)
     orderPrefix: "DM", // prefiks broja porudžbine, npr. "DM-2026-1234"
     pib: "",
     registrationNo: "",
+    keywords: ["pet shop", "hrana za pse", "oprema za ljubimce"],
+    schemaType: "PetStore",
   },
   colors: {
     // Test boja (plava) — dokaz da boje nisu vezane za zeleno.
@@ -63,4 +67,5 @@ export const primerTenant: TenantConfig = {
   // Recenzije: [] = sekcija se uklanja. Ne izmišljati za klijenta!
   testimonials: [],
   googleReviews: null,
+  businessType: "mixed",
 }

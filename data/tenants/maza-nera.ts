@@ -11,13 +11,15 @@ export const mazaNera: TenantConfig = {
   id: "maza-nera",
   shopInfo: {
     name: "Maza & Nera",
-    tagline: "Pet Shop u Zemunu",
+    tagline: "Pet Shop",
     legalName: "Jelena Đurković PR — Pet Shop Maza & Nera",
     description:
       "Pet shop Maza & Nera u Zemunu, naselje Save Kovačević. Hrana, poslastice, igračke, suplementi i kozmetika za pse i mačke — Happy Dog, Farmina N&D, Cibao i drugi brendovi. Porudžbine online, preuzimanje u radnji ili dostava.",
     phone: "069/1660-190",
     phoneHref: "tel:+381691660190",
     email: "petshopmazainera2026@gmail.com",
+    instagram: "https://www.instagram.com/mazanera2026",
+    facebook: "",
     street: "Gornjogradska 7i",
     zip: "11080",
     city: "Beograd",
@@ -43,6 +45,15 @@ export const mazaNera: TenantConfig = {
     // Javni registarski podaci (companywall.rs) — obavezni na Uslovima/Politici
     pib: "115428331",
     registrationNo: "68359201",
+    keywords: [
+      "pet shop Zemun",
+      "hrana za pse Zemun",
+      "hrana za mačke Zemun",
+      "poslastice za pse",
+      "oprema za kućne ljubimce",
+      "suplementi za pse",
+    ],
+    schemaType: "PetStore",
   },
   colors: {
     // PRIVREMENO zeleno (podrazumevano) — zameniti bojom brenda klijenta
@@ -52,4 +63,9 @@ export const mazaNera: TenantConfig = {
   // Recenzije: [] = sekcija se automatski uklanja (ne izmišljati!)
   testimonials: [],
   googleReviews: null,
+  businessType: "pet-shop",
+  // Preimenovanje kategorije za pet shop (umesto "Veterinarska apoteka")
+  categoryNames: {
+    apoteka: "Zaštita i vitamini",
+  },
 }

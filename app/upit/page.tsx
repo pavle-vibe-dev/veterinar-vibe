@@ -23,7 +23,7 @@ import {
 import { useCart } from "../../components/cart/CartProvider"
 import { trackOrder } from "../../lib/analytics"
 import { formatPrice, getProduct } from "../../data/shop"
-import { shopInfo } from "../../data/shop-info"
+import { shopInfo, isPetShop } from "../../data/shop-info"
 import {
   FREE_DELIVERY_THRESHOLD,
   deliveryMethods,
@@ -612,8 +612,9 @@ export default function UpitPage() {
                   </div>
                   {hasApoteka && (
                     <p className="mt-4 text-xs bg-amber-50 border border-amber-200 rounded-xl p-3 text-slate-700">
-                      ⚠️ Korpa sadrži apotekarske preparate — pre slanja ćemo
-                      vas kontaktirati, a lekovi se izdaju uz savet apotekara.
+                      {isPetShop
+                        ? "⚠️ Korpa sadrži preparate za zaštitu i negu — pre slanja ćemo vas kontaktirati radi provere."
+                        : "⚠️ Korpa sadrži apotekarske preparate — pre slanja ćemo vas kontaktirati, a lekovi se izdaju uz savet apotekara."}
                     </p>
                   )}
                 </div>

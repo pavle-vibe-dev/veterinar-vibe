@@ -15,7 +15,7 @@ import {
   getProduct,
   products,
 } from "../../../data/shop"
-import { shopInfo } from "../../../data/shop-info"
+import { shopInfo, isPetShop } from "../../../data/shop-info"
 import {
   getProductDetails,
   getBrandDescription,
@@ -58,7 +58,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   const stockLabel =
     product.stock === "dostupno"
-      ? "Dostupno u apoteci"
+      ? isPetShop
+        ? "Dostupno u prodavnici"
+        : "Dostupno u apoteci"
       : product.stock === "poslednji-komadi"
         ? "Poslednji komadi — proverite"
         : "Na upit — nabavka za 1–3 dana"

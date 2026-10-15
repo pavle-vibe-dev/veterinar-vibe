@@ -1,7 +1,7 @@
 "use server"
 
 import { Resend } from "resend"
-import { shopInfo, brandColors } from "../../data/shop-info"
+import { shopInfo, brandColors, isPetShop } from "../../data/shop-info"
 import { recordOrder } from "../../lib/orders"
 
 const resend = new Resend(process.env.RESEND_API_KEY || "")
@@ -108,7 +108,7 @@ export async function sendOrder(data: OrderData) {
         </table>
         <p>Međuzbir: ${formatRSD(subtotal)}<br/>Dostava: ${formatRSD(deliveryPrice)}</p>
         <p style="font-size:18px;"><strong>Ukupno za naplatu: ${formatRSD(total)}</strong></p>
-        ${hasApotekaItems ? `<p style="background:#fefce8;padding:10px;border-radius:6px;font-size:13px;">⚠️ Porudžbina sadrži apotekarske preparate — kontaktirati kupca i izdati uz savet apotekara. Lekovi se ne šalju bez provere.</p>` : ""}
+        ${hasApotekaItems ? `<p style="background:#fefce8;padding:10px;border-radius:6px;font-size:13px;">${isPetShop ? "⚠️ Porudžbina sadrži preparate za zaštitu i negu — kontaktirati kupca radi provere." : "⚠️ Porudžbina sadrži apotekarske preparate — kontaktirati kupca i izdati uz savet apotekara. Lekovi se ne šalju bez provere."}</p>` : ""}
         <p style="color:#64748b;font-size:13px;">Bez karttičnog plaćanja — narudžbina se obrađuje telefonom (virman / pouzećem / lično preuzimanje).</p>
       </div>
     `

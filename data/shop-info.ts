@@ -25,6 +25,13 @@ export const shopInfo: ShopInfo = {
 /** Brend boje aktivnog tenanta — koristi se i u email šablonima (app/actions/*) */
 export const brandColors = tenant.colors
 
+/**
+ * true = tenant je čist pet shop (bez apotekarskog brendiranja u UI).
+ * Koristi se za uslovne tekstove: "Savet veterinara" → "Stručan savet",
+ * "Dostupno u apoteci" → "Dostupno u prodavnici" itd.
+ */
+export const isPetShop = tenant.businessType === "pet-shop"
+
 export const analyticsEnabled = () =>
   Boolean(shopInfo.gaId || shopInfo.metaPixelId)
 

@@ -3,7 +3,7 @@
 import { motion } from "framer-motion"
 import { Apple, Shield, Pill, Dog, ArrowRight, Check, Star } from "lucide-react"
 import Canonical from "../../components/Canonical"
-import { shopInfo } from "../../data/shop-info"
+import { shopInfo, isPetShop } from "../../data/shop-info"
 
 export default function AsortimanPage() {
   const categories = [
@@ -79,8 +79,7 @@ export default function AsortimanPage() {
           >
             <h1 className="h1 mt-6 mb-2 md:mt-8 md:mb-4">Naš Asortiman</h1>
             <p className="text-xl text-brand-muted max-w-3xl mx-auto">
-              Kompletna ponuda veterinarske apoteke {shopInfo.name} na{" "}
-              {shopInfo.district}u
+              Kompletna ponuda za pse i mačke — {shopInfo.name} ({shopInfo.district})
             </p>
           </motion.div>
         </div>
@@ -137,7 +136,9 @@ export default function AsortimanPage() {
                   <div className="absolute -bottom-4 -right-4 bg-white rounded-xl shadow-lg p-4">
                     <div className="flex items-center space-x-2">
                       <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                      <span className="font-semibold text-brand-dark">Dostupno u apoteci</span>
+                      <span className="font-semibold text-brand-dark">
+                        {isPetShop ? "Dostupno u prodavnici" : "Dostupno u apoteci"}
+                      </span>
                     </div>
                   </div>
                 </div>

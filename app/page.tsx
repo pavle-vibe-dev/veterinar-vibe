@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import Canonical from "../components/Canonical"
-import { shopInfo } from "../data/shop-info"
+import { shopInfo, isPetShop } from "../data/shop-info"
 import { googleReviews } from "../data/testimonials"
 import { motion } from "framer-motion"
 import {
@@ -24,7 +24,7 @@ import {
   Star,
   Phone,
 } from "lucide-react"
-import { brands, products } from "../data/shop"
+import { brands, products, getCategory } from "../data/shop"
 import ProductCard from "../components/cart/ProductCard"
 import SearchAutocomplete from "../components/SearchAutocomplete"
 import Testimonials from "../components/Testimonials"
@@ -32,7 +32,7 @@ import Testimonials from "../components/Testimonials"
 const mostWanted = [
   { icon: Dog, label: "Psi", href: "/prodavnica?category=hrana-psi" },
   { icon: Cat, label: "Mačke", href: "/prodavnica?category=hrana-macke" },
-  { icon: Pill, label: "Apoteka", href: "/prodavnica?category=apoteka" },
+  { icon: Pill, label: getCategory("apoteka")?.name ?? "Apoteka", href: "/prodavnica?category=apoteka" },
   { icon: Apple, label: "Hrana", href: "/prodavnica?category=hrana-psi" },
   { icon: Sparkles, label: "Vitamini", href: "/prodavnica?category=apoteka" },
   { icon: ShoppingBag, label: "Oprema", href: "/prodavnica?category=oprema" },
@@ -43,7 +43,11 @@ const mostWanted = [
 const trustItems = [
   { icon: BadgeCheck, title: "Original proizvodi", desc: "Provereni dobavljači" },
   { icon: Truck, title: "Brza dostupnost", desc: "Preuzimanje ili dostava" },
-  { icon: Stethoscope, title: "Savet veterinara", desc: "Stručna preporuka" },
+  {
+    icon: Stethoscope,
+    title: isPetShop ? "Stručan savet" : "Savet veterinara",
+    desc: "Stručna preporuka",
+  },
   { icon: Mail, title: "Upit na email", desc: "Bez plaćanja karticom" },
 ]
 
@@ -54,8 +58,10 @@ const seoBlocks = [
     href: "/prodavnica?category=hrana-psi",
   },
   {
-    title: "Veterinarske dijete",
-    text: "Renal, gastrointestinal, hipoalergene i dijabetičke formule. Za ljubimce sa posebnim potrebama — uvek uz savet veterinara.",
+    title: isPetShop ? "Specijalne dijete" : "Veterinarske dijete",
+    text: isPetShop
+      ? "Renal, gastrointestinal, hipoalergene i dijabetičke formule. Za ljubimce sa posebnim potrebama — uvek po preporuci."
+      : "Renal, gastrointestinal, hipoalergene i dijabetičke formule. Za ljubimce sa posebnim potrebama — uvek uz savet veterinara.",
     href: "/prodavnica?category=hrana-macke",
   },
   {
@@ -143,7 +149,7 @@ export default function Home() {
       <section className="relative overflow-hidden">
         <Image
           src="/hero.jpg"
-          alt={`Dva srećna psa — ${shopInfo.name} veterina i pet shop`}
+          alt={`Dva srećna psa — ${shopInfo.name} ${isPetShop ? "pet shop" : "veterina i pet shop"}`}
           fill
           className="object-cover object-center"
           priority
@@ -167,11 +173,11 @@ export default function Home() {
               </p>
             )}
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.05] tracking-tight drop-shadow-lg">
-              Veterinarska apoteka i Pet Shop{" "}
+              {shopInfo.tagline}{" "}
               <span className="text-emerald-300">{shopInfo.name}</span>
             </h1>
             <p className="text-emerald-50/90 text-lg mt-5 max-w-xl leading-relaxed">
-              Premium hrana, apoteka i oprema za pse i mačke. Izaberite
+              Hrana, oprema i poslastice za pse i mačke. Izaberite
               proizvode, pošaljite upit na email — mi potvrđujemo cenu i
               dostupnost.
             </p>
@@ -348,8 +354,9 @@ export default function Home() {
                 Niste sigurni šta vašem ljubimcu treba?
               </h3>
               <p className="text-emerald-100 mt-2 max-w-xl">
-                Pošaljite nam spisak ili opišite problem — veterinarski tim
-                odgovara sa preporukom i okvirnom cenom.
+                Pošaljite nam spisak ili opišite problem —{" "}
+                {isPetShop ? "naš tim" : "veterinarski tim"} odgovara sa
+                preporukom i okvirnom cenom.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 shrink-0">
@@ -431,7 +438,7 @@ export default function Home() {
             <p className="text-sm font-bold text-brand-primary uppercase tracking-widest mb-2">
               {shopInfo.name}
             </p>
-            <h2 className="h2">Veterinarska apoteka i Pet Shop Vam nudi</h2>
+            <h2 className="h2">{shopInfo.tagline} Vam nudi</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {seoBlocks.map((b, i) => (
