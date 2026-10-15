@@ -1,3 +1,5 @@
+import { tenant } from "./tenants"
+
 export interface Category {
   slug: string
   name: string
@@ -35,7 +37,7 @@ export interface Product {
   unit: string // npr. "11.4kg", "3 tbl", "250ml"
 }
 
-export const categories: Category[] = [
+const baseCategories: Category[] = [
   {
     slug: "hrana-psi",
     name: "Psi",
@@ -65,6 +67,15 @@ export const categories: Category[] = [
     animal: "Oprema",
   },
 ]
+
+/**
+ * Aktivne kategorije — imena se mogu prekriti po klijentu preko
+ * TenantConfig.categoryNames (npr. pet shop: "Veterinarska apoteka" → "Zaštita i vitamini").
+ */
+export const categories: Category[] = baseCategories.map((c) => {
+  const override = tenant.categoryNames?.[c.slug]
+  return override ? { ...c, name: override } : c
+})
 
 export const subgroups: Subgroup[] = [
   { slug: "granule-psi", name: "Granule za pse", category: "hrana-psi", desc: "Suva hrana za odrasle pse" },

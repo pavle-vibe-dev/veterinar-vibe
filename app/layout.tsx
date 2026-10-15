@@ -37,8 +37,8 @@ export const metadata: Metadata = {
     default: `${shopInfo.name} | ${shopInfo.tagline}`,
     template: `%s | ${shopInfo.name}`
   },
-  description: `${shopInfo.tagline} na ${shopInfo.district}u. Medicinska hrana, zaštita od parazita, suplementi, vitamini, oprema i kozmetika za pse i mačke.`,
-  keywords: ['veterinarska apoteka', 'pet shop Beograd', 'hrana za pse', 'zaštita od krpelja', 'vitamini za ljubimce', shopInfo.name, shopInfo.district],
+  description: shopInfo.description,
+  keywords: [...(shopInfo.keywords ?? []), shopInfo.name, shopInfo.district],
   openGraph: {
     title: `${shopInfo.name} - ${shopInfo.tagline}`,
     images: [
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: `${shopInfo.name} - ${shopInfo.tagline}`,
-    description: `${shopInfo.tagline} na ${shopInfo.district}u. Medicinska hrana, zaštita od parazita, suplementi, vitamini, oprema i kozmetika za pse i mačke.`,
+    description: shopInfo.description,
     images: ['/hero.jpg']
   },
   icons: {

@@ -1,0 +1,157 @@
+diff --git a/app/layout.tsx b/app/layout.tsx
+index 31af084..3be580f 100644
+--- a/app/layout.tsx
++++ b/app/layout.tsx
+@@ -37,8 +37,8 @@ export const metadata: Metadata = {
+     default: `${shopInfo.name} | ${shopInfo.tagline}`,
+     template: `%s | ${shopInfo.name}`
+   },
+-  description: `${shopInfo.tagline} na ${shopInfo.district}u. Medicinska hrana, zaštita od parazita, suplementi, vitamini, oprema i kozmetika za pse i mačke.`,
+-  keywords: ['veterinarska apoteka', 'pet shop Beograd', 'hrana za pse', 'zaštita od krpelja', 'vitamini za ljubimce', shopInfo.name, shopInfo.district],
++  description: shopInfo.description,
++  keywords: [...(shopInfo.keywords ?? []), shopInfo.name, shopInfo.district],
+   openGraph: {
+     title: `${shopInfo.name} - ${shopInfo.tagline}`,
+     images: [
+@@ -54,7 +54,7 @@ export const metadata: Metadata = {
+   twitter: {
+     card: 'summary_large_image',
+     title: `${shopInfo.name} - ${shopInfo.tagline}`,
+-    description: `${shopInfo.tagline} na ${shopInfo.district}u. Medicinska hrana, zaštita od parazita, suplementi, vitamini, oprema i kozmetika za pse i mačke.`,
++    description: shopInfo.description,
+     images: ['/hero.jpg']
+   },
+   icons: {
+diff --git a/app/o-nama/page.tsx b/app/o-nama/page.tsx
+index c09a6c5..f7e163d 100644
+--- a/app/o-nama/page.tsx
++++ b/app/o-nama/page.tsx
+@@ -16,7 +16,7 @@ import Canonical from "../../components/Canonical"
+ 
+ export const metadata: Metadata = {
+   title: "O nama",
+-  description: `${shopInfo.name} — ${shopInfo.tagline} na ${shopInfo.district}u. Medicinska hrana, zaštita od parazita, suplementi i oprema za pse i mačke, uz stručni savet.`,
++  description: shopInfo.description,
+   alternates: { canonical: "/o-nama" },
+ }
+ 
+diff --git a/components/Footer.tsx b/components/Footer.tsx
+index 4ff7e67..20a8402 100644
+--- a/components/Footer.tsx
++++ b/components/Footer.tsx
+@@ -49,7 +49,7 @@ export default function Footer() {
+                 <BrandLogo variant="light" />
+               </div>
+               <p className="text-slate-400 leading-relaxed">
+-                {shopInfo.tagline} na {shopInfo.district}u. Specializovani za medicinsku hranu, zaštitu od parazita, suplemente i opremu za Vaše ljubimce.
++                {shopInfo.description}
+               </p>
+             </motion.div>
+ 
+@@ -122,27 +122,35 @@ export default function Footer() {
+                 </div>
+               </div>
+ 
+-              {/* Social media ikonice */}
+-              <div className="flex space-x-4 mt-6">
+-                <motion.a
+-                  href="https://www.instagram.com/_bg_pet"
+-                  target="_blank"
+-                  rel="noopener noreferrer"
+-                  className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-brand-primary transition-all duration-300"
+-                  whileHover={{ scale: 1.1 }}
+-                  whileTap={{ scale: 0.9 }}
+-                >
+-                  <Instagram className="w-5 h-5" />
+-                </motion.a>
+-                <motion.a
+-                  href="#"
+-                  className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-brand-primary transition-all duration-300"
+-                  whileHover={{ scale: 1.1 }}
+-                  whileTap={{ scale: 0.9 }}
+-                >
+-                  <Facebook className="w-5 h-5" />
+-                </motion.a>
+-              </div>
++              {/* Social media ikonice — prikazuju se samo ako su linkovi popunjeni */}
++              {(shopInfo.instagram || shopInfo.facebook) && (
++                <div className="flex space-x-4 mt-6">
++                  {shopInfo.instagram && (
++                    <motion.a
++                      href={shopInfo.instagram}
++                      target="_blank"
++                      rel="noopener noreferrer"
++                      className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-brand-primary transition-all duration-300"
++                      whileHover={{ scale: 1.1 }}
++                      whileTap={{ scale: 0.9 }}
++                    >
++                      <Instagram className="w-5 h-5" />
++                    </motion.a>
++                  )}
++                  {shopInfo.facebook && (
++                    <motion.a
++                      href={shopInfo.facebook}
++                      target="_blank"
++                      rel="noopener noreferrer"
++                      className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-brand-primary transition-all duration-300"
++                      whileHover={{ scale: 1.1 }}
++                      whileTap={{ scale: 0.9 }}
++                    >
++                      <Facebook className="w-5 h-5" />
++                    </motion.a>
++                  )}
++                </div>
++              )}
+             </motion.div>
+           </div>
+ 
+diff --git a/components/StructuredData.tsx b/components/StructuredData.tsx
+index 2c764aa..5220efe 100644
+--- a/components/StructuredData.tsx
++++ b/components/StructuredData.tsx
+@@ -3,8 +3,8 @@ import { shopInfo } from "../data/shop-info"
+ export default function StructuredData() {
+   const schema = {
+     "@context": "https://schema.org",
+-    "@type": "VeterinaryCare",
+-    "@id": `${shopInfo.siteUrl}/#apoteka`,
++    "@type": shopInfo.schemaType ?? "PetStore",
++    "@id": `${shopInfo.siteUrl}/#shop`,
+     name: shopInfo.name,
+     legalName: shopInfo.legalName,
+     description: shopInfo.description,
+diff --git a/data/shop.ts b/data/shop.ts
+index c210eca..99bf5b7 100644
+--- a/data/shop.ts
++++ b/data/shop.ts
+@@ -1,3 +1,5 @@
++import { tenant } from "./tenants"
++
+ export interface Category {
+   slug: string
+   name: string
+@@ -35,7 +37,7 @@ export interface Product {
+   unit: string // npr. "11.4kg", "3 tbl", "250ml"
+ }
+ 
+-export const categories: Category[] = [
++const baseCategories: Category[] = [
+   {
+     slug: "hrana-psi",
+     name: "Psi",
+@@ -66,6 +68,15 @@ export const categories: Category[] = [
+   },
+ ]
+ 
++/**
++ * Aktivne kategorije — imena se mogu prekriti po klijentu preko
++ * TenantConfig.categoryNames (npr. pet shop: "Veterinarska apoteka" → "Zaštita i vitamini").
++ */
++export const categories: Category[] = baseCategories.map((c) => {
++  const override = tenant.categoryNames?.[c.slug]
++  return override ? { ...c, name: override } : c
++})
++
+ export const subgroups: Subgroup[] = [
+   { slug: "granule-psi", name: "Granule za pse", category: "hrana-psi", desc: "Suva hrana za odrasle pse" },
+   { slug: "granule-macke", name: "Granule za mačke", category: "hrana-macke", desc: "Suva hrana za mačke" },

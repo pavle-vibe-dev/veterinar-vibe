@@ -49,7 +49,7 @@ export default function Footer() {
                 <BrandLogo variant="light" />
               </div>
               <p className="text-slate-400 leading-relaxed">
-                {shopInfo.tagline} na {shopInfo.district}u. Specializovani za medicinsku hranu, zaštitu od parazita, suplemente i opremu za Vaše ljubimce.
+                {shopInfo.description}
               </p>
             </motion.div>
 
@@ -122,27 +122,35 @@ export default function Footer() {
                 </div>
               </div>
 
-              {/* Social media ikonice */}
-              <div className="flex space-x-4 mt-6">
-                <motion.a
-                  href="https://www.instagram.com/_bg_pet"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-brand-primary transition-all duration-300"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <Instagram className="w-5 h-5" />
-                </motion.a>
-                <motion.a
-                  href="#"
-                  className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-brand-primary transition-all duration-300"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <Facebook className="w-5 h-5" />
-                </motion.a>
-              </div>
+              {/* Social media ikonice — prikazuju se samo ako su linkovi popunjeni */}
+              {(shopInfo.instagram || shopInfo.facebook) && (
+                <div className="flex space-x-4 mt-6">
+                  {shopInfo.instagram && (
+                    <motion.a
+                      href={shopInfo.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-brand-primary transition-all duration-300"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      <Instagram className="w-5 h-5" />
+                    </motion.a>
+                  )}
+                  {shopInfo.facebook && (
+                    <motion.a
+                      href={shopInfo.facebook}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-brand-primary transition-all duration-300"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      <Facebook className="w-5 h-5" />
+                    </motion.a>
+                  )}
+                </div>
+              )}
             </motion.div>
           </div>
 

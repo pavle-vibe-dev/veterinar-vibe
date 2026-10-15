@@ -16,7 +16,7 @@ import Canonical from "../../components/Canonical"
 
 export const metadata: Metadata = {
   title: "O nama",
-  description: `${shopInfo.name} — ${shopInfo.tagline} na ${shopInfo.district}u. Medicinska hrana, zaštita od parazita, suplementi i oprema za pse i mačke, uz stručni savet.`,
+  description: shopInfo.description,
   alternates: { canonical: "/o-nama" },
 }
 

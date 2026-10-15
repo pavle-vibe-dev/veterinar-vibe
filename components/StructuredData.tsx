@@ -3,8 +3,8 @@ import { shopInfo } from "../data/shop-info"
 export default function StructuredData() {
   const schema = {
     "@context": "https://schema.org",
-    "@type": "VeterinaryCare",
-    "@id": `${shopInfo.siteUrl}/#apoteka`,
+    "@type": shopInfo.schemaType ?? "PetStore",
+    "@id": `${shopInfo.siteUrl}/#shop`,
     name: shopInfo.name,
     legalName: shopInfo.legalName,
     description: shopInfo.description,
