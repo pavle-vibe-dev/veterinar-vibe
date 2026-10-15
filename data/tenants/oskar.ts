@@ -26,7 +26,7 @@ export const oskar: TenantConfig = {
     zip: "11080",
     city: "Beograd",
     district: "Altina",
-    siteUrl: "https://oskar.vercel.app",
+    siteUrl: "https://petshop-oskar.vercel.app",
     // Radno vreme po portal-srbija: radnim danima 09-20, subota 09-17, nedelja zatvoreno
     openingHours: [
       { days: "Mo-Fr", label: "Pon-Petak", opens: "09:00", closes: "20:00" },
