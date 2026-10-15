@@ -1,6 +1,7 @@
 import type { TenantConfig } from "./types"
 import { bgPet } from "./bg-pet"
 import { primerTenant } from "./primer"
+import { mazaNera } from "./maza-nera"
 
 /**
  * Registr svih tenanata (klijenata).
@@ -17,6 +18,7 @@ import { primerTenant } from "./primer"
 const registry: Record<string, TenantConfig> = {
   "bg-pet": bgPet,
   primer: primerTenant,
+  "maza-nera": mazaNera,
 }
 
 /**
