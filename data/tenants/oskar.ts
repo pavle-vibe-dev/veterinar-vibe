@@ -39,7 +39,9 @@ export const oskar: TenantConfig = {
     gaId: "",
     metaPixelId: "",
     // Logo u boji (banner) — ima sopstvenu svetlo-plavu pozadinu, koristi se JPG kakav jeste
-    logo: "/tenants/oskar/logo.jpg",
+    logo: "/tenants/oskar/logo.svg",
+    // Varijanta za tamnu pozadinu (footer) — bela slova
+    logoLight: "/tenants/oskar/logo-light.svg",
     // Prazno = kupac ne vidi broj (piše "račun dobijate uz potvrdu")
     bankAccount: "",
     orderPrefix: "OS",

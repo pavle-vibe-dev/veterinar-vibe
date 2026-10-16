@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 212 70" width="212" height="70" role="img" aria-label="Pet Shop Oskar">
+  <!-- Sapa (brend zelena) -->
+  <g fill="#16a34a">
+    <ellipse cx="41" cy="49" rx="16" ry="12"/>
+    <ellipse cx="20" cy="31" rx="6.5" ry="8.5"/>
+    <ellipse cx="33" cy="19" rx="6.5" ry="9"/>
+    <ellipse cx="49" cy="19" rx="6.5" ry="9"/>
+    <ellipse cx="62" cy="31" rx="6.5" ry="8.5"/>
+  </g>
+  <!-- Tekst -->
+  <text x="82" y="29" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" letter-spacing="4" fill="#16a34a">PET SHOP</text>
+  <text x="80" y="61" font-family="Arial, Helvetica, sans-serif" font-size="33" font-weight="800" letter-spacing="0.5" fill="#0f172a">OSKAR</text>
+</svg>

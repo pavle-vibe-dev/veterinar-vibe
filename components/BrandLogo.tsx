@@ -26,6 +26,8 @@ export default function BrandLogo({ variant = "dark", className = "" }: Props) {
         alt={shopInfo.name}
         width={200}
         height={40}
+        // SVG je vektor — optimizer ga odbija bez dangerouslyAllowSVG, pa ide direktno
+        unoptimized={src.endsWith(".svg")}
         className={`h-9 w-auto max-w-[180px] object-contain ${className}`}
         priority
       />
