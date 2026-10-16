@@ -10,7 +10,7 @@ import {
   MapPin,
   ArrowRight,
 } from "lucide-react"
-import { shopInfo, fullAddress, hoursDisplay } from "../../data/shop-info"
+import { shopInfo, fullAddress, hoursDisplay, isPetShop } from "../../data/shop-info"
 import { categories } from "../../data/shop"
 import Canonical from "../../components/Canonical"
 
@@ -39,7 +39,9 @@ const values = [
   {
     icon: HeartHandshake,
     title: "Dugoročna briga",
-    text: "Medicinska hrana i terapija traju mesecima — vodimo evidenciju šta vaš ljubimac koristi i podsećamo na dopunu.",
+    text: isPetShop
+      ? "Hrana, poslastice i oprema traju mesecima — vodimo evidenciju šta vaš ljubimac koristi i podsećamo na dopunu."
+      : "Medicinska hrana i terapija traju mesecima — vodimo evidenciju šta vaš ljubimac koristi i podsećamo na dopunu.",
   },
 ]
 
@@ -72,8 +74,10 @@ export default function ONamaPage() {
             <p className="text-brand-muted leading-relaxed mb-4">
               {shopInfo.name} je {shopInfo.tagline.toLowerCase()} sa adresom na{" "}
               {fullAddress}. Bavimo se snabdevanjem vlasnika pasa i mačaka — od
-              svakodnevne hrane do medicinskih preparata koje propisuje
-              veterinar.
+              svakodnevne hrane do{" "}
+              {isPetShop
+                ? "opreme, kozmetike i poslastica"
+                : "medicinskih preparata koje propisuje veterinar"}.
             </p>
             <p className="text-brand-muted leading-relaxed mb-4">
               Ono što nas razlikuje je jednostavan model: katalog je otvoren i

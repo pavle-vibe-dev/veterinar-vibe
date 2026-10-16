@@ -3,7 +3,7 @@
 import { motion } from "framer-motion"
 import { Phone, MapPin, Clock, Instagram, Facebook, ArrowRight } from "lucide-react"
 import Link from "next/link"
-import { shopInfo, fullAddress, hoursDisplay } from "../data/shop-info"
+import { shopInfo, fullAddress, hoursDisplay, isPetShop } from "../data/shop-info"
 import BrandLogo from "./BrandLogo"
 
 export default function Footer() {
@@ -82,11 +82,13 @@ export default function Footer() {
                     O nama
                   </Link>
                 </li>
-                <li>
-                  <Link href="/blog" className="text-slate-400 hover:text-white transition-colors duration-300">
-                    Blog
-                  </Link>
-                </li>
+                {!isPetShop && (
+                  <li>
+                    <Link href="/blog" className="text-slate-400 hover:text-white transition-colors duration-300">
+                      Blog
+                    </Link>
+                  </li>
+                )}
                 <li>
                   <Link href="/kontakt" className="text-slate-400 hover:text-white transition-colors duration-300">
                     Kontakt

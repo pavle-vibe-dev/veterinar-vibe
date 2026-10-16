@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 import { Star, MessageCircleHeart } from "lucide-react"
 import Link from "next/link"
 import { testimonials, googleReviews, initials } from "../data/testimonials"
-import { shopInfo } from "../data/shop-info"
+import { shopInfo, isPetShop } from "../data/shop-info"
 
 export default function Testimonials() {
   // Bez recenzija se sekcija uopste ne renderuje (prazno = sklonjeno)
@@ -22,7 +22,8 @@ export default function Testimonials() {
         >
           <h2 className="h2 mb-4">Šta kažu naši kupci</h2>
           <p className="text-lg text-brand-muted max-w-3xl mx-auto">
-            Iskustva vlasnika koji kupuju u {shopInfo.name} apoteci
+            Iskustva vlasnika koji kupuju u {shopInfo.name}{" "}
+            {isPetShop ? "prodavnici" : "apoteci"}
           </p>
         </motion.div>
 

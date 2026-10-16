@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import { FileText, ShoppingBag, Truck, Undo2, Wrench, Scale } from "lucide-react"
-import { shopInfo, fullAddress } from "../../data/shop-info"
+import { shopInfo, fullAddress, isPetShop } from "../../data/shop-info"
 import { FREE_DELIVERY_THRESHOLD } from "../../data/checkout"
 import Canonical from "../../components/Canonical"
 
@@ -37,8 +37,7 @@ const sections = [
   {
     icon: Wrench,
     title: "5. Reklamacija i materijalna neusaglašenost",
-    text:
-      "Za proizvode koji nisu u skladu sa ugovorom možete da podnesete reklamaciju u roku od 30 dana od dana otkrivanja neusaglašenosti. Reklamacija se podnosi emailom ili lično u radnji, a Prodavac je dužan da odgovori u roku od 8 dana. Nerešene reklamacije možete prijaviti tržišnoj inspekciji. Lekovi, lekoviti i medicinski preparati i hrana za životinje podležu posebnim uslovima čuvanja — čuvajte račun i uputstvo.",
+    text: `Za proizvode koji nisu u skladu sa ugovorom možete da podnesete reklamaciju u roku od 30 dana od dana otkrivanja neusaglašenosti. Reklacija se podnosi emailom ili lično u radnji, a Prodavac je dužan da odgovori u roku od 8 dana. Nerešene reklamacije možete prijaviti tržišnoj inspekciji.${isPetShop ? "" : " Lekovi, lekoviti i medicinski preparati i hrana za životinje podležu posebnim uslovima čuvanja — čuvajte račun i uputstvo."}`,
   },
   {
     icon: Scale,

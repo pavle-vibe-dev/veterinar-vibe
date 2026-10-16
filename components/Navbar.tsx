@@ -6,7 +6,7 @@ import { Phone, Menu, X, ShoppingCart, ChevronDown } from "lucide-react"
 import Link from "next/link"
 import { useCart } from "./cart/CartProvider"
 import { categories, subgroupsOf } from "../data/shop"
-import { shopInfo } from "../data/shop-info"
+import { shopInfo, isPetShop } from "../data/shop-info"
 import BrandLogo from "./BrandLogo"
 
 export default function Navbar() {
@@ -101,13 +101,15 @@ export default function Navbar() {
                 </div>
               </div>
             </div>
-            <Link 
-              href="/blog" 
-              className="text-brand-dark hover:text-brand-primary transition-colors duration-300 font-medium relative group"
-            >
-              Blog
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-primary group-hover:w-full transition-all duration-300"></span>
-            </Link>
+            {!isPetShop && (
+              <Link
+                href="/blog"
+                className="text-brand-dark hover:text-brand-primary transition-colors duration-300 font-medium relative group"
+              >
+                Blog
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-primary group-hover:w-full transition-all duration-300"></span>
+              </Link>
+            )}
             <Link 
               href="/kontakt" 
               className="text-brand-dark hover:text-brand-primary transition-colors duration-300 font-medium relative group"
@@ -282,13 +284,15 @@ export default function Navbar() {
               >
                 Korpa{count > 0 ? ` (${count})` : ""}
               </Link>
-              <Link
-                href="/blog"
-                onClick={closeMobileMenu}
-                className="text-xl font-bold text-slate-900 hover:text-brand-primary transition-colors duration-300 py-3 px-4 rounded-lg"
-              >
-                Blog
-              </Link>
+              {!isPetShop && (
+                <Link
+                  href="/blog"
+                  onClick={closeMobileMenu}
+                  className="text-xl font-bold text-slate-900 hover:text-brand-primary transition-colors duration-300 py-3 px-4 rounded-lg"
+                >
+                  Blog
+                </Link>
+              )}
               <Link
                 href="/kontakt"
                 onClick={closeMobileMenu}

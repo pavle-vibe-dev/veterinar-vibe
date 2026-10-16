@@ -1,5 +1,23 @@
 import { tenant } from "./tenants"
 
+/**
+ * Čist pet-shop tenant (businessType "pet-shop") — bez veterinarske apoteke.
+ * Tada se iz podataka izbacuju kategorija "apoteka", njene potkategorije
+ * (antiparazitici, vitamini), apotekarski proizvodi i farmaceutski brendovi.
+ * Time nestaju iz navigacije, tile-ova, pretrage i generisanih ruta odjednom.
+ */
+const isPetShop = tenant.businessType === "pet-shop"
+
+/** Isključivo apotekarski brendovi (pripadaju kategoriji "apoteka") */
+const vetBrands = new Set([
+  "NexGard",
+  "Bravecto",
+  "Foresto",
+  "Anima Strath",
+  "Vethealth",
+  "InterVet",
+])
+
 export interface Category {
   slug: string
   name: string
@@ -41,7 +59,9 @@ const baseCategories: Category[] = [
   {
     slug: "hrana-psi",
     name: "Psi",
-    description: "Granule, vlažna hrana i veterinarske dijete za pse",
+    description: isPetShop
+      ? "Granule, vlažna hrana i specijalne dijete za pse"
+      : "Granule, vlažna hrana i veterinarske dijete za pse",
     seo: "Kvalitetna hrana je osnova zdravlja psa. Držimo granule sa visokim udelom mesa, bez štetnih aditiva — birane prema uzrastu, veličini i aktivnosti ljubimca.",
     animal: "Psi",
   },
@@ -49,7 +69,7 @@ const baseCategories: Category[] = [
     slug: "hrana-macke",
     name: "Mačke",
     description: "Suva i vlažna hrana i dijete za mačke",
-    seo: "Mačke su izbirljive — zato držimo proverene formule bogate proteinima, uključujući medicinske dijete za mace sa osetljivim bubrezima i stomakom.",
+    seo: `Mačke su izbirljive — zato držimo proverene formule bogate proteinima, uključujući ${isPetShop ? "specijalne" : "medicinske"} dijete za mace sa osetljivim bubrezima i stomakom.`,
     animal: "Mačke",
   },
   {
@@ -72,15 +92,25 @@ const baseCategories: Category[] = [
  * Aktivne kategorije — imena se mogu prekriti po klijentu preko
  * TenantConfig.categoryNames (npr. pet shop: "Veterinarska apoteka" → "Zaštita i vitamini").
  */
-export const categories: Category[] = baseCategories.map((c) => {
-  const override = tenant.categoryNames?.[c.slug]
-  return override ? { ...c, name: override } : c
-})
+export const categories: Category[] = baseCategories
+  // pet-shop: bez "Veterinarske apoteke"
+  .filter((c) => !(isPetShop && c.slug === "apoteka"))
+  .map((c) => {
+    const override = tenant.categoryNames?.[c.slug]
+    return override ? { ...c, name: override } : c
+  })
 
 export const subgroups: Subgroup[] = [
   { slug: "granule-psi", name: "Granule za pse", category: "hrana-psi", desc: "Suva hrana za odrasle pse" },
   { slug: "granule-macke", name: "Granule za mačke", category: "hrana-macke", desc: "Suva hrana za mačke" },
-  { slug: "dijete", name: "Veterinarske dijete", category: "hrana-macke", desc: "Medicinske formule uz savet veterinara" },
+  {
+    slug: "dijete",
+    name: isPetShop ? "Specijalne dijete" : "Veterinarske dijete",
+    category: "hrana-macke",
+    desc: isPetShop
+      ? "Posebne formule za ljubimce sa specijalnim potrebama"
+      : "Medicinske formule uz savet veterinara",
+  },
   { slug: "antiparazitici", name: "Antiparazitici", category: "apoteka", desc: "Tablete, ampule i ogrlice protiv buva i krpelja" },
   { slug: "vitamini", name: "Vitamini i suplementi", category: "apoteka", desc: "Za imunitet, zglobove i sjajnu dlaku" },
   { slug: "toaleti", name: "Toaleti i posip", category: "oprema", desc: "WC kutije i prirodni posipi" },
@@ -88,7 +118,8 @@ export const subgroups: Subgroup[] = [
   { slug: "igracke", name: "Igračke", category: "oprema", desc: "Lopte i igračke za pse i mačke" },
   { slug: "kreveti", name: "Kreveti", category: "oprema", desc: "Udobni kreveti i ležaljke" },
   { slug: "transporteri", name: "Transporteri", category: "oprema", desc: "Za putovanja i posete veterinaru" },
-]
+  // pet-shop: bez apotekarskih potkategorija (antiparazitici, vitamini)
+].filter((s) => !(isPetShop && s.category === "apoteka"))
 
 export function getSubgroup(slug: string) {
   return subgroups.find((s) => s.slug === slug)
@@ -117,9 +148,10 @@ export const brands = [
   "Duvo",
   "Fruity",
   "Cat's Best",
-]
+  // pet-shop: bez farmaceutskih brendova koji pripadaju apoteci
+].filter((b) => !(isPetShop && vetBrands.has(b)))
 
-export const products: Product[] = [
+const baseProducts: Product[] = [
   {
     slug: "acana-grass-fed-lamb-114kg",
     name: "Acana Grass-Fed Lamb, monoproteinska hrana za pse 11.4kg",
@@ -372,7 +404,12 @@ export const products: Product[] = [
     rating: 4.8,
     unit: "M veličina",
   },
+  // pet-shop: bez apotekarskih proizvoda (category "apoteka")
 ]
+
+export const products: Product[] = isPetShop
+  ? baseProducts.filter((p) => p.category !== "apoteka")
+  : baseProducts
 
 export function getProduct(slug: string) {
   return products.find((p) => p.slug === slug)

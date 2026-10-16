@@ -1,4 +1,4 @@
-import { shopInfo } from "./shop-info"
+import { shopInfo, isPetShop } from "./shop-info"
 
 export interface DeliveryMethod {
   slug: string
@@ -53,7 +53,7 @@ export const paymentMethods: PaymentMethod[] = [
   },
   {
     slug: "licno",
-    name: "Plaćanje u apoteci",
+    name: isPetShop ? "Plaćanje u prodavnici" : "Plaćanje u apoteci",
     desc: "Karticom ili gotovinom pri preuzimanju",
     allowedDelivery: ["preuzimanje"],
   },

@@ -82,7 +82,7 @@ export async function sendOrder(data: OrderData) {
           : `<p><strong>Poziv na broj:</strong> ${orderNumber}<br/>Račun za uplatu dobijate uz potvrdu porudžbine.</p>`
         : paymentSlug === "pouzecem"
           ? `<p>Naplata pouzećem — kurir naplaćuje prilikom isporuke.</p>`
-          : `<p>Plaćanje pri preuzimanju u apoteci.</p>`
+          : `<p>${isPetShop ? "Plaćanje pri preuzimanju u prodavnici." : "Plaćanje pri preuzimanju u apoteci."}</p>`
 
     const html = `
       <div style="font-family: Arial, sans-serif; max-width: 640px; margin: 0 auto;">

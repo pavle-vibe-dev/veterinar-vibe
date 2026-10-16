@@ -475,7 +475,11 @@ function ProdavnicaContent() {
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Pretraga: npr. hills, nexgard, transporter..."
+                placeholder={
+                  isPetShop
+                    ? "Pretraga: npr. hills, acana, transporter..."
+                    : "Pretraga: npr. hills, nexgard, transporter..."
+                }
                 className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 bg-brand-bg focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-primary transition-all"
               />
             </div>

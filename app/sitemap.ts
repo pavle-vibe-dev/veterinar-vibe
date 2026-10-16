@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next"
 import { products } from "../data/shop"
-import { shopInfo } from "../data/shop-info"
+import { shopInfo, isPetShop } from "../data/shop-info"
 
 export const revalidate = 86400
 
@@ -15,10 +15,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/kontakt", priority: 0.7 },
     { path: "/dostava-i-placanje", priority: 0.7 },
     { path: "/o-nama", priority: 0.6 },
-    { path: "/blog", priority: 0.6 },
+    // pet-shop: bez bloga i "Naš asortiman" (veterinarski sadržaj)
+    ...(isPetShop ? [] : [{ path: "/blog", priority: 0.6 }]),
     { path: "/politika-privatnosti", priority: 0.3 },
     { path: "/uslovi-koriscenja", priority: 0.3 },
-    { path: "/usluge", priority: 0.5 }
+    ...(isPetShop ? [] : [{ path: "/usluge", priority: 0.5 }]),
   ].map((r) => ({
     url: `${base}${r.path}`,
     lastModified: now,

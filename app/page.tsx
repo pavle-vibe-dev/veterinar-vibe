@@ -38,7 +38,8 @@ const mostWanted = [
   { icon: ShoppingBag, label: "Oprema", href: "/prodavnica?category=oprema" },
   { icon: Brush, label: "Kozmetika", href: "/prodavnica?category=oprema" },
   { icon: Gamepad2, label: "Igračke", href: "/prodavnica?category=oprema" },
-]
+  // pet-shop: bez pločica koje vode na apoteku ("Apoteka", "Vitamini")
+].filter((i) => !(isPetShop && i.href.includes("category=apoteka")))
 
 const trustItems = [
   { icon: BadgeCheck, title: "Original proizvodi", desc: "Provereni dobavljači" },
@@ -80,11 +81,14 @@ const seoBlocks = [
     href: "/prodavnica?category=oprema",
   },
   {
-    title: "Pitajte veterinara",
-    text: "Niste sigurni šta vašem ljubimcu treba? Pošaljite upit ili pozovite — dajemo nepristrasan savet iz prakse.",
+    title: isPetShop ? "Pitajte nas" : "Pitajte veterinara",
+    text: isPetShop
+      ? "Niste sigurni šta vašem ljubimcu treba? Pošaljite upit ili pozovite — rado pomažemo iz prakse."
+      : "Niste sigurni šta vašem ljubimcu treba? Pošaljite upit ili pozovite — dajemo nepristrasan savet iz prakse.",
     href: "/kontakt",
   },
-]
+  // pet-shop: bez apotekarskih SEO blokova (Antiparazitici, Vitamini → kategorija "apoteka")
+].filter((b) => !(isPetShop && b.href.includes("category=apoteka")))
 
 function SectionHead({
   kicker,
@@ -327,7 +331,11 @@ export default function Home() {
           <SectionHead
             kicker="Izdvojeno"
             title="Naša preporuka"
-            desc="Proizvodi koje naši veterinari najčešće preporučuju."
+            desc={
+              isPetShop
+                ? "Proizvodi koje naši kupci najčešće biraju."
+                : "Proizvodi koje naši veterinari najčešće preporučuju."
+            }
             href="/prodavnica"
           />
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">

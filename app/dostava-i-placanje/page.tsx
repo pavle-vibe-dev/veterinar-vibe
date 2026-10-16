@@ -86,7 +86,8 @@ const faq = [
     q: "Mogu li da preuzmem porudžbinu lično?",
     a: `Da, lično preuzimanje je besplatno u ${shopInfo.name} — ${fullAddress}. Radno vreme pogledajte na stranici Kontakt.`,
   },
-]
+  // pet-shop: bez pitanja o lekovima/antiparaziticima (ne prodaju se)
+].filter((f) => !(isPetShop && f.q.includes("lekove i antiparazitike")))
 
 const iconBySlug: Record<string, typeof Truck> = {
   preuzimanje: Store,

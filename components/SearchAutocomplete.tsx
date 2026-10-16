@@ -5,11 +5,14 @@ import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { Search, Package, CornerDownLeft } from "lucide-react"
 import { products, formatPrice } from "../data/shop"
+import { isPetShop } from "../data/shop-info"
 
 const MAX_SUGGESTIONS = 6
 
 export default function SearchAutocomplete({
-  placeholder = "Pretraga: npr. hills, nexgard, transporter...",
+  placeholder = isPetShop
+    ? "Pretraga: npr. hills, acana, transporter..."
+    : "Pretraga: npr. hills, nexgard, transporter...",
   autoFocus = false,
 }: {
   placeholder?: string
