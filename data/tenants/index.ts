@@ -3,6 +3,7 @@ import { bgPet } from "./bg-pet"
 import { primerTenant } from "./primer"
 import { mazaNera } from "./maza-nera"
 import { oskar } from "./oskar"
+import { lesi } from "./lesi"
 
 /**
  * Registr svih tenanata (klijenata).
@@ -21,6 +22,7 @@ const registry: Record<string, TenantConfig> = {
   primer: primerTenant,
   "maza-nera": mazaNera,
   "petshop-oskar": oskar,
+  "petshop-lesi": lesi,
 }
 
 /**
