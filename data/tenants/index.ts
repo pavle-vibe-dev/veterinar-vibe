@@ -4,6 +4,7 @@ import { primerTenant } from "./primer"
 import { mazaNera } from "./maza-nera"
 import { oskar } from "./oskar"
 import { lesi } from "./lesi"
+import { giveMePaw } from "./give-me-paw"
 
 /**
  * Registr svih tenanata (klijenata).
@@ -23,6 +24,7 @@ const registry: Record<string, TenantConfig> = {
   "maza-nera": mazaNera,
   "petshop-oskar": oskar,
   "petshop-lesi": lesi,
+  "give-me-paw": giveMePaw,
 }
 
 /**
