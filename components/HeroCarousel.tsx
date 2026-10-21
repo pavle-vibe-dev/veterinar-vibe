@@ -7,6 +7,7 @@ import { ArrowRight, Plus } from "lucide-react"
 import { shopInfo, isPetShop, heroImage } from "../data/shop-info"
 import { products, formatPrice } from "../data/shop"
 import { useCart } from "./cart/CartProvider"
+import SearchAutocomplete from "./SearchAutocomplete"
 
 type Slide = {
   image: string
@@ -92,20 +93,20 @@ function HeroCard({
 }) {
   const { add } = useCart()
   return (
-    <div className="w-[178px] sm:w-[196px] shrink-0 snap-start bg-white rounded-2xl border border-slate-100 shadow-[0_8px_24px_rgba(15,23,42,0.12)] p-2 flex items-center gap-2">
+    <div className="w-[72%] sm:w-[46%] md:w-[38%] shrink-0 snap-start lg:w-auto lg:max-w-none lg:shrink bg-white rounded-2xl border border-slate-100 shadow-[0_10px_28px_rgba(15,23,42,0.14)] p-3 flex items-center gap-3 min-h-[96px]">
       <Link
         href={`/prodavnica/${product.slug}`}
-        className="relative w-11 h-11 shrink-0 rounded-lg bg-slate-50 flex items-center justify-center overflow-hidden"
+        className="relative w-[68px] h-[68px] shrink-0 rounded-xl bg-slate-50 flex items-center justify-center overflow-hidden"
       >
         <Image
           src={product.image}
           alt={product.name}
-          width={60}
-          height={60}
+          width={84}
+          height={84}
           className="w-full h-full object-contain p-0.5"
         />
         {product.oldPrice && (
-          <span className="absolute -top-1 -left-1 text-[8px] font-bold bg-red-500 text-white px-1 rounded leading-tight">
+          <span className="absolute -top-1 -left-1 text-[9px] font-bold bg-red-500 text-white px-1 rounded leading-tight">
             -
             {Math.round((1 - product.price / product.oldPrice) * 100)}%
           </span>
@@ -114,11 +115,14 @@ function HeroCard({
 
       <div className="flex-1 min-w-0">
         <Link href={`/prodavnica/${product.slug}`}>
-          <p className="text-[10px] font-semibold text-brand-dark leading-[1.2] line-clamp-2">
+          <p className="text-[9.5px] uppercase tracking-wide text-slate-400 font-semibold truncate">
+            {product.brand}
+          </p>
+          <p className="text-[12.5px] font-semibold text-brand-dark leading-[1.3] line-clamp-2 mt-0.5">
             {product.name}
           </p>
         </Link>
-        <p className="text-[12px] font-extrabold text-brand-primary mt-0.5 leading-none">
+        <p className="text-[15.5px] font-extrabold text-brand-primary mt-1.5 leading-none">
           {formatPrice(product.price)}
         </p>
       </div>
@@ -127,9 +131,9 @@ function HeroCard({
         type="button"
         onClick={() => add(product.slug)}
         aria-label={`Dodaj ${product.name} u korpu`}
-        className="w-7 h-7 shrink-0 rounded-lg bg-brand-primary hover:bg-brand-primary-hover text-white flex items-center justify-center transition-all active:scale-95 cursor-pointer"
+        className="w-9 h-9 shrink-0 rounded-xl bg-brand-primary hover:bg-brand-primary-hover text-white flex items-center justify-center transition-all active:scale-95 cursor-pointer"
       >
-        <Plus className="w-3.5 h-3.5" />
+        <Plus className="w-4.5 h-4.5" />
       </button>
     </div>
   )
@@ -145,7 +149,7 @@ export default function HeroCarousel() {
   const featured = products
     .filter((p) => p.badges?.includes("preporuka"))
     .concat(products.filter((p) => p.badges?.includes("novo")))
-    .slice(0, 8)
+    .slice(0, 4)
 
   // Prati aktivni slajd pri ručnom swipe-u
   useEffect(() => {
@@ -200,12 +204,13 @@ export default function HeroCarousel() {
   return (
     <section className="relative" aria-roledescription="carousel" aria-label="Izdvojeno iz ponude">
       {/* Banner slike */}
-      <div className="relative overflow-hidden bg-slate-900">
-        <div
-          ref={trackRef}
-          onPointerDown={pause}
-          className="no-scrollbar flex snap-x snap-mandatory overflow-x-auto scroll-smooth"
-        >
+      <div className="relative z-30 bg-slate-900">
+        <div className="overflow-hidden">
+          <div
+            ref={trackRef}
+            onPointerDown={pause}
+            className="no-scrollbar flex snap-x snap-mandatory overflow-x-auto scroll-smooth"
+          >
           {slides.map((slide, index) => (
             <div
               key={slide.image + index}
@@ -226,58 +231,68 @@ export default function HeroCarousel() {
 
                 <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-start pt-8 md:pt-12">
                   <div>
-                    <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-white/75 mb-1.5 md:mb-2">
+                    <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-white/80 mb-2 md:mb-2.5">
                       {slide.kicker}
                     </p>
                     {index === 0 ? (
-                      <h1 className="text-[24px] sm:text-3xl md:text-4xl font-bold text-white leading-[1.08] tracking-tight max-w-[15rem] sm:max-w-lg md:max-w-2xl drop-shadow">
+                      <h1 className="text-[27px] sm:text-[32px] md:text-[40px] font-bold text-white leading-[1.08] tracking-tight max-w-[17rem] sm:max-w-lg md:max-w-2xl drop-shadow">
                         {slide.title}
                       </h1>
                     ) : (
-                      <p className="text-[24px] sm:text-3xl md:text-4xl font-bold text-white leading-[1.08] tracking-tight max-w-[15rem] sm:max-w-lg md:max-w-2xl drop-shadow">
+                      <p className="text-[27px] sm:text-[32px] md:text-[40px] font-bold text-white leading-[1.08] tracking-tight max-w-[17rem] sm:max-w-lg md:max-w-2xl drop-shadow">
                         {slide.title}
                       </p>
                     )}
-                    <p className="text-white/80 text-[11.5px] sm:text-sm md:text-base mt-1.5 md:mt-2 max-w-[15rem] sm:max-w-md leading-relaxed line-clamp-2">
+                    <p className="text-white/85 text-[14px] sm:text-[15px] md:text-base mt-2 md:mt-3 max-w-[18rem] sm:max-w-md leading-relaxed line-clamp-3">
                       {slide.subtitle}
                     </p>
                     <Link
                       href={slide.href}
-                      className="inline-flex items-center gap-1.5 mt-3 md:mt-5 bg-white text-brand-950 font-bold text-[11px] md:text-sm px-4 md:px-6 py-2 md:py-2.5 rounded-full shadow-lg hover:bg-brand-50 transition-all"
+                      className="inline-flex items-center gap-1.5 mt-4 md:mt-6 bg-white text-brand-950 font-bold text-[13px] md:text-sm px-5 md:px-6 py-2.5 rounded-full shadow-lg hover:bg-brand-50 transition-all"
                     >
                       {slide.cta}
-                      <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                      <ArrowRight className="w-4 h-4" />
                     </Link>
                   </div>
                 </div>
               </div>
             </div>
           ))}
+          </div>
+        </div>
+
+        {/* Pretraga — unutar hero sekcije, pri dnu */}
+        <div className="absolute inset-x-0 bottom-0 z-20 px-4 sm:px-6 lg:px-8 pb-4 md:pb-5">
+          <div className="max-w-xl mx-auto">
+            <SearchAutocomplete compact />
+          </div>
         </div>
       </div>
 
-      {/* Kartice artikala koje preklapaju hero */}
-      <div className="relative z-20 -mt-10 md:-mt-14">
-        <div className="no-scrollbar flex snap-x snap-mandatory gap-2.5 overflow-x-auto px-4 sm:px-6 lg:px-8">
-          {featured.map((p) => (
-            <HeroCard key={p.slug} product={p} />
-          ))}
-        </div>
+      {/* Tačkice (smenjivanje slajdova) */}
+      <div className="flex justify-center gap-1.5 pt-3 pb-1">
+        {slides.map((slide, index) => (
+          <button
+            key={`dot-${index}`}
+            type="button"
+            onClick={() => goTo(index)}
+            aria-label={`Prikaži slajd ${index + 1}`}
+            aria-current={active === index}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              active === index ? "w-6 bg-brand-primary" : "w-1.5 bg-slate-300"
+            }`}
+          />
+        ))}
+      </div>
 
-        {/* Tačkice */}
-        <div className="flex justify-center gap-1.5 mt-3 md:mt-4">
-          {slides.map((slide, index) => (
-            <button
-              key={`dot-${index}`}
-              type="button"
-              onClick={() => goTo(index)}
-              aria-label={`Prikaži slajd ${index + 1}`}
-              aria-current={active === index}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                active === index ? "w-6 bg-brand-primary" : "w-1.5 bg-slate-300"
-              }`}
-            />
-          ))}
+      {/* Kartice artikala — ispod tačkica */}
+      <div className="relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="no-scrollbar flex snap-x snap-mandatory gap-2.5 overflow-x-auto pt-2 pb-3 lg:grid lg:grid-cols-4 lg:gap-4 lg:overflow-visible lg:pb-5">
+            {featured.map((p) => (
+              <HeroCard key={p.slug} product={p} />
+            ))}
+          </div>
         </div>
       </div>
     </section>

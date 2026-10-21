@@ -10,22 +10,6 @@ import {
   ChevronRight,
   ChevronDown,
   X,
-  Dog,
-  Cat,
-  Pill,
-  ShoppingBag,
-  ArrowRight,
-  LayoutGrid,
-  Bone,
-  Fish,
-  Stethoscope,
-  ShieldCheck,
-  Droplets,
-  Brush,
-  Gamepad2,
-  BedDouble,
-  Luggage,
-  type LucideIcon,
 } from "lucide-react"
 import {
   brands,
@@ -45,30 +29,6 @@ type SortKey = "popular" | "price-asc" | "price-desc" | "name"
 
 /** Koliko proizvoda se prikazuje odjednom (ostatak ide na "Učitaj još") */
 const PAGE_SIZE = 12
-
-const groupIcons: Record<string, LucideIcon> = {
-  "hrana-psi": Dog,
-  "hrana-macke": Cat,
-  apoteka: Pill,
-  oprema: ShoppingBag,
-}
-
-const subIcons: Record<string, LucideIcon> = {
-  "granule-psi": Bone,
-  "granule-macke": Fish,
-  dijete: Stethoscope,
-  antiparazitici: ShieldCheck,
-  vitamini: Pill,
-  toaleti: Droplets,
-  kozmetika: Brush,
-  igracke: Gamepad2,
-  kreveti: BedDouble,
-  transporteri: Luggage,
-}
-
-function countCat(catSlug: string) {
-  return products.filter((p) => p.category === catSlug).length
-}
 
 function LoadMore({
   remaining,
@@ -139,15 +99,6 @@ function ProdavnicaContent() {
   const hasCat = activeCategory !== "sve"
   const hasSub = activeSub !== "sve"
   const hasBrand = activeBrand !== "svi"
-  const forceList = searchParams.get("prikaz") === "lista"
-  const hasFilters = hasQ || hasCat || hasSub || hasBrand || onlyAction
-
-  // hub = mobilne kartice grupa; group = stranica grupe; list = filtrirana lista
-  const mode: "hub" | "group" | "list" = !hasFilters && !forceList
-    ? "hub"
-    : hasCat && !hasSub && !hasQ && !hasBrand && !onlyAction
-      ? "group"
-      : "list"
 
   const visibleSubs =
     activeCategory === "sve" ? subgroups : subgroupsOf(activeCategory)
@@ -250,174 +201,6 @@ function ProdavnicaContent() {
     setActiveSub("sve")
   }
 
-  /* ---------- HUB kartice grupa (samo mobilni) ---------- */
-  const hubContent = (
-    <div className="bg-white overflow-x-hidden">
-      <section className="pt-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <nav className="flex items-center gap-1.5 text-sm text-brand-muted mb-4">
-            <Link href="/" className="hover:text-brand-primary">
-              Početna
-            </Link>
-            <ChevronRight className="w-4 h-4" />
-            <span className="font-semibold text-brand-dark">Prodavnica</span>
-          </nav>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center max-w-3xl mx-auto"
-          >
-            <h1 className="h1 mt-2 mb-4">Internet prodavnica</h1>
-            <p className="text-lg text-brand-muted leading-relaxed">
-              Sve za vašeg ljubimca na jednom mestu — od hrane i opreme za pse
-              i mačke
-              {isPetShop
-                ? " do preparata za negu i zaštitu."
-                : " do apotekarskih preparata."}{" "}
-              Izaberite grupu, pa podgrupu, dodajte proizvode u upit — bez
-              plaćanja karticom.
-            </p>
-          </motion.div>
-
-          <div className="mt-8 grid grid-cols-1 gap-5">
-            {categories.map((c, i) => {
-              const Icon = groupIcons[c.slug] || LayoutGrid
-              return (
-                <motion.div
-                  key={c.slug}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: i * 0.06 }}
-                  viewport={{ once: true }}
-                >
-                  <Link
-                    href={`/prodavnica?category=${c.slug}`}
-                    className="block bg-brand-bg border border-slate-100 rounded-3xl p-6 text-center active:border-brand-primary/50 transition-all"
-                  >
-                    <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-brand-500 to-brand-700 p-[3px] shadow-md">
-                      <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
-                        <Icon className="w-9 h-9 text-brand-700" />
-                      </div>
-                    </div>
-                    <h2 className="text-xl font-bold text-brand-dark mt-4">
-                      {c.name}
-                    </h2>
-                    <p className="text-sm font-bold text-brand-primary mt-1">
-                      {countCat(c.slug)}{" "}
-                      {countCat(c.slug) === 1
-                        ? "proizvod"
-                        : countCat(c.slug) < 5
-                          ? "proizvoda"
-                          : "proizvoda"}
-                    </p>
-                  </Link>
-                </motion.div>
-              )
-            })}
-          </div>
-
-          <div className="mt-8 text-center pb-4">
-            <Link
-              href="/prodavnica?prikaz=lista"
-              className="btn-primary inline-flex items-center gap-2 px-8 py-4"
-            >
-              <LayoutGrid className="w-5 h-5" />
-              Svi proizvodi ({products.length})
-            </Link>
-          </div>
-        </div>
-      </section>
-    </div>
-  )
-
-  /* ---------- GROUP stranica grupe: SEO + okrugle podgrupe + proizvodi ---------- */
-  const groupContent = activeCat && (
-    <div className="min-h-screen bg-white overflow-x-hidden">
-      <section className="pt-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <nav className="flex flex-wrap items-center gap-1.5 text-sm text-brand-muted mb-4">
-            <Link href="/" className="hover:text-brand-primary">
-              Početna
-            </Link>
-            <ChevronRight className="w-4 h-4" />
-            <Link href="/prodavnica" className="hover:text-brand-primary">
-              Prodavnica
-            </Link>
-            <ChevronRight className="w-4 h-4" />
-            <span className="font-semibold text-brand-dark">
-              {activeCat.name}
-            </span>
-          </nav>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-3xl"
-          >
-            <h1 className="h1 mt-2 mb-4">{activeCat.name}</h1>
-            <p className="text-brand-muted leading-relaxed">{activeCat.seo}</p>
-          </motion.div>
-
-          {/* Okrugle podgrupe kao kod sata */}
-          <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 md:gap-6">
-            {subgroupsOf(activeCategory).map((s, i) => {
-              const Icon = subIcons[s.slug] || LayoutGrid
-              return (
-                <motion.div
-                  key={s.slug}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: i * 0.05 }}
-                  viewport={{ once: true }}
-                >
-                  <Link
-                    href={`/prodavnica?category=${activeCategory}&sub=${s.slug}`}
-                    className="group flex flex-col items-center gap-2 py-2"
-                    title={s.desc}
-                  >
-                    <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 p-[3px] shadow-md group-hover:shadow-xl group-hover:scale-105 transition-all">
-                      <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
-                        <Icon className="w-8 h-8 md:w-9 md:h-9 text-brand-700" />
-                      </div>
-                    </div>
-                    <span className="text-xs md:text-sm font-semibold text-brand-dark text-center group-hover:text-brand-primary transition-colors">
-                      {s.name}
-                    </span>
-                    <span className="text-xs text-brand-muted -mt-1">
-                      ({countSub(s.slug)})
-                    </span>
-                  </Link>
-                </motion.div>
-              )
-            })}
-          </div>
-
-          {/* Proizvodi grupe */}
-          <div className="mt-10 flex items-center justify-between gap-4">
-            <h2 className="text-xl md:text-2xl font-bold text-brand-dark">
-              Proizvodi — {activeCat.name} ({filtered.length})
-            </h2>
-            <Link
-              href="/prodavnica?prikaz=lista"
-              className="inline-flex items-center gap-1.5 text-sm font-bold text-brand-primary hover:gap-2.5 transition-all shrink-0"
-            >
-              Svi proizvodi
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-          <div className="mt-5 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6 pb-12">
-            {shown.map((p) => (
-              <ProductCard key={p.slug} product={p} />
-            ))}
-          </div>
-          <LoadMore remaining={remaining} shown={shown.length} onLoadMore={loadMore} />
-        </div>
-      </section>
-    </div>
-  )
-
   /* ---------- LISTA sa filterima ---------- */
   const listContent = (
     <div className="min-h-screen bg-brand-bg overflow-x-hidden">
@@ -467,6 +250,63 @@ function ProdavnicaContent() {
                 : activeCat?.seo}
             </p>
           </motion.div>
+
+          {/* Kategorije — pločice (bez ikonica) */}
+          <div className="no-scrollbar -mx-4 mt-5 flex gap-2 overflow-x-auto px-4 pb-1 md:mx-0 md:flex-wrap md:px-0">
+            <button
+              onClick={() => pickCat("sve")}
+              className={`shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-all cursor-pointer ${
+                activeCategory === "sve"
+                  ? "bg-brand-primary text-white shadow-md"
+                  : "bg-white border border-slate-200 text-slate-600 hover:border-brand-primary hover:text-brand-primary"
+              }`}
+            >
+              Sve ({products.length})
+            </button>
+            {categories.map((c) => (
+              <button
+                key={c.slug}
+                onClick={() => pickCat(c.slug)}
+                className={`shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-all cursor-pointer ${
+                  activeCategory === c.slug
+                    ? "bg-brand-primary text-white shadow-md"
+                    : "bg-white border border-slate-200 text-slate-600 hover:border-brand-primary hover:text-brand-primary"
+                }`}
+              >
+                {c.name}
+              </button>
+            ))}
+          </div>
+
+          {/* Podgrupe — pločice (bez ikonica) */}
+          {hasCat && (
+            <div className="no-scrollbar -mx-4 mt-2 flex gap-2 overflow-x-auto px-4 pb-1 md:mx-0 md:flex-wrap md:px-0">
+              <button
+                onClick={() => setActiveSub("sve")}
+                className={`shrink-0 px-3.5 py-1.5 rounded-full text-[13px] font-semibold transition-all cursor-pointer ${
+                  activeSub === "sve"
+                    ? "bg-brand-dark text-white"
+                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                }`}
+              >
+                Sve
+              </button>
+              {visibleSubs.map((s) => (
+                <button
+                  key={s.slug}
+                  onClick={() => setActiveSub(s.slug)}
+                  title={s.desc}
+                  className={`shrink-0 px-3.5 py-1.5 rounded-full text-[13px] font-semibold transition-all cursor-pointer ${
+                    activeSub === s.slug
+                      ? "bg-brand-dark text-white"
+                      : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                  }`}
+                >
+                  {s.name} ({countSub(s.slug)})
+                </button>
+              ))}
+            </div>
+          )}
 
           {/* Pretraga + sort */}
           <div className="mt-6 flex flex-col md:flex-row gap-3 md:items-center">
@@ -530,66 +370,6 @@ function ProdavnicaContent() {
           )}
 
           <div className={showFilters ? "mt-2" : "mt-2 hidden md:block"}>
-            {/* Podgrupe */}
-            <div className="mt-4">
-              <p className="text-sm font-semibold text-brand-dark mb-2">
-                Podgrupe:
-              </p>
-              <div className="flex flex-wrap gap-2">
-                <button
-                  onClick={() => setActiveSub("sve")}
-                  className={`px-4 md:px-5 py-2 rounded-full text-sm font-semibold transition-all cursor-pointer ${
-                    activeSub === "sve"
-                      ? "bg-brand-dark text-white shadow-lg"
-                      : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                  }`}
-                >
-                  Sve podgrupe
-                </button>
-                {visibleSubs.map((s) => (
-                  <button
-                    key={s.slug}
-                    onClick={() => setActiveSub(s.slug)}
-                    title={s.desc}
-                    className={`px-4 md:px-5 py-2 rounded-full text-sm font-semibold transition-all cursor-pointer ${
-                      activeSub === s.slug
-                        ? "bg-brand-dark text-white shadow-lg"
-                        : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                    }`}
-                  >
-                    {s.name} ({countSub(s.slug)})
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Kategorije */}
-            <div className="mt-4 flex flex-wrap gap-2">
-              <button
-                onClick={() => pickCat("sve")}
-                className={`px-4 md:px-5 py-2 rounded-full text-sm font-semibold transition-all cursor-pointer ${
-                  activeCategory === "sve"
-                    ? "bg-brand-primary text-white shadow-lg"
-                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                }`}
-              >
-                Sve ({products.length})
-              </button>
-              {categories.map((c) => (
-                <button
-                  key={c.slug}
-                  onClick={() => pickCat(c.slug)}
-                  className={`px-4 md:px-5 py-2 rounded-full text-sm font-semibold transition-all cursor-pointer ${
-                    activeCategory === c.slug
-                      ? "bg-brand-primary text-white shadow-lg"
-                      : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                  }`}
-                >
-                  {c.name}
-                </button>
-              ))}
-            </div>
-
             {/* Brendovi + akcija */}
             <div className="mt-3 flex flex-wrap items-center gap-2">
               <span className="text-sm text-brand-muted font-medium mr-1">Brend:</span>
@@ -670,16 +450,6 @@ function ProdavnicaContent() {
     </div>
   )
 
-  // hub = samo mobilni; desktop odmah vidi listu
-  if (mode === "hub") {
-    return (
-      <>
-        <div className="md:hidden">{hubContent}</div>
-        <div className="hidden md:block">{listContent}</div>
-      </>
-    )
-  }
-  if (mode === "group") return groupContent
   return listContent
 }
 

@@ -19,18 +19,18 @@ export default function ProductRail({
 }) {
   return (
     <div className="relative">
-      <div className="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-2.5 overflow-x-auto px-4 pb-1 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:px-0 sm:pb-0 md:grid-cols-3 lg:grid-cols-4 lg:gap-6">
+      <div className="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-2.5 overflow-x-auto px-4 pb-1 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0">
         {products.map((p) => (
           <div
             key={p.slug}
-            className="w-[47%] shrink-0 snap-start sm:w-auto sm:shrink"
+            className="w-[52%] sm:w-[38%] md:w-[30%] shrink-0 snap-start lg:w-auto lg:shrink"
           >
             <ProductCard product={p} />
           </div>
         ))}
       </div>
       <div
-        className={`pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l ${fadeFrom} to-transparent sm:hidden`}
+        className={`pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l ${fadeFrom} to-transparent lg:hidden`}
       />
     </div>
   )

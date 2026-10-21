@@ -9,15 +9,14 @@ import { ShieldCheck, ArrowRight, Phone } from "lucide-react"
 import { brands, products, getCategory } from "../data/shop"
 import ProductRail from "../components/ProductRail"
 import HeroCarousel from "../components/HeroCarousel"
-import SearchAutocomplete from "../components/SearchAutocomplete"
 import Testimonials from "../components/Testimonials"
 
 const mostWanted = [
-  { label: "Psi", image: "/hero/slide-3.jpg", href: "/prodavnica?category=hrana-psi" },
-  { label: "Mačke", image: "/hero/slide-4.jpg", href: "/prodavnica?category=hrana-macke" },
-  { label: "Oprema", image: "/products/trixie-transporter-capri-eco.jpg", href: "/prodavnica?category=oprema" },
-  { label: "Igračke", image: "/products/rogz-grinz-lopta-crvena.jpg", href: "/prodavnica?category=oprema&sub=igracke" },
-  { label: getCategory("apoteka")?.name ?? "Apoteka", image: "/products/nexgard-spectra-s-3tbl.jpg", href: "/prodavnica?category=apoteka" },
+  { label: "Psi", image: "/categories/pas.jpg", fit: "photo", href: "/prodavnica?category=hrana-psi" },
+  { label: "Mačke", image: "/categories/macka.jpg", fit: "photo", href: "/prodavnica?category=hrana-macke" },
+  { label: "Oprema", image: "/products/trixie-transporter-capri-eco.jpg", fit: "product", href: "/prodavnica?category=oprema" },
+  { label: "Igračke", image: "/products/rogz-grinz-lopta-crvena.jpg", fit: "product", href: "/prodavnica?category=oprema&sub=igracke" },
+  { label: getCategory("apoteka")?.name ?? "Apoteka", image: "/products/nexgard-spectra-s-3tbl.jpg", fit: "product", href: "/prodavnica?category=apoteka" },
   // pet-shop: bez pločice koja vodi na apoteku
 ].filter((i) => !(isPetShop && i.href.includes("category=apoteka")))
 
@@ -134,15 +133,8 @@ export default function Home() {
         </div>
       </div>
 
-      {/* HERO — kampanjski carousel (swipe na mobilnom) */}
+      {/* HERO — kampanjski carousel (swipe na mobilnom) + pretraga + kartice */}
       <HeroCarousel />
-
-      {/* Pretraga — kompaktna traka ispod heroja */}
-      <section className="bg-white border-b border-slate-100">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
-          <SearchAutocomplete />
-        </div>
-      </section>
 
       {/* SEO BLOK */}
       <section className="py-9 md:py-14 bg-white">
@@ -188,27 +180,36 @@ export default function Home() {
             desc="Najčešće tražene kategorije naših kupaca — klik vodi u prodavnicu."
             href="/prodavnica?prikaz=lista"
           />
-          <div className="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-3.5 overflow-x-auto px-4 pb-1 md:mx-0 md:grid md:grid-cols-5 md:gap-6 md:overflow-visible md:px-0">
+          <div
+            className="no-scrollbar -mx-4 flex gap-3 overflow-x-auto px-4 pb-1 lg:mx-0 lg:grid lg:justify-items-center lg:gap-6 lg:overflow-visible lg:px-0"
+            style={{
+              gridTemplateColumns: `repeat(${mostWanted.length}, minmax(0, 1fr))`,
+            }}
+          >
             {mostWanted.map((c, i) => (
               <motion.div
                 key={c.label}
-                className="w-[62px] shrink-0 snap-start md:w-auto"
+                className="w-[68px] shrink-0 snap-start lg:w-full lg:max-w-[110px]"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.05 }}
                 viewport={{ once: true }}
               >
-                <Link href={c.href} className="group flex flex-col items-center gap-1.5 md:gap-2">
-                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden ring-2 ring-brand-100 group-hover:ring-brand-primary shadow-sm group-hover:shadow-md transition-all bg-slate-100">
+                <Link href={c.href} className="group flex flex-col items-center gap-1.5 md:gap-2 lg:gap-2.5">
+                  <div className="w-14 h-14 md:w-16 md:h-16 lg:w-24 lg:h-24 rounded-full overflow-hidden ring-2 ring-brand-100 group-hover:ring-brand-primary shadow-sm group-hover:shadow-md transition-all bg-white">
                     <Image
                       src={c.image}
                       alt={c.label}
-                      width={80}
-                      height={80}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      width={160}
+                      height={160}
+                      className={`w-full h-full transition-transform duration-300 group-hover:scale-110 ${
+                        c.fit === "product"
+                          ? "object-contain p-1.5 md:p-2 lg:p-3"
+                          : "object-cover"
+                      }`}
                     />
                   </div>
-                  <span className="text-[11px] md:text-sm font-semibold text-brand-dark text-center leading-tight group-hover:text-brand-primary transition-colors">
+                  <span className="text-[11px] md:text-xs lg:text-base font-semibold text-brand-dark text-center leading-tight group-hover:text-brand-primary transition-colors">
                     {c.label}
                   </span>
                 </Link>
