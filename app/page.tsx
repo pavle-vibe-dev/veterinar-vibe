@@ -3,55 +3,33 @@
 import Image from "next/image"
 import Link from "next/link"
 import Canonical from "../components/Canonical"
-import { shopInfo, isPetShop, heroImage } from "../data/shop-info"
-import { googleReviews } from "../data/testimonials"
+import { shopInfo, isPetShop } from "../data/shop-info"
 import { motion } from "framer-motion"
-import {
-  Dog,
-  Cat,
-  Pill,
-  ShieldCheck,
-  Apple,
-  Sparkles,
-  ShoppingBag,
-  Brush,
-  Gamepad2,
-  Truck,
-  Stethoscope,
-  Mail,
-  BadgeCheck,
-  ArrowRight,
-  Star,
-  Phone,
-  MapPin,
-} from "lucide-react"
+import { ShieldCheck, ArrowRight, Phone } from "lucide-react"
 import { brands, products, getCategory } from "../data/shop"
 import ProductRail from "../components/ProductRail"
+import HeroCarousel from "../components/HeroCarousel"
 import SearchAutocomplete from "../components/SearchAutocomplete"
 import Testimonials from "../components/Testimonials"
 
 const mostWanted = [
-  { icon: Dog, label: "Psi", href: "/prodavnica?category=hrana-psi" },
-  { icon: Cat, label: "Mačke", href: "/prodavnica?category=hrana-macke" },
-  { icon: Pill, label: getCategory("apoteka")?.name ?? "Apoteka", href: "/prodavnica?category=apoteka" },
-  { icon: Apple, label: "Hrana", href: "/prodavnica?category=hrana-psi" },
-  { icon: Sparkles, label: "Vitamini", href: "/prodavnica?category=apoteka" },
-  { icon: ShoppingBag, label: "Oprema", href: "/prodavnica?category=oprema" },
-  { icon: Brush, label: "Kozmetika", href: "/prodavnica?category=oprema" },
-  { icon: Gamepad2, label: "Igračke", href: "/prodavnica?category=oprema" },
-  // pet-shop: bez pločica koje vode na apoteku ("Apoteka", "Vitamini")
+  { label: "Psi", image: "/hero/slide-3.jpg", href: "/prodavnica?category=hrana-psi" },
+  { label: "Mačke", image: "/hero/slide-4.jpg", href: "/prodavnica?category=hrana-macke" },
+  { label: "Oprema", image: "/products/trixie-transporter-capri-eco.jpg", href: "/prodavnica?category=oprema" },
+  { label: "Igračke", image: "/products/rogz-grinz-lopta-crvena.jpg", href: "/prodavnica?category=oprema&sub=igracke" },
+  { label: getCategory("apoteka")?.name ?? "Apoteka", image: "/products/nexgard-spectra-s-3tbl.jpg", href: "/prodavnica?category=apoteka" },
+  // pet-shop: bez pločice koja vodi na apoteku
 ].filter((i) => !(isPetShop && i.href.includes("category=apoteka")))
 
-const trustItems = [
-  { icon: BadgeCheck, title: "Original proizvodi", desc: "Provereni dobavljači" },
-  { icon: Truck, title: "Brza dostupnost", desc: "Preuzimanje ili dostava" },
-  {
-    icon: Stethoscope,
-    title: isPetShop ? "Stručan savet" : "Savet veterinara",
-    desc: "Stručna preporuka",
-  },
-  { icon: Mail, title: "Upit na email", desc: "Bez plaćanja karticom" },
-]
+const filterChips = [
+  { label: "Sve", href: "/prodavnica?prikaz=lista" },
+  { label: "Psi", href: "/prodavnica?category=hrana-psi&prikaz=lista" },
+  { label: "Mačke", href: "/prodavnica?category=hrana-macke&prikaz=lista" },
+  { label: "Oprema", href: "/prodavnica?category=oprema&prikaz=lista" },
+  { label: "Igračke", href: "/prodavnica?category=oprema&sub=igracke&prikaz=lista" },
+  { label: getCategory("apoteka")?.name ?? "Apoteka", href: "/prodavnica?category=apoteka&prikaz=lista" },
+  // pet-shop: bez čipova koji vode na apoteku
+].filter((i) => !(isPetShop && i.href.includes("category=apoteka")))
 
 const seoBlocks = [
   {
@@ -107,10 +85,12 @@ function SectionHead({
   return (
     <div className="flex items-end justify-between gap-3 md:gap-4 mb-5 md:mb-8">
       <div>
-        <p className="text-[11px] md:text-sm font-bold text-brand-primary uppercase tracking-widest mb-1.5 md:mb-2">
+        <p className="text-[10px] md:text-xs font-bold text-brand-primary uppercase tracking-[0.18em] mb-1 md:mb-2">
           {kicker}
         </p>
-        <h2 className="h2">{title}</h2>
+        <h2 className="text-[19px] sm:text-2xl md:text-3xl font-semibold text-brand-dark tracking-tight leading-tight">
+          {title}
+        </h2>
         {desc && (
           <p className="hidden sm:block text-brand-muted mt-2 max-w-2xl">
             {desc}
@@ -120,7 +100,7 @@ function SectionHead({
       {href && (
         <Link
           href={href}
-          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-brand-primary hover:gap-3 transition-all shrink-0 pb-1"
+          className="inline-flex items-center gap-1 text-[10px] sm:text-xs font-bold uppercase tracking-[0.15em] text-brand-primary hover:gap-2 transition-all shrink-0 pb-0.5"
         >
           {hrefLabel || "Pogledaj sve"}
           <ArrowRight className="w-4 h-4" />
@@ -154,152 +134,48 @@ export default function Home() {
         </div>
       </div>
 
-      {/* HERO — full-bleed fotografija, moderan preklopni stil */}
-      <section className="relative overflow-hidden rounded-b-[1.75rem] md:rounded-none">
-        <Image
-          src={heroImage}
-          alt={`Dva srećna psa — ${shopInfo.name} ${isPetShop ? "pet shop" : "veterina i pet shop"}`}
-          fill
-          className="object-cover object-[62%_center] md:object-center"
-          priority
-          sizes="100vw"
-        />
-        {/* Neutralni tamni overlay (ne bojen brendom) — beli tekst ostaje
-            čitljiv, a fotografija zadržava prirodne tonove bez braon mutnoće */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/78 via-slate-950/45 to-slate-950/5" />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/45 via-transparent to-slate-950/10" />
-        {/* Jači donji gradient samo na mobilnom — tekst i dugmad leže na slici */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/25 to-transparent md:hidden" />
+      {/* HERO — kampanjski carousel (swipe na mobilnom) */}
+      <HeroCarousel />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-9 md:pt-24 md:pb-16">
-          <motion.div
-            className="max-w-2xl"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-          >
-            {googleReviews ? (
-              <p className="inline-flex items-center gap-2 text-brand-100 text-sm font-semibold bg-white/10 border border-white/20 backdrop-blur-sm rounded-full px-4 py-1.5 mb-4 md:mb-5">
-                <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                {googleReviews.rating}/5 na osnovu {googleReviews.count}{" "}
-                recenzija
-              </p>
-            ) : (
-              <p className="inline-flex items-center gap-2 text-white/90 text-xs sm:text-sm font-semibold bg-white/10 border border-white/20 backdrop-blur-sm rounded-full px-3.5 py-1.5 mb-4 md:mb-5">
-                <MapPin className="w-3.5 h-3.5" />
-                {shopInfo.city} • {isPetShop ? "Pet shop" : "Veterina i pet shop"}
-              </p>
-            )}
-            <h1 className="text-[2.05rem] sm:text-5xl md:text-6xl font-bold text-white leading-[1.03] tracking-tight drop-shadow-lg">
-              {shopInfo.tagline}{" "}
-              <span className="text-brand-300">{shopInfo.name}</span>
-            </h1>
-            <p className="text-brand-50/90 text-[15px] sm:text-lg mt-3 md:mt-5 max-w-xl leading-relaxed line-clamp-3">
-              Hrana, oprema i poslastice za pse i mačke. Izaberite
-              proizvode, pošaljite upit na email — mi potvrđujemo cenu i
-              dostupnost.
-            </p>
-
-            {/* Pretraga */}
-            <div className="mt-5 md:mt-7">
-              <SearchAutocomplete />
-            </div>
-
-            <div className="mt-5 md:mt-7 grid grid-cols-2 gap-2 md:flex md:flex-wrap md:gap-3">
-              <Link
-                href="/prodavnica"
-                className="inline-flex items-center justify-center gap-2 bg-white text-brand-950 font-bold px-4 py-3 md:px-7 md:py-3.5 rounded-button hover:bg-brand-50 transition-all shadow-lg text-sm md:text-base"
-              >
-                Prodavnica
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link
-                href="/kontakt"
-                className="inline-flex items-center justify-center gap-2 border-2 border-white/40 text-white font-bold px-4 py-3 md:px-7 md:py-3.5 rounded-button hover:bg-white/10 backdrop-blur-sm transition-all text-sm md:text-base"
-              >
-                Pošalji upit
-              </Link>
-            </div>
-
-            {/* Statistika — samo desktop, na mobilnom skraćuje hero */}
-            <div className="mt-8 hidden md:flex gap-8 text-white">
-              <div>
-                <p className="text-2xl font-bold">{products.length}+</p>
-                <p className="text-brand-100/80 text-sm">proizvoda u demo ponudi</p>
-              </div>
-              <div>
-                <p className="text-2xl font-bold">{brands.length}+</p>
-                <p className="text-brand-100/80 text-sm">brendova</p>
-              </div>
-              <div>
-                <p className="text-2xl font-bold">24h</p>
-                <p className="text-brand-100/80 text-sm">odgovor na upit</p>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Staklene info kartice preko slike — samo desktop */}
-          <motion.div
-            className="mt-10 hidden md:grid grid-cols-3 gap-3 max-w-3xl"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.25 }}
-          >
-            <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-4 py-3">
-              <div className="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center font-bold text-white shrink-0">
-                %
-              </div>
-              <div>
-                <p className="font-bold text-sm text-white">Akcija meseca</p>
-                <p className="text-xs text-brand-100/80">popusti do −25%</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-4 py-3">
-              <div className="w-10 h-10 bg-brand-400 rounded-full flex items-center justify-center shrink-0">
-                <Mail className="w-5 h-5 text-brand-950" />
-              </div>
-              <div>
-                <p className="font-bold text-sm text-white">Upit na email</p>
-                <p className="text-xs text-brand-100/80">bez plaćanja karticom</p>
-              </div>
-            </div>
-            <a
-              href={shopInfo.phoneHref}
-              className="flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-4 py-3 hover:bg-white/20 transition-all"
-            >
-              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shrink-0">
-                <Phone className="w-5 h-5 text-brand-800" />
-              </div>
-              <div>
-                <p className="font-bold text-sm text-white">{shopInfo.phone}</p>
-                <p className="text-xs text-brand-100/80">pozovite nas</p>
-              </div>
-            </a>
-          </motion.div>
+      {/* Pretraga — kompaktna traka ispod heroja */}
+      <section className="bg-white border-b border-slate-100">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
+          <SearchAutocomplete />
         </div>
       </section>
 
-      {/* Trust traka */}
-      <section className="border-b border-slate-100 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {trustItems.map((t, i) => (
-            <motion.div
-              key={t.title}
-              className="flex items-center gap-3"
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              viewport={{ once: true }}
-            >
-              <div className="w-11 h-11 rounded-xl bg-brand-50 flex items-center justify-center shrink-0">
-                <t.icon className="w-5 h-5 text-brand-primary" />
-              </div>
-              <div>
-                <p className="font-bold text-sm text-brand-dark">{t.title}</p>
-                <p className="text-xs text-brand-muted">{t.desc}</p>
-              </div>
-            </motion.div>
-          ))}
+      {/* SEO BLOK */}
+      <section className="py-9 md:py-14 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-7 md:mb-9">
+            <p className="text-[10px] md:text-xs font-bold text-brand-primary uppercase tracking-[0.18em] mb-1.5">
+              {shopInfo.name}
+            </p>
+            <h2 className="text-[19px] sm:text-2xl md:text-3xl font-semibold text-brand-dark tracking-tight leading-tight max-w-2xl">
+              {isPetShop
+                ? "Sve za pse i mačke — na jednom mestu"
+                : "Veterina i prodavnica — sve na jednom mestu"}
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {seoBlocks.map((b, i) => (
+              <motion.div
+                key={b.title}
+                className="bg-brand-bg rounded-2xl p-6 border border-slate-100 hover:border-brand-primary/40 hover:shadow-md transition-all"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: (i % 3) * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <Link href={b.href} className="group">
+                  <h3 className="font-bold text-brand-dark mb-2 group-hover:text-brand-primary transition-colors">
+                    {b.title} →
+                  </h3>
+                </Link>
+                <p className="text-sm text-brand-muted leading-relaxed">{b.text}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -310,25 +186,29 @@ export default function Home() {
             kicker="Kategorije"
             title="Najtraženije"
             desc="Najčešće tražene kategorije naših kupaca — klik vodi u prodavnicu."
-            href="/prodavnica"
+            href="/prodavnica?prikaz=lista"
           />
-          <div className="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-1 md:mx-0 md:grid md:grid-cols-8 md:gap-6 md:overflow-visible md:px-0">
+          <div className="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-3.5 overflow-x-auto px-4 pb-1 md:mx-0 md:grid md:grid-cols-5 md:gap-6 md:overflow-visible md:px-0">
             {mostWanted.map((c, i) => (
               <motion.div
                 key={c.label}
-                className="w-[72px] shrink-0 snap-start md:w-auto"
+                className="w-[62px] shrink-0 snap-start md:w-auto"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.05 }}
                 viewport={{ once: true }}
               >
-                <Link href={c.href} className="group flex flex-col items-center gap-2">
-                  <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 p-[3px] shadow-md group-hover:shadow-xl group-hover:scale-105 transition-all">
-                    <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
-                      <c.icon className="w-7 h-7 md:w-8 md:h-8 text-brand-700" />
-                    </div>
+                <Link href={c.href} className="group flex flex-col items-center gap-1.5 md:gap-2">
+                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden ring-2 ring-brand-100 group-hover:ring-brand-primary shadow-sm group-hover:shadow-md transition-all bg-slate-100">
+                    <Image
+                      src={c.image}
+                      alt={c.label}
+                      width={80}
+                      height={80}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
                   </div>
-                  <span className="text-xs md:text-sm font-semibold text-brand-dark text-center group-hover:text-brand-primary transition-colors">
+                  <span className="text-[11px] md:text-sm font-semibold text-brand-dark text-center leading-tight group-hover:text-brand-primary transition-colors">
                     {c.label}
                   </span>
                 </Link>
@@ -349,8 +229,23 @@ export default function Home() {
                 ? "Proizvodi koje naši kupci najčešće biraju."
                 : "Proizvodi koje naši veterinari najčešće preporučuju."
             }
-            href="/prodavnica"
+            href="/prodavnica?prikaz=lista"
           />
+          <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 mb-4 md:mx-0 md:px-0">
+            {filterChips.map((c, i) => (
+              <Link
+                key={c.label}
+                href={c.href}
+                className={`shrink-0 px-3.5 py-1.5 rounded-lg text-[12px] md:text-sm font-semibold border transition-colors ${
+                  i === 0
+                    ? "bg-brand-primary text-white border-brand-primary"
+                    : "bg-white border-slate-200 text-brand-dark hover:border-brand-primary hover:text-brand-primary"
+                }`}
+              >
+                {c.label}
+              </Link>
+            ))}
+          </div>
           <ProductRail products={recommended} fadeFrom="from-brand-bg" />
         </div>
       </section>
@@ -380,7 +275,7 @@ export default function Home() {
             </div>
             <div className="grid grid-cols-1 sm:flex flex-row gap-2 sm:gap-3 w-full md:w-auto shrink-0">
               <Link
-                href="/prodavnica"
+                href="/prodavnica?prikaz=lista"
                 className="inline-flex items-center justify-center gap-2 bg-white text-brand-900 font-bold px-5 md:px-7 py-3 md:py-3.5 rounded-button hover:bg-brand-50 transition-all text-sm md:text-base"
               >
                 Otvori prodavnicu
@@ -404,7 +299,7 @@ export default function Home() {
             kicker="Akcija"
             title="Najveći popusti"
             desc="Snižene cene — i dalje sve na upit, bez online plaćanja."
-            href="/prodavnica"
+            href="/prodavnica?prikaz=lista"
           />
           <ProductRail products={discounted} fadeFrom="from-brand-bg" />
         </div>
@@ -418,7 +313,32 @@ export default function Home() {
             title="Preko 300 brendova u ponudi"
             desc="Izdvajamo najtraženije — ostalo nabavljamo po porudžbini kroz upit."
           />
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="relative -mx-4 overflow-hidden md:hidden">
+            <div className="flex w-max animate-marquee">
+              {[0, 1].map((group) => (
+                <div
+                  key={group}
+                  className="flex shrink-0 gap-2.5 px-1.5"
+                  aria-hidden={group === 1}
+                >
+                  {brands.map((b) => (
+                    <Link
+                      key={`${b}-${group}`}
+                      href={`/prodavnica?brand=${encodeURIComponent(b)}`}
+                      tabIndex={group === 1 ? -1 : undefined}
+                      className="shrink-0 whitespace-nowrap border border-slate-200 rounded-xl px-5 py-3 text-sm font-bold text-brand-dark bg-white hover:border-brand-primary hover:text-brand-primary transition-colors"
+                    >
+                      {b}
+                    </Link>
+                  ))}
+                </div>
+              ))}
+            </div>
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-white to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-white to-transparent" />
+          </div>
+
+          <div className="hidden md:grid grid-cols-4 gap-4">
             {brands.map((b, i) => (
               <motion.div
                 key={b}
@@ -429,7 +349,7 @@ export default function Home() {
               >
                 <Link
                   href={`/prodavnica?brand=${encodeURIComponent(b)}`}
-                  className="block border border-slate-200 rounded-2xl py-6 px-4 text-center font-bold text-brand-dark hover:border-brand-primary hover:shadow-md hover:text-brand-primary transition-all bg-white"
+                  className="block border border-slate-200 rounded-2xl py-8 px-4 text-center text-lg font-bold text-brand-dark hover:border-brand-primary hover:shadow-md hover:text-brand-primary transition-all bg-white"
                 >
                   {b}
                 </Link>
@@ -446,37 +366,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SEO BLOK */}
-      <section className="py-9 md:py-14 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
-            <p className="text-sm font-bold text-brand-primary uppercase tracking-widest mb-2">
-              {shopInfo.name}
-            </p>
-            <h2 className="h2">{shopInfo.tagline} Vam nudi</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {seoBlocks.map((b, i) => (
-              <motion.div
-                key={b.title}
-                className="bg-brand-bg rounded-2xl p-6 border border-slate-100 hover:border-brand-primary/40 hover:shadow-md transition-all"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: (i % 3) * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <Link href={b.href} className="group">
-                  <h3 className="font-bold text-brand-dark mb-2 group-hover:text-brand-primary transition-colors">
-                    {b.title} →
-                  </h3>
-                </Link>
-                <p className="text-sm text-brand-muted leading-relaxed">{b.text}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* NOVO U ASORTIMANU */}
       <section className="py-9 md:py-14 bg-brand-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -484,7 +373,7 @@ export default function Home() {
             kicker="Noviteti"
             title="Novo u asortimanu"
             desc="Najsvežije stavke u našoj ponudi."
-            href="/prodavnica"
+            href="/prodavnica?prikaz=lista"
           />
           <ProductRail products={fresh} fadeFrom="from-brand-bg" />
         </div>

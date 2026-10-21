@@ -28,26 +28,25 @@ export default function ProductCard({ product }: { product: Product }) {
 
   return (
     <motion.div
-      className="bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full"
-      whileHover={{ y: -4 }}
+      className="group bg-white rounded-xl overflow-hidden border border-slate-100 shadow-[0_1px_2px_rgba(15,23,42,0.06)] hover:shadow-lg transition-shadow duration-300 flex flex-col h-full"
       layout
     >
       <Link
         href={`/prodavnica/${product.slug}`}
-        className="relative block overflow-hidden"
+        className="relative block overflow-hidden bg-slate-50"
       >
         <Image
           src={product.image}
           alt={product.name}
-          width={400}
+          width={300}
           height={300}
-          className="w-full h-40 sm:h-52 object-cover hover:scale-105 transition-transform duration-300"
+          className="w-full aspect-square object-contain p-2 sm:p-3 group-hover:scale-[1.04] transition-transform duration-300"
         />
-        <div className="absolute top-3 left-3 flex gap-2">
+        <div className="absolute top-1.5 left-1.5 sm:top-2.5 sm:left-2.5 flex flex-wrap gap-1">
           {product.badges?.map((b) => (
             <span
               key={b}
-              className={`text-xs font-bold px-2.5 py-1 rounded-full ${badgeStyle(b)}`}
+              className={`text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded-md leading-tight ${badgeStyle(b)}`}
             >
               {b === "akcija" && discount > 0
                 ? `-${discount}%`
@@ -56,57 +55,50 @@ export default function ProductCard({ product }: { product: Product }) {
           ))}
         </div>
         {product.stock !== "dostupno" && (
-          <span className="absolute top-3 right-3 text-xs font-medium px-2.5 py-1 rounded-full bg-black/60 text-white backdrop-blur-sm">
-            {product.stock === "poslednji-komadi"
-              ? "Poslednji komadi"
-              : "Na upit"}
+          <span className="absolute top-1.5 right-1.5 sm:top-2.5 sm:right-2.5 text-[9px] sm:text-[10px] font-medium px-1.5 py-0.5 rounded-md bg-black/60 text-white backdrop-blur-sm leading-tight">
+            {product.stock === "poslednji-komadi" ? "Zadnji komadi" : "Na upit"}
           </span>
         )}
       </Link>
 
-      <div className="p-3 sm:p-5 flex flex-col flex-1">
-        <div className="text-[11px] sm:text-xs text-brand-muted font-medium mb-1 line-clamp-2">
-          {product.brand} • {category?.name} • {product.unit}
-        </div>
+      <div className="p-2 sm:p-3 flex flex-col flex-1">
+        <p className="text-[9px] sm:text-[10px] uppercase tracking-wide text-slate-400 font-semibold truncate">
+          {product.brand} · {category?.name}
+        </p>
         <Link href={`/prodavnica/${product.slug}`}>
-          <h3 className="font-bold text-sm sm:text-base text-brand-dark leading-snug mb-2 hover:text-brand-primary transition-colors">
+          <h3 className="text-[12px] sm:text-sm font-semibold text-brand-dark leading-snug line-clamp-2 mt-0.5 min-h-[2.6em] group-hover:text-brand-primary transition-colors">
             {product.name}
           </h3>
         </Link>
-        <p className="hidden sm:block text-sm text-brand-muted line-clamp-2 mb-3">
-          {product.shortDesc}
-        </p>
-        <div className="flex items-center gap-1 mb-3">
-          <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-          <span className="text-sm font-semibold">{product.rating.toFixed(1)}</span>
+
+        <div className="flex items-center gap-1 mt-1">
+          <Star className="w-3 h-3 fill-amber-400 text-amber-400 shrink-0" />
+          <span className="text-[10px] sm:text-xs font-semibold text-brand-dark">
+            {product.rating.toFixed(1)}
+          </span>
         </div>
 
-        <div className="mt-auto">
-          <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 mb-2 sm:mb-3">
-            <span className="text-base sm:text-xl font-bold text-brand-dark">
-              {formatPrice(product.price)}
-            </span>
+        <div className="mt-auto pt-1.5 sm:pt-2 flex items-end justify-between gap-1.5">
+          <div className="min-w-0">
             {product.oldPrice && (
-              <span className="text-xs sm:text-sm text-slate-400 line-through">
+              <p className="text-[10px] text-slate-400 line-through leading-none mb-0.5">
                 {formatPrice(product.oldPrice)}
-              </span>
+              </p>
             )}
+            <p className="text-[13px] sm:text-base font-extrabold text-brand-dark leading-none whitespace-nowrap">
+              {formatPrice(product.price)}
+            </p>
+            <p className="text-[9px] sm:text-[10px] text-slate-400 mt-0.5 truncate">
+              {product.unit}
+            </p>
           </div>
-          <div className="flex flex-col gap-2">
-            <button
-              onClick={() => add(product.slug)}
-              className="w-full inline-flex items-center justify-center gap-1.5 bg-brand-primary hover:bg-brand-primary-hover text-white font-bold py-2 sm:py-2.5 px-3 rounded-button text-xs sm:text-sm transition-all cursor-pointer"
-            >
-              <Plus className="w-4 h-4" />
-              Dodaj u korpu
-            </button>
-            <Link
-              href={`/prodavnica/${product.slug}`}
-              className="hidden sm:inline-flex w-full items-center justify-center px-3 py-2 border-2 border-brand-primary/20 text-brand-primary font-bold rounded-button text-xs sm:text-sm hover:bg-brand-50 transition-all"
-            >
-              Detalj
-            </Link>
-          </div>
+          <button
+            onClick={() => add(product.slug)}
+            aria-label={`Dodaj ${product.name} u korpu`}
+            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-brand-primary hover:bg-brand-primary-hover text-white flex items-center justify-center shrink-0 transition-all active:scale-95 cursor-pointer"
+          >
+            <Plus className="w-4 h-4" />
+          </button>
         </div>
       </div>
     </motion.div>
