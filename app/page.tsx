@@ -23,9 +23,10 @@ import {
   ArrowRight,
   Star,
   Phone,
+  MapPin,
 } from "lucide-react"
 import { brands, products, getCategory } from "../data/shop"
-import ProductCard from "../components/cart/ProductCard"
+import ProductRail from "../components/ProductRail"
 import SearchAutocomplete from "../components/SearchAutocomplete"
 import Testimonials from "../components/Testimonials"
 
@@ -104,18 +105,22 @@ function SectionHead({
   hrefLabel?: string
 }) {
   return (
-    <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
+    <div className="flex items-end justify-between gap-3 md:gap-4 mb-5 md:mb-8">
       <div>
-        <p className="text-sm font-bold text-brand-primary uppercase tracking-widest mb-2">
+        <p className="text-[11px] md:text-sm font-bold text-brand-primary uppercase tracking-widest mb-1.5 md:mb-2">
           {kicker}
         </p>
         <h2 className="h2">{title}</h2>
-        {desc && <p className="text-brand-muted mt-2 max-w-2xl">{desc}</p>}
+        {desc && (
+          <p className="hidden sm:block text-brand-muted mt-2 max-w-2xl">
+            {desc}
+          </p>
+        )}
       </div>
       {href && (
         <Link
           href={href}
-          className="inline-flex items-center gap-2 text-sm font-bold text-brand-primary hover:gap-3 transition-all shrink-0"
+          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-brand-primary hover:gap-3 transition-all shrink-0 pb-1"
         >
           {hrefLabel || "Pogledaj sve"}
           <ArrowRight className="w-4 h-4" />
@@ -150,12 +155,12 @@ export default function Home() {
       </div>
 
       {/* HERO — full-bleed fotografija, moderan preklopni stil */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden rounded-b-[1.75rem] md:rounded-none">
         <Image
           src={heroImage}
           alt={`Dva srećna psa — ${shopInfo.name} ${isPetShop ? "pet shop" : "veterina i pet shop"}`}
           fill
-          className="object-cover object-center"
+          className="object-cover object-[62%_center] md:object-center"
           priority
           sizes="100vw"
         />
@@ -163,54 +168,61 @@ export default function Home() {
             čitljiv, a fotografija zadržava prirodne tonove bez braon mutnoće */}
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950/78 via-slate-950/45 to-slate-950/5" />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/45 via-transparent to-slate-950/10" />
+        {/* Jači donji gradient samo na mobilnom — tekst i dugmad leže na slici */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/25 to-transparent md:hidden" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-12 md:pt-24 md:pb-16">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-9 md:pt-24 md:pb-16">
           <motion.div
             className="max-w-2xl"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            {googleReviews && (
-              <p className="inline-flex items-center gap-2 text-brand-100 text-sm font-semibold bg-white/10 border border-white/20 backdrop-blur-sm rounded-full px-4 py-1.5 mb-5">
+            {googleReviews ? (
+              <p className="inline-flex items-center gap-2 text-brand-100 text-sm font-semibold bg-white/10 border border-white/20 backdrop-blur-sm rounded-full px-4 py-1.5 mb-4 md:mb-5">
                 <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                 {googleReviews.rating}/5 na osnovu {googleReviews.count}{" "}
                 recenzija
               </p>
+            ) : (
+              <p className="inline-flex items-center gap-2 text-white/90 text-xs sm:text-sm font-semibold bg-white/10 border border-white/20 backdrop-blur-sm rounded-full px-3.5 py-1.5 mb-4 md:mb-5">
+                <MapPin className="w-3.5 h-3.5" />
+                {shopInfo.city} • {isPetShop ? "Pet shop" : "Veterina i pet shop"}
+              </p>
             )}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.05] tracking-tight drop-shadow-lg">
+            <h1 className="text-[2.05rem] sm:text-5xl md:text-6xl font-bold text-white leading-[1.03] tracking-tight drop-shadow-lg">
               {shopInfo.tagline}{" "}
               <span className="text-brand-300">{shopInfo.name}</span>
             </h1>
-            <p className="text-brand-50/90 text-lg mt-5 max-w-xl leading-relaxed">
+            <p className="text-brand-50/90 text-[15px] sm:text-lg mt-3 md:mt-5 max-w-xl leading-relaxed line-clamp-3">
               Hrana, oprema i poslastice za pse i mačke. Izaberite
               proizvode, pošaljite upit na email — mi potvrđujemo cenu i
               dostupnost.
             </p>
 
             {/* Pretraga */}
-            <div className="mt-7">
+            <div className="mt-5 md:mt-7">
               <SearchAutocomplete />
             </div>
 
-            <div className="mt-7 flex flex-wrap gap-3">
+            <div className="mt-5 md:mt-7 grid grid-cols-2 gap-2 md:flex md:flex-wrap md:gap-3">
               <Link
                 href="/prodavnica"
-                className="inline-flex items-center gap-2 bg-white text-brand-950 font-bold px-7 py-3.5 rounded-button hover:bg-brand-50 transition-all shadow-lg"
+                className="inline-flex items-center justify-center gap-2 bg-white text-brand-950 font-bold px-4 py-3 md:px-7 md:py-3.5 rounded-button hover:bg-brand-50 transition-all shadow-lg text-sm md:text-base"
               >
-                Pogledaj prodavnicu
+                Prodavnica
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
                 href="/kontakt"
-                className="inline-flex items-center gap-2 border-2 border-white/40 text-white font-bold px-7 py-3.5 rounded-button hover:bg-white/10 backdrop-blur-sm transition-all"
+                className="inline-flex items-center justify-center gap-2 border-2 border-white/40 text-white font-bold px-4 py-3 md:px-7 md:py-3.5 rounded-button hover:bg-white/10 backdrop-blur-sm transition-all text-sm md:text-base"
               >
                 Pošalji upit
               </Link>
             </div>
 
-            {/* Statistika */}
-            <div className="mt-8 flex gap-8 text-white">
+            {/* Statistika — samo desktop, na mobilnom skraćuje hero */}
+            <div className="mt-8 hidden md:flex gap-8 text-white">
               <div>
                 <p className="text-2xl font-bold">{products.length}+</p>
                 <p className="text-brand-100/80 text-sm">proizvoda u demo ponudi</p>
@@ -226,9 +238,9 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* Staklene info kartice preko slike */}
+          {/* Staklene info kartice preko slike — samo desktop */}
           <motion.div
-            className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-3xl"
+            className="mt-10 hidden md:grid grid-cols-3 gap-3 max-w-3xl"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.25 }}
@@ -292,7 +304,7 @@ export default function Home() {
       </section>
 
       {/* NAJTRAŽENIJE */}
-      <section className="py-14 bg-white">
+      <section className="py-9 md:py-14 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHead
             kicker="Kategorije"
@@ -300,10 +312,11 @@ export default function Home() {
             desc="Najčešće tražene kategorije naših kupaca — klik vodi u prodavnicu."
             href="/prodavnica"
           />
-          <div className="grid grid-cols-4 md:grid-cols-8 gap-4 md:gap-6">
+          <div className="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-1 md:mx-0 md:grid md:grid-cols-8 md:gap-6 md:overflow-visible md:px-0">
             {mostWanted.map((c, i) => (
               <motion.div
                 key={c.label}
+                className="w-[72px] shrink-0 snap-start md:w-auto"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.05 }}
@@ -326,7 +339,7 @@ export default function Home() {
       </section>
 
       {/* NAŠA PREPORUKA */}
-      <section className="py-14 bg-brand-bg">
+      <section className="py-9 md:py-14 bg-brand-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHead
             kicker="Izdvojeno"
@@ -338,11 +351,7 @@ export default function Home() {
             }
             href="/prodavnica"
           />
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
-            {recommended.map((p) => (
-              <ProductCard key={p.slug} product={p} />
-            ))}
-          </div>
+          <ProductRail products={recommended} fadeFrom="from-brand-bg" />
         </div>
       </section>
 
@@ -350,35 +359,35 @@ export default function Home() {
       <section className="py-6 bg-brand-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-brand-800 to-brand-600 p-8 md:p-12 flex flex-col md:flex-row items-start md:items-center gap-6"
+            className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-brand-800 to-brand-600 p-6 md:p-12 flex flex-col md:flex-row items-start md:items-center gap-5 md:gap-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
             <div className="flex-1">
-              <p className="text-brand-200 font-bold text-sm uppercase tracking-widest mb-2">
+              <p className="text-brand-200 font-bold text-xs md:text-sm uppercase tracking-widest mb-2">
                 Bez kartice • Samo upit
               </p>
-              <h3 className="text-2xl md:text-3xl font-bold text-white">
+              <h3 className="text-xl md:text-3xl font-bold text-white">
                 Niste sigurni šta vašem ljubimcu treba?
               </h3>
-              <p className="text-brand-100 mt-2 max-w-xl">
+              <p className="text-brand-100 text-sm md:text-base mt-2 max-w-xl">
                 Pošaljite nam spisak ili opišite problem —{" "}
                 {isPetShop ? "naš tim" : "veterinarski tim"} odgovara sa
                 preporukom i okvirnom cenom.
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+            <div className="grid grid-cols-1 sm:flex flex-row gap-2 sm:gap-3 w-full md:w-auto shrink-0">
               <Link
                 href="/prodavnica"
-                className="inline-flex items-center justify-center gap-2 bg-white text-brand-900 font-bold px-7 py-3.5 rounded-button hover:bg-brand-50 transition-all"
+                className="inline-flex items-center justify-center gap-2 bg-white text-brand-900 font-bold px-5 md:px-7 py-3 md:py-3.5 rounded-button hover:bg-brand-50 transition-all text-sm md:text-base"
               >
                 Otvori prodavnicu
               </Link>
               <a
                 href={shopInfo.phoneHref}
-                className="inline-flex items-center justify-center gap-2 border-2 border-white/40 text-white font-bold px-7 py-3.5 rounded-button hover:bg-white/10 transition-all"
+                className="inline-flex items-center justify-center gap-2 border-2 border-white/40 text-white font-bold px-5 md:px-7 py-3 md:py-3.5 rounded-button hover:bg-white/10 transition-all text-sm md:text-base"
               >
                 <Phone className="w-4 h-4" />
                 {shopInfo.phone}
@@ -389,7 +398,7 @@ export default function Home() {
       </section>
 
       {/* NAJVEĆI POPUSTI */}
-      <section className="py-14 bg-brand-bg">
+      <section className="py-9 md:py-14 bg-brand-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHead
             kicker="Akcija"
@@ -397,16 +406,12 @@ export default function Home() {
             desc="Snižene cene — i dalje sve na upit, bez online plaćanja."
             href="/prodavnica"
           />
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
-            {discounted.map((p) => (
-              <ProductCard key={p.slug} product={p} />
-            ))}
-          </div>
+          <ProductRail products={discounted} fadeFrom="from-brand-bg" />
         </div>
       </section>
 
       {/* BRENDOVI */}
-      <section className="py-14 bg-white border-y border-slate-100">
+      <section className="py-9 md:py-14 bg-white border-y border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHead
             kicker="Brendovi"
@@ -442,7 +447,7 @@ export default function Home() {
       </section>
 
       {/* SEO BLOK */}
-      <section className="py-14 bg-white">
+      <section className="py-9 md:py-14 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <p className="text-sm font-bold text-brand-primary uppercase tracking-widest mb-2">
@@ -473,7 +478,7 @@ export default function Home() {
       </section>
 
       {/* NOVO U ASORTIMANU */}
-      <section className="py-14 bg-brand-bg">
+      <section className="py-9 md:py-14 bg-brand-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHead
             kicker="Noviteti"
@@ -481,11 +486,7 @@ export default function Home() {
             desc="Najsvežije stavke u našoj ponudi."
             href="/prodavnica"
           />
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
-            {fresh.map((p) => (
-              <ProductCard key={p.slug} product={p} />
-            ))}
-          </div>
+          <ProductRail products={fresh} fadeFrom="from-brand-bg" />
         </div>
       </section>
 

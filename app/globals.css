@@ -57,7 +57,7 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
 
   /* Sekundarni Naslov (H2) */
   .h2 {
-    @apply text-3xl md:text-4xl font-semibold text-brand-dark tracking-tight;
+    @apply text-2xl md:text-4xl font-semibold text-brand-dark tracking-tight;
   }
 
   /* Glavno Dugme (Primary Button) */
@@ -86,4 +86,13 @@ html, body {
   max-width: 100% !important;
   overflow-x: hidden !important;
   position: relative;
+}
+
+/* Skriven scrollbar za horizontalne "swipe" rail-ove */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }

@@ -102,7 +102,7 @@ export default function ProductCard({ product }: { product: Product }) {
             </button>
             <Link
               href={`/prodavnica/${product.slug}`}
-              className="w-full inline-flex items-center justify-center px-3 py-2 border-2 border-brand-primary/20 text-brand-primary font-bold rounded-button text-xs sm:text-sm hover:bg-brand-50 transition-all"
+              className="hidden sm:inline-flex w-full items-center justify-center px-3 py-2 border-2 border-brand-primary/20 text-brand-primary font-bold rounded-button text-xs sm:text-sm hover:bg-brand-50 transition-all"
             >
               Detalj
             </Link>

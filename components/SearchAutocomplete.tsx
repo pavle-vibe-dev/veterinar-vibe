@@ -11,7 +11,7 @@ const MAX_SUGGESTIONS = 6
 
 export default function SearchAutocomplete({
   placeholder = isPetShop
-    ? "Pretraga: npr. hills, acana, transporter..."
+    ? "Pretraži proizvode..."
     : "Pretraga: npr. hills, nexgard, transporter...",
   autoFocus = false,
 }: {
@@ -93,7 +93,7 @@ export default function SearchAutocomplete({
             goSearch(query)
           }
         }}
-        className="flex flex-col sm:flex-row gap-3 max-w-xl"
+        className="flex flex-row gap-2 sm:gap-3 max-w-xl"
       >
         <div className="relative flex-1">
           <Search className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 z-10" />
@@ -117,9 +117,11 @@ export default function SearchAutocomplete({
         </div>
         <button
           type="submit"
-          className="bg-brand-400 hover:bg-brand-300 text-brand-950 font-bold px-8 py-4 rounded-2xl transition-all shadow-xl cursor-pointer"
+          aria-label="Pretraži"
+          className="shrink-0 bg-brand-400 hover:bg-brand-300 text-brand-950 font-bold px-4 sm:px-8 py-4 rounded-2xl transition-all shadow-xl cursor-pointer"
         >
-          Pretraži
+          <Search className="w-5 h-5 sm:hidden" />
+          <span className="hidden sm:inline">Pretraži</span>
         </button>
       </form>
 
