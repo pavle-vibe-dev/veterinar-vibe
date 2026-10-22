@@ -40,79 +40,71 @@ export default function Navbar() {
             <BrandLogo variant="dark" />
           </Link>
 
-          {/* Linkovi - Sredina */}
-          <div className="hidden md:flex items-center space-x-8">
-            <Link 
-              href="/" 
-              className="text-brand-dark hover:text-brand-primary transition-colors duration-300 font-medium relative group"
+          {/* Linkovi - Sredina: kategorije direktno u navigaciji (uzor Premium Pet) */}
+          <div className="hidden md:flex items-center gap-0.5 lg:gap-1">
+            <Link
+              href="/"
+              className="text-brand-dark hover:text-brand-primary transition-colors duration-300 font-medium relative group px-2.5 py-2"
             >
               Početna
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-primary group-hover:w-full transition-all duration-300"></span>
             </Link>
-            {/* Prodavnica sa dropdown panelom (grupe + podgrupe) */}
-            <div className="relative group/nav">
-              <Link
-                href="/prodavnica"
-                className="text-brand-dark hover:text-brand-primary transition-colors duration-300 font-medium relative inline-flex items-center gap-1 py-2"
-              >
-                Prodavnica
-                <ChevronDown className="w-4 h-4 transition-transform duration-200 group-hover/nav:rotate-180" />
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-primary group-hover/nav:w-full transition-all duration-300"></span>
-              </Link>
-              <div className="absolute left-1/2 top-full -translate-x-1/2 pt-3 opacity-0 invisible translate-y-2 group-hover/nav:opacity-100 group-hover/nav:visible group-hover/nav:translate-y-0 transition-all duration-200">
-                <div className="w-[580px] bg-white rounded-2xl shadow-2xl border border-slate-100 p-6">
-                  <div className="grid grid-cols-2 gap-x-6 gap-y-5">
-                    {categories.map((c) => (
-                      <div key={c.slug}>
+
+            {/* Svaka kategorija je sopstavlena stavka sa malim dropdownom */}
+            {categories.map((c) => {
+              const subs = subgroupsOf(c.slug)
+              return (
+                <div
+                  key={c.slug}
+                  className="relative group/nav"
+                >
+                  <Link
+                    href={`/prodavnica?category=${c.slug}`}
+                    className="text-brand-dark hover:text-brand-primary transition-colors duration-300 font-medium relative inline-flex items-center gap-1 px-2.5 py-2"
+                  >
+                    {c.name}
+                    {subs.length > 0 && (
+                      <ChevronDown className="w-3.5 h-3.5 transition-transform duration-200 group-hover/nav:rotate-180" />
+                    )}
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-primary group-hover/nav:w-full transition-all duration-300"></span>
+                  </Link>
+                  {subs.length > 0 && (
+                    <div className="absolute left-1/2 top-full -translate-x-1/2 pt-2 opacity-0 invisible translate-y-2 group-hover/nav:opacity-100 group-hover/nav:visible group-hover/nav:translate-y-0 transition-all duration-200 z-50">
+                      <div className="min-w-[250px] bg-white rounded-2xl shadow-2xl border border-slate-100 p-2.5">
                         <Link
                           href={`/prodavnica?category=${c.slug}`}
-                          className="font-bold text-brand-dark hover:text-brand-primary transition-colors"
+                          className="block px-3 py-2 text-sm font-bold text-brand-primary hover:bg-brand-50 rounded-lg transition-colors"
                         >
-                          {c.name}
+                          Sve iz {c.name}
                         </Link>
-                        <div className="mt-1.5 space-y-1">
-                          {subgroupsOf(c.slug).map((s) => (
-                            <Link
-                              key={s.slug}
-                              href={`/prodavnica?category=${c.slug}&sub=${s.slug}`}
-                              className="block text-sm text-slate-600 hover:text-brand-primary hover:translate-x-0.5 transition-all"
-                            >
-                              {s.name}
-                            </Link>
-                          ))}
-                        </div>
+                        {subs.map((s) => (
+                          <Link
+                            key={s.slug}
+                            href={`/prodavnica?category=${c.slug}&sub=${s.slug}`}
+                            className="block px-3 py-2 text-sm text-slate-600 hover:text-brand-primary hover:bg-brand-50/60 rounded-lg transition-colors"
+                          >
+                            {s.name}
+                          </Link>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                  <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
-                    <Link
-                      href="/prodavnica?prikaz=lista"
-                      className="text-sm font-bold text-brand-primary hover:gap-3 inline-flex items-center gap-2 transition-all"
-                    >
-                      Svi proizvodi
-                    </Link>
-                    <Link
-                      href="/upit"
-                      className="text-sm font-medium text-slate-500 hover:text-brand-primary transition-colors"
-                    >
-                      Bez plaćanja karticom — sve na upit
-                    </Link>
-                  </div>
+                    </div>
+                  )}
                 </div>
-              </div>
-            </div>
+              )
+            })}
+
             {!isPetShop && (
               <Link
                 href="/blog"
-                className="text-brand-dark hover:text-brand-primary transition-colors duration-300 font-medium relative group"
+                className="text-brand-dark hover:text-brand-primary transition-colors duration-300 font-medium relative group px-2.5 py-2"
               >
                 Blog
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-primary group-hover:w-full transition-all duration-300"></span>
               </Link>
             )}
-            <Link 
-              href="/kontakt" 
-              className="text-brand-dark hover:text-brand-primary transition-colors duration-300 font-medium relative group"
+            <Link
+              href="/kontakt"
+              className="text-brand-dark hover:text-brand-primary transition-colors duration-300 font-medium relative group px-2.5 py-2"
             >
               Kontakt
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-primary group-hover:w-full transition-all duration-300"></span>
@@ -178,18 +170,7 @@ export default function Navbar() {
                 </span>
               )}
             </Link>
-            <Link href={shopInfo.phoneHref}>
-            <motion.div 
-              className="btn-primary px-6 py-3 text-sm font-bold relative overflow-hidden cursor-pointer inline-flex items-center space-x-2"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Phone className="w-4 h-4" />
-              <span>Pozovite nas</span>
-              <span className="text-xs opacity-80">{shopInfo.phone}</span>
-            </motion.div>
-          </Link>
-        </div>
+          </div>
       </div>
 
       {/* Mobile Menu Overlay */}

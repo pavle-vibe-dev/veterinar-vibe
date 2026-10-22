@@ -46,7 +46,7 @@ export default function Footer() {
               viewport={{ once: true }}
             >
               <div className="mb-4">
-                <BrandLogo variant="light" />
+                <BrandLogo variant="light" size="footer" />
               </div>
               <p className="text-slate-400 leading-relaxed">
                 {shopInfo.description}

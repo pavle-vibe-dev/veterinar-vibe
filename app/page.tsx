@@ -1,24 +1,18 @@
 "use client"
 
-import Image from "next/image"
 import Link from "next/link"
 import Canonical from "../components/Canonical"
 import { shopInfo, isPetShop } from "../data/shop-info"
 import { motion } from "framer-motion"
 import { ShieldCheck, ArrowRight, Phone } from "lucide-react"
-import { brands, products, getCategory } from "../data/shop"
+import { brands, products, categories, getCategory } from "../data/shop"
 import ProductRail from "../components/ProductRail"
 import HeroCarousel from "../components/HeroCarousel"
+import BrandMarquee from "../components/BrandMarquee"
+import PetTypeRail from "../components/PetTypeRail"
 import Testimonials from "../components/Testimonials"
 
-const mostWanted = [
-  { label: "Psi", image: "/categories/pas.jpg", fit: "photo", href: "/prodavnica?category=hrana-psi" },
-  { label: "Mačke", image: "/categories/macka.jpg", fit: "photo", href: "/prodavnica?category=hrana-macke" },
-  { label: "Oprema", image: "/products/trixie-transporter-capri-eco.jpg", fit: "product", href: "/prodavnica?category=oprema" },
-  { label: "Igračke", image: "/products/rogz-grinz-lopta-crvena.jpg", fit: "product", href: "/prodavnica?category=oprema&sub=igracke" },
-  { label: getCategory("apoteka")?.name ?? "Apoteka", image: "/products/nexgard-spectra-s-3tbl.jpg", fit: "product", href: "/prodavnica?category=apoteka" },
-  // pet-shop: bez pločice koja vodi na apoteku
-].filter((i) => !(isPetShop && i.href.includes("category=apoteka")))
+const hasSub = (slug: string) => products.some((p) => p.sub === slug)
 
 const filterChips = [
   { label: "Sve", href: "/prodavnica?prikaz=lista" },
@@ -28,12 +22,18 @@ const filterChips = [
   { label: "Igračke", href: "/prodavnica?category=oprema&sub=igracke&prikaz=lista" },
   { label: getCategory("apoteka")?.name ?? "Apoteka", href: "/prodavnica?category=apoteka&prikaz=lista" },
   // pet-shop: bez čipova koji vode na apoteku
+  // klijentski katalog: bez čipova bez proizvoda
 ].filter((i) => !(isPetShop && i.href.includes("category=apoteka")))
+  .filter((i) => {
+    if (i.href.includes("sub=")) return hasSub(new URLSearchParams(i.href.split("?")[1]).get("sub") ?? "")
+    const cat = new URLSearchParams(i.href.split("?")[1]).get("category") ?? ""
+    return !cat || categories.some((c) => c.slug === cat)
+  })
 
 const seoBlocks = [
   {
     title: "Hrana za pse i mačke",
-    text: "Granule, vlažna hrana i poslastice proverenih brendova — Acana, Orijen, Hills. Pomažemo da izaberete prema uzrastu, težini i aktivnosti ljubimca.",
+    text: `Granule, vlažna hrana i specijalne formule proverenih brendova — ${brands.slice(0, 3).join(", ")}. Pomažemo da izaberete prema uzrastu, težini i aktivnosti ljubimca.`,
     href: "/prodavnica?category=hrana-psi",
   },
   {
@@ -67,6 +67,8 @@ const seoBlocks = [
   },
   // pet-shop: bez apotekarskih SEO blokova (Antiparazitici, Vitamini → kategorija "apoteka")
 ].filter((b) => !(isPetShop && b.href.includes("category=apoteka")))
+  // klijentski katalog: "Specijalne dijete" samo ako u katalogu ima dijete
+  .filter((b) => !(b.href.includes("category=hrana-macke") && b.title.includes("dijete") && !hasSub("dijete")))
 
 function SectionHead({
   kicker,
@@ -171,55 +173,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* NAJTRAŽENIJE */}
-      <section className="py-9 md:py-14 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHead
-            kicker="Kategorije"
-            title="Najtraženije"
-            desc="Najčešće tražene kategorije naših kupaca — klik vodi u prodavnicu."
-            href="/prodavnica?prikaz=lista"
-          />
-          <div
-            className="no-scrollbar -mx-4 flex gap-3 overflow-x-auto px-4 pb-1 lg:mx-0 lg:grid lg:justify-items-center lg:gap-6 lg:overflow-visible lg:px-0"
-            style={{
-              gridTemplateColumns: `repeat(${mostWanted.length}, minmax(0, 1fr))`,
-            }}
-          >
-            {mostWanted.map((c, i) => (
-              <motion.div
-                key={c.label}
-                className="w-[68px] shrink-0 snap-start lg:w-full lg:max-w-[110px]"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.05 }}
-                viewport={{ once: true }}
-              >
-                <Link href={c.href} className="group flex flex-col items-center gap-1.5 md:gap-2 lg:gap-2.5">
-                  <div className="w-14 h-14 md:w-16 md:h-16 lg:w-24 lg:h-24 rounded-full overflow-hidden ring-2 ring-brand-100 group-hover:ring-brand-primary shadow-sm group-hover:shadow-md transition-all bg-white">
-                    <Image
-                      src={c.image}
-                      alt={c.label}
-                      width={160}
-                      height={160}
-                      className={`w-full h-full transition-transform duration-300 group-hover:scale-110 ${
-                        c.fit === "product"
-                          ? "object-contain p-1.5 md:p-2 lg:p-3"
-                          : "object-cover"
-                      }`}
-                    />
-                  </div>
-                  <span className="text-[11px] md:text-xs lg:text-base font-semibold text-brand-dark text-center leading-tight group-hover:text-brand-primary transition-colors">
-                    {c.label}
-                  </span>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ZA SVAKOG LJUBIMCA — krugovi po katalogu (horizontalni rail sa strelicama) */}
+      <PetTypeRail />
 
       {/* NAŠA PREPORUKA */}
+      {recommended.length > 0 && (
       <section className="py-9 md:py-14 bg-brand-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHead
@@ -250,6 +208,7 @@ export default function Home() {
           <ProductRail products={recommended} fadeFrom="from-brand-bg" />
         </div>
       </section>
+      )}
 
       {/* Promo baner */}
       <section className="py-6 bg-brand-bg">
@@ -294,6 +253,7 @@ export default function Home() {
       </section>
 
       {/* NAJVEĆI POPUSTI */}
+      {discounted.length > 0 && (
       <section className="py-9 md:py-14 bg-brand-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHead
@@ -305,67 +265,10 @@ export default function Home() {
           <ProductRail products={discounted} fadeFrom="from-brand-bg" />
         </div>
       </section>
+      )}
 
-      {/* BRENDOVI */}
-      <section className="py-9 md:py-14 bg-white border-y border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHead
-            kicker="Brendovi"
-            title="Preko 300 brendova u ponudi"
-            desc="Izdvajamo najtraženije — ostalo nabavljamo po porudžbini kroz upit."
-          />
-          <div className="relative -mx-4 overflow-hidden md:hidden">
-            <div className="flex w-max animate-marquee">
-              {[0, 1].map((group) => (
-                <div
-                  key={group}
-                  className="flex shrink-0 gap-2.5 px-1.5"
-                  aria-hidden={group === 1}
-                >
-                  {brands.map((b) => (
-                    <Link
-                      key={`${b}-${group}`}
-                      href={`/prodavnica?brand=${encodeURIComponent(b)}`}
-                      tabIndex={group === 1 ? -1 : undefined}
-                      className="shrink-0 whitespace-nowrap border border-slate-200 rounded-xl px-5 py-3 text-sm font-bold text-brand-dark bg-white hover:border-brand-primary hover:text-brand-primary transition-colors"
-                    >
-                      {b}
-                    </Link>
-                  ))}
-                </div>
-              ))}
-            </div>
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-white to-transparent" />
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-white to-transparent" />
-          </div>
-
-          <div className="hidden md:grid grid-cols-4 gap-4">
-            {brands.map((b, i) => (
-              <motion.div
-                key={b}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: i * 0.05 }}
-                viewport={{ once: true }}
-              >
-                <Link
-                  href={`/prodavnica?brand=${encodeURIComponent(b)}`}
-                  className="block border border-slate-200 rounded-2xl py-8 px-4 text-center text-lg font-bold text-brand-dark hover:border-brand-primary hover:shadow-md hover:text-brand-primary transition-all bg-white"
-                >
-                  {b}
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-          <p className="text-center text-sm text-brand-muted mt-6">
-            + još 300 brendova dostupno po porudžbini — pošaljite nam{" "}
-            <Link href="/kontakt" className="font-bold text-brand-primary">
-              upit
-            </Link>
-            .
-          </p>
-        </div>
-      </section>
+      {/* BRENDOVI — marquee traka (auto-kretanje, pauza na hover, sve verzije) */}
+      <BrandMarquee brands={brands} />
 
       {/* NOVO U ASORTIMANU */}
       <section className="py-9 md:py-14 bg-brand-bg">

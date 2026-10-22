@@ -6,6 +6,13 @@ type Props = {
   /** "light" = tamna pozadina (footer), "dark" = svetla pozadina (navbar) */
   variant?: "light" | "dark"
   className?: string
+  /** "nav" = proporcionalno raste od mobilnog do desktopa; "footer" = fiksnо manje */
+  size?: "nav" | "footer"
+}
+
+const sizeClasses = {
+  nav: "h-8 sm:h-9 md:h-11 lg:h-12 w-auto max-w-[190px] md:max-w-[260px] lg:max-w-none",
+  footer: "h-10 w-auto max-w-[220px]",
 }
 
 /**
@@ -13,7 +20,11 @@ type Props = {
  * Ako je shopInfo.logo popunjen, koristi sliku. Inace ikonica + naziv.
  * Menjaj logo u data/shop-info.ts (fajl ide u public/).
  */
-export default function BrandLogo({ variant = "dark", className = "" }: Props) {
+export default function BrandLogo({
+  variant = "dark",
+  className = "",
+  size = "nav",
+}: Props) {
   const nameClass = variant === "light" ? "text-white" : "text-brand-dark"
   const iconClass = variant === "light" ? "text-brand-primary" : "text-brand-primary"
 
@@ -24,11 +35,11 @@ export default function BrandLogo({ variant = "dark", className = "" }: Props) {
       <Image
         src={src}
         alt={shopInfo.name}
-        width={200}
-        height={40}
+        width={220}
+        height={48}
         // SVG je vektor — optimizer ga odbija bez dangerouslyAllowSVG, pa ide direktno
         unoptimized={src.endsWith(".svg")}
-        className={`h-9 w-auto max-w-[180px] object-contain ${className}`}
+        className={`${sizeClasses[size]} object-contain ${className}`}
         priority
       />
     )

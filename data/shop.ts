@@ -92,9 +92,18 @@ const baseCategories: Category[] = [
  * Aktivne kategorije — imena se mogu prekriti po klijentu preko
  * TenantConfig.categoryNames (npr. pet shop: "Veterinarska apoteka" → "Zaštita i vitamini").
  */
+/**
+ * Katalog klijenta (TenantConfig.products) zamenjuje demo bazu u celosti:
+ * - kategorije bez ijednog proizvoda se skidaju
+ * - potkategorije bez ijednog proizvoda se skidaju
+ * - brendovi se izvlače iz kataloga
+ */
+const tenantProducts: Product[] | null = tenant.products ?? null
+
 export const categories: Category[] = baseCategories
   // pet-shop: bez "Veterinarske apoteke"
   .filter((c) => !(isPetShop && c.slug === "apoteka"))
+  .filter((c) => !tenantProducts || tenantProducts.some((p) => p.category === c.slug))
   .map((c) => {
     const override = tenant.categoryNames?.[c.slug]
     return override ? { ...c, name: override } : c
@@ -118,8 +127,14 @@ export const subgroups: Subgroup[] = [
   { slug: "igracke", name: "Igračke", category: "oprema", desc: "Lopte i igračke za pse i mačke" },
   { slug: "kreveti", name: "Kreveti", category: "oprema", desc: "Udobni kreveti i ležaljke" },
   { slug: "transporteri", name: "Transporteri", category: "oprema", desc: "Za putovanja i posete veterinaru" },
+  // Klijentski katalozi sa mokrom hranom (konzerve/komadi) — chip se vidi samo
+  // ako katalog sadrži proizvod na ovoj potkategoriji (filter ispod)
+  { slug: "mokri-psi", name: "Mokra hrana za pse", category: "hrana-psi", desc: "Konzerve, komadi i kolena" },
+  { slug: "mokri-macke", name: "Mokra hrana za mačke", category: "hrana-macke", desc: "Konzerve i kesice" },
   // pet-shop: bez apotekarskih potkategorija (antiparazitici, vitamini)
 ].filter((s) => !(isPetShop && s.category === "apoteka"))
+  // Katalog klijenta: potkategorije bez ijednog proizvoda se skidaju
+  .filter((s) => !tenantProducts || tenantProducts.some((p) => p.sub === s.slug))
 
 export function getSubgroup(slug: string) {
   return subgroups.find((s) => s.slug === slug)
@@ -133,7 +148,7 @@ export function countSub(subSlug: string) {
   return products.filter((p) => p.sub === subSlug).length
 }
 
-export const brands = [
+const baseBrands = [
   "Acana",
   "Orijen",
   "Hills",
@@ -149,7 +164,14 @@ export const brands = [
   "Fruity",
   "Cat's Best",
   // pet-shop: bez farmaceutskih brendova koji pripadaju apoteci
-].filter((b) => !(isPetShop && vetBrands.has(b)))
+]
+/**
+ * Brendovi: sa klijentskim katalogom se izvlače iz proizvoda (bez dup.).
+ * Bez kataloga: DEMO lista, pet-shop bez farmaceutskih brendova.
+ */
+export const brands = tenantProducts
+  ? [...new Set(tenantProducts.map((p) => p.brand))]
+  : baseBrands.filter((b) => !(isPetShop && vetBrands.has(b)))
 
 const baseProducts: Product[] = [
   {
@@ -407,9 +429,12 @@ const baseProducts: Product[] = [
   // pet-shop: bez apotekarskih proizvoda (category "apoteka")
 ]
 
-export const products: Product[] = isPetShop
-  ? baseProducts.filter((p) => p.category !== "apoteka")
-  : baseProducts
+/** Katalog klijenta kad postoji; inače DEMO (pet-shop bez apotekarskih proizvoda) */
+export const products: Product[] = tenantProducts
+  ? tenantProducts
+  : isPetShop
+    ? baseProducts.filter((p) => p.category !== "apoteka")
+    : baseProducts
 
 export function getProduct(slug: string) {
   return products.find((p) => p.slug === slug)

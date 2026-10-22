@@ -110,6 +110,8 @@ export type GoogleReviews = { rating: number; count: number } | null
  * --color-brand-primary / --color-brand-primary-hover (app/globals.css)
  * i primenjuju se kao inline stil na <html> u app/layout.tsx.
  */
+import type { Product } from "../shop"
+
 export type BrandColors = {
   primary: string
   /** Tamnija nijansa primarne — hover stanje dugmića i linkova */
@@ -140,4 +142,11 @@ export type TenantConfig = {
    * u brend kontekstu (medicinska upozorenja na proizvodima ostaju).
    */
   businessType?: "mixed" | "pet-shop"
+  /**
+   * Katalog klijenta (opciono). Ako je definisano, DEMO baza proizvoda se
+   * NE koristi u celosti — sajtu idu SAMO ovde navedeni proizvodi
+   * (slike u public/tenants/<id>/...). Kategorije/potkategorije bez ijednog
+   * proizvoda se automatski skidaju, brendovi se izvlače iz kataloga.
+   */
+  products?: Product[]
 }
